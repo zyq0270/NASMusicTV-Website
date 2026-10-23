@@ -3,47 +3,45 @@
  *
  * - enum：应用内 VisualizerTheme 枚举名，同时也是截图文件名；
  *   资源位于 web/public/effects/<枚举名>.jpg，线上 URL 为 /effects/<枚举名>.jpg
- * - name：页面展示用的中文效果名
  *
- * 「枚举名 → 中文效果名」对照只在本文件出现一处，页面与灯箱均从此处取文案。
+ * 【多语言体系】效果展示名不在本文件维护，按枚举名从词典取：
+ *   t(`effects.names.${shot.enum}`)（中英对照见 src/i18n/locales/）。
  * 计数一律用 effects.length 推导，不要在页面上写死套数。
  */
 export interface EffectShot {
   /** 应用内枚举名（与截图文件名一致，如 SEASIDE） */
   enum: string;
-  /** 页面展示用中文效果名（如 海边） */
-  name: string;
 }
 
 /** 特效截图目录（相对站点基路径，BASE_URL 始终以 "/" 结尾） */
 export const EFFECTS_DIR = `${import.meta.env.BASE_URL}effects/`;
 
 export const effects: EffectShot[] = [
-  { enum: "BEAT_FIREWORK", name: "节拍烟花" },
-  { enum: "BIRDS_FLOCK", name: "鸟群" },
-  { enum: "CIRCULAR_RING", name: "频谱环" },
-  { enum: "CONCENTRIC_GEARS", name: "齿轮" },
-  { enum: "CONSTELLATION", name: "星座" },
-  { enum: "DESERT_SMOKE", name: "大漠孤烟" },
-  { enum: "DNA", name: "DNA 双螺旋" },
-  { enum: "ECG_WAVE", name: "心跳" },
-  { enum: "HYPNOTIC_FUNCTION", name: "催眠" },
-  { enum: "LIGHT_BEAMS", name: "光轴" },
-  { enum: "LIQUID_GRID", name: "液态网格" },
-  { enum: "LIQUID_RIPPLE", name: "液态涟漪" },
-  { enum: "LYRICS_DOT_MATRIX", name: "歌词点阵" },
-  { enum: "MATRIX_RAIN", name: "数字雨" },
-  { enum: "MILKDROP_FEEDBACK", name: "反馈残像" },
-  { enum: "MOLECULE", name: "分子" },
-  { enum: "MOONLIT", name: "明月" },
-  { enum: "ORBITAL_RINGS", name: "太阳系" },
-  { enum: "RADAR_GRID", name: "雷达" },
-  { enum: "SEASIDE", name: "海边" },
-  { enum: "SNOW_CEDAR", name: "雪松" },
-  { enum: "STAR_TRAILS", name: "星空星轨" },
-  { enum: "TRIPOD_FOG", name: "迷雾之战" },
-  { enum: "VINTAGE_TV", name: "怀旧" },
-  { enum: "WORLD", name: "世界地球" },
+  { enum: "BEAT_FIREWORK" },
+  { enum: "BIRDS_FLOCK" },
+  { enum: "CIRCULAR_RING" },
+  { enum: "CONCENTRIC_GEARS" },
+  { enum: "CONSTELLATION" },
+  { enum: "DESERT_SMOKE" },
+  { enum: "DNA" },
+  { enum: "ECG_WAVE" },
+  { enum: "HYPNOTIC_FUNCTION" },
+  { enum: "LIGHT_BEAMS" },
+  { enum: "LIQUID_GRID" },
+  { enum: "LIQUID_RIPPLE" },
+  { enum: "LYRICS_DOT_MATRIX" },
+  { enum: "MATRIX_RAIN" },
+  { enum: "MILKDROP_FEEDBACK" },
+  { enum: "MOLECULE" },
+  { enum: "MOONLIT" },
+  { enum: "ORBITAL_RINGS" },
+  { enum: "RADAR_GRID" },
+  { enum: "SEASIDE" },
+  { enum: "SNOW_CEDAR" },
+  { enum: "STAR_TRAILS" },
+  { enum: "TRIPOD_FOG" },
+  { enum: "VINTAGE_TV" },
+  { enum: "WORLD" },
 ];
 
 /** 单张截图地址：/effects/SEASIDE.jpg */

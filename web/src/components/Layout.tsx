@@ -10,18 +10,33 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { site, APK_DOWNLOAD_URL, APK_VERSION } from "../data/site";
 import { SITE_VERSION } from "../version";
+import { useI18n } from "../i18n";
+import LanguageSwitch from "../i18n/LanguageSwitch";
 
+/** 导航项：path 为路由，labelKey 为词典 nav.<key> */
 const NAV = [
-  { path: "/", label: "首页" },
-  { path: "/features", label: "功能特性" },
-  { path: "/screens", label: "界面预览" },
-  { path: "/effects", label: "特效图集" },
-  { path: "/download", label: "下载安装" },
-  { path: "/about", label: "关于项目" },
+  { path: "/", labelKey: "home" },
+  { path: "/features", labelKey: "features" },
+  { path: "/screens", labelKey: "screens" },
+  { path: "/effects", labelKey: "effects" },
+  { path: "/download", labelKey: "download" },
+  { path: "/about", labelKey: "about" },
+] as const;
+
+/** 页脚「产品」链接列：与导航同构 */
+const FOOTER_PRODUCT = NAV.slice(1);
+
+/** 页脚「支持的音乐源」（产品名，不随语言变化） */
+const MUSIC_SOURCES = [
+  "Jellyfin / Navidrome",
+  "Subsonic / 道理鱼 / 飞牛",
+  "网络音乐 / 百度网盘",
+  "Jamendo / 公共电台",
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   /* 【美化要点 · 导航栏滚动状态】
@@ -49,17 +64,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="header-inner">
-          <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label={`${site.name} 首页`}>
+          <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label={t("header.homeAria", { name: site.name })}>
             <span className="brand-logo">
               <PlayCircleFilled />
             </span>
             <span>
               {site.name}
-              <span className="brand-sub">多源音乐 · TV / 手机双端</span>
+              <span className="brand-sub">{t("header.brandSub")}</span>
             </span>
           </Link>
 
-          <nav className={`nav-links${open ? " open" : ""}`} aria-label="主导航">
+          <nav className={`nav-links${open ? " open" : ""}`} aria-label={t("nav.aria")}>
             {NAV.map((item) => (
               <Link
                 key={item.path}
@@ -68,27 +83,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 aria-current={pathname === item.path ? "page" : undefined}
                 onClick={() => setOpen(false)}
               >
-                {item.label}
+                {t(`nav.${item.labelKey}`)}
               </Link>
             ))}
           </nav>
 
           <div className="header-actions">
+            <LanguageSwitch />
             <Button
               className="mobile-menu-btn"
               type="text"
               icon={open ? <CloseOutlined /> : <MenuOutlined />}
               onClick={() => setOpen(!open)}
-              aria-label="菜单"
+              aria-label={t("common.menu")}
             />
             <a href={site.repo} target="_blank" rel="noreferrer">
               <Button type="text" icon={<GithubOutlined />} style={{ color: "#98a2bf" }}>
-                源码
+                {t("common.source")}
               </Button>
             </a>
-            <a href={APK_DOWNLOAD_URL} download title={`直接下载最新 APK（${APK_VERSION}）`}>
+            <a href={APK_DOWNLOAD_URL} download title={t("header.downloadTitle", { version: APK_VERSION })}>
               <Button type="primary" icon={<DownloadOutlined />}>
-                下载
+                {t("common.download")}
               </Button>
             </a>
           </div>
@@ -107,52 +123,56 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </span>
                 <span>{site.name}</span>
               </Link>
-              <p className="footer-brand-desc">
-                开源的 Android 音乐播放器（TV / 手机 / 平板通用），聚合 NAS、网络音乐与百度网盘多音乐源。
-              </p>
+              <p className="footer-brand-desc">{t("footer.brandDesc")}</p>
             </div>
             <div>
-              <div className="footer-title">产品</div>
+              <div className="footer-title">{t("footer.product")}</div>
               <div className="footer-links">
-                <Link to="/features">功能特性</Link>
-                <Link to="/screens">界面预览</Link>
-                <Link to="/effects">特效图集</Link>
-                <Link to="/download">下载安装</Link>
-                <Link to="/about">关于项目</Link>
+                {FOOTER_PRODUCT.map((item) => (
+                  <Link key={item.path} to={item.path}>
+                    {t(`nav.${item.labelKey}`)}
+                  </Link>
+                ))}
               </div>
             </div>
             <div>
-              <div className="footer-title">资源</div>
+              <div className="footer-title">{t("footer.resources")}</div>
               <div className="footer-links">
                 <a href={site.repo} target="_blank" rel="noreferrer">
-                  GitHub 仓库
+                  {t("footer.githubRepo")}
                 </a>
                 <a href={site.releases} target="_blank" rel="noreferrer">
-                  版本发布记录
+                  {t("footer.releases")}
                 </a>
                 <a href={`${site.repo}#readme`} target="_blank" rel="noreferrer">
-                  使用文档
+                  {t("footer.docs")}
                 </a>
                 <a href={`${site.repo}/issues`} target="_blank" rel="noreferrer">
-                  问题反馈
+                  {t("footer.issues")}
                 </a>
               </div>
             </div>
             <div>
-              <div className="footer-title">支持的音乐源</div>
+              <div className="footer-title">{t("footer.musicSources")}</div>
               <div className="footer-links">
-                <span style={{ fontSize: 13, color: "#98a2bf" }}>Jellyfin / Navidrome</span>
-                <span style={{ fontSize: 13, color: "#98a2bf" }}>Subsonic / 道理鱼 / 飞牛</span>
-                <span style={{ fontSize: 13, color: "#98a2bf" }}>网络音乐 / 百度网盘</span>
-                <span style={{ fontSize: 13, color: "#98a2bf" }}>Jamendo / 公共电台</span>
+                {MUSIC_SOURCES.map((s) => (
+                  <span key={s} style={{ fontSize: 13, color: "#98a2bf" }}>
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
           <div className="footer-bottom">
             <span>
-              © {new Date().getFullYear()} {site.name} · 网站 v{SITE_VERSION} · 以 {site.license} 协议开源
+              {t("footer.copyright", {
+                year: new Date().getFullYear(),
+                name: site.name,
+                version: SITE_VERSION,
+                license: site.license,
+              })}
             </span>
-            <span>与 Jellyfin、Navidrome、Subsonic、百度网盘等第三方服务无隶属关系</span>
+            <span>{t("footer.disclaimer")}</span>
           </div>
         </div>
       </footer>

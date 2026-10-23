@@ -23,7 +23,8 @@ NAS Music TV 的**官方网站**（落地页）。一个纯前端的单页站点
 
 ## 功能特性（站点本身）
 
-- **5 个路由页**：首页（`/`，含 Hero、统计、Highlights、功能模块、TV 界面 mockup、CTA）、功能特性（`/features`，锚点导航 + 15 大模块）、界面预览（`/screens`）、下载安装（`/download`，通用 APK 站内直链 + 最新版本卡 + 安装说明 + FAQ）、关于项目（`/about`，版本/开源协议/API 清单）。
+- **6 个路由页**：首页（`/`，含 Hero、统计、Highlights、功能模块、TV 界面 mockup、CTA）、功能特性（`/features`，锚点导航 + 16 大模块）、界面预览（`/screens`）、特效图集（`/effects`，可视化效果快照网格 + 灯箱）、下载安装（`/download`，通用 APK 站内直链 + 最新版本卡 + 安装说明 + FAQ）、关于项目（`/about`，版本/开源协议/API 清单）。
+- **中英双语 + 界面语言切换**：全站文案集中在 `web/src/i18n/locales/` 中英词典（tsc 强制两种语言键齐全），顶栏「中 / EN」分段开关即时切换并 `localStorage` 持久化；antd 组件库语言、`<html lang>`、`document.title` 同步跟随，默认按浏览器语言推断，刷新无闪烁。**分享直达链接**：任意页面加 `?lang=en` 即以英文打开、`?lang=zh` 即以中文打开（显式参数优先，并记住该选择）。
 - **深色沉浸设计系统**：统一的青绿品牌色（`#00D4AA`）、等宽大字统计、卡片悬浮焦点态，色板与组件全部收敛在 `web/src/styles/` 下。
 - **纯 CSS 界面 mockup + 内联 SVG 图标**：首页 TV 界面预览与全部图标均为手写 CSS / SVG，**首屏零图片与零图标字体请求**。
 - **响应式**：桌面 / 平板 / 手机三档断点（1024 / 720 / 1279 / 767px），手机端导航折叠为汉堡菜单，小字放大到 ≥15px 保证可读性。
@@ -50,20 +51,21 @@ NASMusicTV-Website/
     ├── public/screens/   # 界面截图清单（index.json / urls.txt）
     ├── scripts/          # fetch-screenshots.sh / place-screenshots.sh
     └── src/
-        ├── main.tsx      # 入口：ConfigProvider(dark) + AntApp
+        ├── main.tsx      # 入口：I18nProvider（antd 深色主题 + 中英语言）+ AntApp
         ├── App.tsx       # RouterProvider
-        ├── router.tsx    # 5 条路由 + 兜底
+        ├── router.tsx    # 6 条路由 + 兜底
+        ├── i18n/         # 多语言体系：locales/（中英词典）、store、useI18n、I18nProvider、LanguageSwitch
         ├── components/
-        │   ├── Layout.tsx        # 顶栏导航 + 页脚
+        │   ├── Layout.tsx        # 顶栏导航（含语言切换）+ 页脚
         │   ├── Screenshot.tsx    # 截图位组件（TV/手机切换、空帧降级）
         │   └── TvIcons.tsx       # 内联 SVG 图标集
         ├── data/
-        │   ├── site.tsx          # 站点文案（highlights / featureModules / screens / faqs / apiVersions / APK_VERSION）
+        │   ├── site.tsx          # 站点结构化数据（图标 / key / 版本号，文案全部在 i18n 词典）
         │   ├── screenshots.ts    # 截图槽位清单与解析逻辑
         │   └── appChangelog.md   # 应用 CHANGELOG 快照（Docker/CI 构建时回落到此）
         ├── hooks/
         │   └── useScreenshots.ts # 清单优先 / 逐张探测兜底
-        ├── pages/        # HomePage / FeaturesPage / ScreensPage / DownloadPage / AboutPage
+        ├── pages/        # HomePage / FeaturesPage / ScreensPage / EffectsPage / DownloadPage / AboutPage
         └── styles/       # styles.css（全站）+ home.css（首页 TV 设计系统）
 ```
 

@@ -13,6 +13,22 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.1.0] - 2026-10-23
+
+小功能版（minor）：全站上线英文版本，支持顶栏中 / EN 界面语言即时切换，并建成统一的多语言管理体系。
+
+### Added
+- 新增多语言体系 `web/src/i18n/`：中英词典（`locales/zh-CN` 与 `locales/en-US`，按 common / highlights / features / screens / support / pages 分片维护，英文词典受中文词典推导类型约束，缺键编译期报错）、点分路径翻译函数（`t` 字符串 / `ta` 数组 / `tv` 结构化值，支持 `{param}` 插值）、语言 store（localStorage 持久化 + 浏览器语言推断 + `useSyncExternalStore` 订阅）、`I18nProvider`（antd locale、`<html lang>`、`document.title` 随语言同步）。
+- 新增 URL 查询参数直达语言：任意页面加 `?lang=en` / `?lang=zh` 即以对应语言打开（显式参数优先级最高并写回 localStorage），`index.html` 挂载前预设脚本同步支持，适合分享固定语言版本的链接。
+- 顶栏新增「中 / EN」语言切换开关（`LanguageSwitch` 组件 + `.lang-switch` 样式），点击即切换全站界面语言，刷新后保持选择；`index.html` 增加挂载前语言预设脚本，避免刷新闪烁。
+- 新增运行时冒烟护栏：`vite.smoke.config.ts`（IIFE 打包）+ `scripts/runtime-smoke.cjs`（jsdom 执行，断言双语渲染、语言切换、六路由渲染、零运行时错误），`npm run smoke` 可重复执行。
+
+### Changed
+- `data/site.tsx` 剥离全部界面文案，只保留图标 / 稳定 key / 版本号 / 外链；文案（站点信息、统计、Highlights、16 个功能模块、17 个界面、FAQ、版本摘要、API 清单、特效名）全部迁入中英词典，页面经 `useI18n()` 取值。
+- `data/effects.ts` 移除效果名（改按枚举名从词典 `effects.names.<ENUM>` 取）；`data/screenshots.ts` 的 `screenShots` 键由中文名改为稳定 key（与 `screenKeys` 对应）。
+- antd 的 `ConfigProvider`（深色算法 + 品牌色）由 `main.tsx` 迁入 `I18nProvider`，随语言切换注入 `zh_CN` / `en_US` 组件库语言。
+- 网站版本号 `web/package.json` 1.0.8 → 1.1.0。
+
 ## [1.0.8] - 2026-10-17
 
 小版本（patch）：接入 GitHub Pages 发布通道，并移除关于页的「推荐工具」卡片。

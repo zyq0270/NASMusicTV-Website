@@ -6,7 +6,7 @@
  *   Hero（100vh 全屏 + 封面模糊光晕 + 浮动光点粒子 + 电视外框主视觉）
  *   → 统计（JetBrains Mono 等宽大字）
  *   → Highlights（4 列卡片网格，图标 + 短标题 + 一句话）
- *   → Features（15 个模块，3 列卡片瀑布流，图标 + 标题 + 两行描述）
+ *   → Features（16 个模块，3 列卡片瀑布流，图标 + 标题 + 两行描述）
  *   → Screens（6 个 16:9 CSS 绘制的 TV 界面 mockup + 一行核心交互说明）
  *   → 底部 CTA（大号文案 + 青绿下载按钮居中）
  *
@@ -19,13 +19,17 @@
  * - 滚动渐入：Intersection Observer 触发 opacity 0→1 + translateY(20px)→0
  * - 粒子与光晕只使用 transform / opacity 做动画（合成层属性，will-change 见 CSS），不触发布局重排
  * - 图标全部为内联 SVG，mockup 全部为 CSS 绘制，页面不新增任何第三方库与图片请求
+ *
+ * 【多语言体系】全部文案经 useI18n() 的 t() / ta() 从词典取值（中英双语），
+ * 结构与图标数据来自 data/site.tsx。
  */
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { site, stats, highlights, featureModules, screens, APK_DOWNLOAD_URL, APK_VERSION } from "../data/site";
+import { site, stats, highlights, featureModules, screenKeys, APK_DOWNLOAD_URL, APK_VERSION } from "../data/site";
 import { useScreenshots } from "../hooks/useScreenshots";
 import { heroShot, screenShots } from "../data/screenshots";
 import { TvIcon } from "../components/TvIcons";
+import { useI18n } from "../i18n";
 import "../styles/home.css";
 
 /* --------------------------------------------------------------------------
@@ -61,9 +65,9 @@ function useRevealOnScroll() {
 }
 
 /* --------------------------------------------------------------------------
- * 2. 数据映射：图标 / mockup / 核心交互提示
+ * 2. 数据映射：图标 / mockup / 核心交互提示（键与 data/site.tsx 的 key 对应）
  * -------------------------------------------------------------------------- */
-/** 6 个核心卖点 → 内联 SVG 图标名 */
+/** 9 个核心卖点 → 内联 SVG 图标名 */
 const HIGHLIGHT_ICONS: Record<string, string> = {
   "multi-source": "server",
   "karaoke-lyric": "lyric",
@@ -73,7 +77,7 @@ const HIGHLIGHT_ICONS: Record<string, string> = {
   "dual-device": "devices",
 };
 
-/** 15 个功能模块 → 内联 SVG 图标名 */
+/** 16 个功能模块 → 内联 SVG 图标名 */
 const FEATURE_ICONS: Record<string, string> = {
   dashboard: "home",
   nas: "server",
@@ -96,22 +100,12 @@ const FEATURE_ICONS: Record<string, string> = {
 type MockKind = "dashboard" | "player" | "karaoke" | "mtv" | "visualizer" | "library";
 
 const SCREEN_MOCKS: Record<string, MockKind> = {
-  首页仪表盘: "dashboard",
-  播放页: "player",
-  "K 歌页": "karaoke",
-  "MTV 播放页": "mtv",
-  可视化舞台: "visualizer",
-  曲库页: "library",
-};
-
-/** 界面 → 一行「核心交互」说明（呼应遥控器 D-Pad 操作） */
-const SCREEN_HINTS: Record<string, string> = {
-  首页仪表盘: "遥控器上下移动焦点，OK 打开播放器",
-  播放页: "左右键切歌，OK 播放 / 暂停",
-  "K 歌页": "遥控器左右切换原唱 / 伴奏",
-  "MTV 播放页": "OK 切换歌词，左右键换一首 MV",
-  可视化舞台: "左右键即时切换 26 套特效",
-  曲库页: "左右移动切换 Tab，OK 选中",
+  dashboard: "dashboard",
+  player: "player",
+  karaoke: "karaoke",
+  mtv: "mtv",
+  visualizer: "visualizer",
+  library: "library",
 };
 
 /** Hero 浮动光点粒子（低性能消耗：纯 CSS transform 动画） */
@@ -140,8 +134,11 @@ const WAVE_BARS = [0.4, 0.75, 1, 0.55, 0.9, 0.35, 0.8, 0.6, 1, 0.45];
 
 /* --------------------------------------------------------------------------
  * 3. TV 界面 mockup：全部由 CSS + 色块绘制（无图片请求），容器 aria-hidden
+ *    装饰性文字经 t("mockup.*") 随语言切换
  * -------------------------------------------------------------------------- */
 function TvMock({ kind }: { kind: MockKind }) {
+  const { t } = useI18n();
+
   if (kind === "dashboard") {
     return (
       <div className="mk" aria-hidden="true">
@@ -184,8 +181,8 @@ function TvMock({ kind }: { kind: MockKind }) {
         </div>
         <div className="mk-player-right">
           <span className="mk-line dim" style={{ width: "82%" }} />
-          <span className="mk-lyric-active">当前句 · 平滑滚动</span>
-          <span className="mk-ktext">逐字高亮 · 卡拉OK歌词</span>
+          <span className="mk-lyric-active">{t("mockup.currentLine")}</span>
+          <span className="mk-ktext">{t("mockup.karaokeLyric")}</span>
           <span className="mk-line dim" style={{ width: "64%" }} />
           <div className="mk-progress">
             <span />
@@ -204,7 +201,7 @@ function TvMock({ kind }: { kind: MockKind }) {
         </div>
         <div className="mk-glass">
           <span className="mk-line dim" style={{ width: "74%" }} />
-          <span className="mk-ktext">逐字高亮 · 卡拉OK</span>
+          <span className="mk-ktext">{t("mockup.karaokeShort")}</span>
         </div>
         <div className="mk-ktv-bar">
           <span className="mk-btn" />
@@ -220,8 +217,8 @@ function TvMock({ kind }: { kind: MockKind }) {
       <div className="mk mk-mtv" aria-hidden="true">
         <div className="mk-video" />
         <div className="mk-mtv-center">
-          <div className="mk-mtv-name">MV · MTV</div>
-          <span className="mk-ktext">全屏音乐视频 · 逐字歌词</span>
+          <div className="mk-mtv-name">{t("mockup.mtvName")}</div>
+          <span className="mk-ktext">{t("mockup.mtvSub")}</span>
         </div>
         <div className="mk-mtv-bar">
           <span className="mk-btn" />
@@ -241,7 +238,7 @@ function TvMock({ kind }: { kind: MockKind }) {
         <div className="mk-viz-bg" />
         <div className="mk-viz-particles" />
         <div className="mk-viz-top">
-          <span className="mk-lyric-pill">顶部胶囊歌词 · 当前句</span>
+          <span className="mk-lyric-pill">{t("mockup.topLyricPill")}</span>
         </div>
         <div className="mk-viz-bottom">
           <div className="mk-col" style={{ gap: 8, maxWidth: "46%" }}>
@@ -262,7 +259,7 @@ function TvMock({ kind }: { kind: MockKind }) {
   return (
     <div className="mk mk-lib" aria-hidden="true">
       <div className="mk-lib-head">
-        <span className="mk-lib-title">曲库</span>
+        <span className="mk-lib-title">{t("mockup.libraryTitle")}</span>
         <div className="mk-lib-tabs">
           <span className="mk-pill" />
           <span className="mk-pill on" />
@@ -282,7 +279,7 @@ function TvMock({ kind }: { kind: MockKind }) {
           <div className="mk-cover" />
           <div className="mk-cover v3" />
         </div>
-        <div className="mk-index">
+        <div className="mk-lib-index">
           {["", "on", "", "", "", "", "", ""].map((c, i) => (
             <i key={i} className={c} />
           ))}
@@ -296,36 +293,34 @@ function TvMock({ kind }: { kind: MockKind }) {
  * 4. 界面预览卡片：默认展示 CSS mockup，可一键切换实机截图
  * -------------------------------------------------------------------------- */
 function ScreenCard({
-  name,
-  tag,
-  desc,
-  hint,
-  kind,
+  screenKey,
   shotSrc,
   delay,
 }: {
-  name: string;
-  tag: string;
-  desc: string;
-  hint: string;
-  kind: MockKind;
+  screenKey: string;
   shotSrc: string | null;
   delay: number;
 }) {
+  const { t } = useI18n();
   const [showShot, setShowShot] = useState(false);
   const shot = showShot && shotSrc ? shotSrc : null;
+
+  const name = t(`screens.${screenKey}.name`);
+  const tag = t(`screens.${screenKey}.tag`);
+  const desc = t(`screens.${screenKey}.desc`);
+  const kind = SCREEN_MOCKS[screenKey] ?? "dashboard";
 
   return (
     <article
       className="tv-screen-card tv-reveal"
       style={{ transitionDelay: `${delay}ms` }}
       tabIndex={0}
-      aria-label={`${name}界面预览`}
+      aria-label={t("home.screenAria", { name })}
     >
       <div className="tv-screen-frame">
         <div className="tv-screen-16x9">
           {shot ? (
-            <img src={shot} alt={`${name} 电视端实机界面截图`} loading="lazy" decoding="async" />
+            <img src={shot} alt={t("home.screenShotAlt", { name })} loading="lazy" decoding="async" />
           ) : (
             <TvMock kind={kind} />
           )}
@@ -336,9 +331,9 @@ function ScreenCard({
             className="tv-screen-toggle"
             onClick={() => setShowShot((v) => !v)}
             aria-pressed={showShot}
-            aria-label={`${name}：切换模拟图 / 实机截图`}
+            aria-label={t("common.switchView", { name })}
           >
-            {showShot ? "模拟图" : "实机截图"}
+            {showShot ? t("common.mock") : t("common.realShot")}
           </button>
         ) : null}
       </div>
@@ -351,10 +346,12 @@ function ScreenCard({
         <p className="tv-screen-desc" title={desc}>
           {desc}
         </p>
-        {/* 一行小字：该界面的核心交互 */}
+        {/* 一行小字：该界面的核心交互（词典 screens.<key>.hint，缺失回退默认文案） */}
         <p className="tv-screen-hint">
           <TvIcon name="remote" size={16} />
-          {hint}
+          {t(`screens.${screenKey}.hint`) === `screens.${screenKey}.hint`
+            ? t("screenHintDefault")
+            : t(`screens.${screenKey}.hint`)}
         </p>
       </div>
     </article>
@@ -365,6 +362,7 @@ function ScreenCard({
  * 5. 页面
  * -------------------------------------------------------------------------- */
 export default function HomePage() {
+  const { t, ta } = useI18n();
   const { firstOf } = useScreenshots();
   useRevealOnScroll();
 
@@ -375,7 +373,9 @@ export default function HomePage() {
   );
 
   /** 首屏 6 个核心界面（均为 TV 端主界面） */
-  const topScreens = screens.slice(0, 6);
+  const topScreens = screenKeys.slice(0, 6);
+
+  const devices = ta("site.devices");
 
   return (
     <div className="tv-home">
@@ -405,10 +405,10 @@ export default function HomePage() {
             <div className="tv-badges">
               <span className="tv-pill is-brand">
                 <TvIcon name="spark" size={14} />
-                Android 开源应用
+                {t("home.heroBadge")}
               </span>
               <span className="tv-pill">{site.license}</span>
-              {site.devices.map((d) => (
+              {devices.map((d) => (
                 <span className="tv-pill" key={d}>
                   {d}
                 </span>
@@ -417,28 +417,28 @@ export default function HomePage() {
 
             <div className="tv-hero-brand">{site.name}</div>
             <h1 id="tv-hero-title" className="tv-hero-title">
-              把 NAS 曲库、网盘与网络音乐搬进客厅大屏
+              {t("home.heroTitle")}
             </h1>
           </div>
 
           <div className="tv-hero-inner">
             <div>
-              <p className="tv-hero-lead">{site.tagline}</p>
-              <p className="tv-hero-sub">{site.subtitle}</p>
+              <p className="tv-hero-lead">{t("site.tagline")}</p>
+              <p className="tv-hero-sub">{t("site.subtitle")}</p>
 
               <div className="tv-hero-actions">
                 <a
                   href={APK_DOWNLOAD_URL}
                   download
-                  title={`直接下载最新 APK（${APK_VERSION}）`}
+                  title={t("header.downloadTitle", { version: APK_VERSION })}
                   className="tv-btn tv-btn-primary"
                 >
                   <TvIcon name="download" size={20} />
-                  下载最新 APK
+                  {t("home.downloadLatest")}
                 </a>
                 <Link to="/features" className="tv-btn tv-btn-ghost">
                   <TvIcon name="rocket" size={20} />
-                  看看能做什么
+                  {t("home.explore")}
                 </Link>
                 <a
                   href={site.repo}
@@ -447,13 +447,11 @@ export default function HomePage() {
                   className="tv-btn tv-btn-ghost"
                 >
                   <TvIcon name="code" size={20} />
-                  GitHub 源码
+                  {t("home.githubSource")}
                 </a>
               </div>
 
-              <p className="tv-hero-note">
-                电视、手机、平板共用同一 APK：电视走遥控器焦点体系，手机走触屏与 MiniPlayer。
-              </p>
+              <p className="tv-hero-note">{t("home.heroNote")}</p>
             </div>
 
             {/* 主视觉：16:9 电视外框 + 屏幕呼吸发光 */}
@@ -464,7 +462,7 @@ export default function HomePage() {
                     <img
                       className="tv-frame-img"
                       src={heroFile}
-                      alt="NAS Music TV 首页仪表盘界面预览"
+                      alt={t("home.heroAlt")}
                       loading="eager"
                       decoding="async"
                     />
@@ -486,11 +484,11 @@ export default function HomePage() {
             {stats.map((s, i) => (
               <div
                 className="tv-stat tv-reveal"
-                key={s.label}
+                key={s.key}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="tv-stat-value">{s.value}</div>
-                <div className="tv-stat-label">{s.label}</div>
+                <div className="tv-stat-label">{t(`stats.${s.key}`)}</div>
               </div>
             ))}
           </div>
@@ -502,11 +500,8 @@ export default function HomePage() {
         <div className="container">
           <div className="tv-home-head tv-reveal">
             <span className="tv-eyebrow">Highlights</span>
-            <h2 className="tv-h2">客厅 K 歌房，也是全屋音乐中枢</h2>
-            <p className="tv-lead">
-              从多源聚合曲库，到逐字卡拉OK歌词、实时人声消除、B 站 MV 与天气电台，
-              NAS Music TV 把电视端缺失的音乐体验一次性补齐。
-            </p>
+            <h2 className="tv-h2">{t("home.highlightsTitle")}</h2>
+            <p className="tv-lead">{t("home.highlightsLead")}</p>
           </div>
 
           <div className="tv-grid tv-grid-4">
@@ -518,12 +513,12 @@ export default function HomePage() {
                   <div className="tv-card-icon">
                     <TvIcon name={HIGHLIGHT_ICONS[h.key] ?? "spark"} size={28} />
                   </div>
-                  <h3 className="tv-card-title">{h.title}</h3>
-                  <p className="tv-card-desc" title={h.desc}>
-                    {h.desc}
+                  <h3 className="tv-card-title">{t(`highlights.${h.key}.title`)}</h3>
+                  <p className="tv-card-desc" title={t(`highlights.${h.key}.desc`)}>
+                    {t(`highlights.${h.key}.desc`)}
                   </p>
                   {h.key === "visualizer" && (
-                    <span className="tv-card-more">查看特效图集 →</span>
+                    <span className="tv-card-more">{t("home.viewEffects")}</span>
                   )}
                 </>
               );
@@ -542,17 +537,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= Features：15 个模块，3 列卡片瀑布流 ================= */}
+      {/* ================= Features：16 个模块，3 列卡片瀑布流 ================= */}
       <section className="tv-section tv-features" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="tv-home-head tv-reveal">
             <span className="tv-eyebrow">Features</span>
             <h2 className="tv-h2">
-              覆盖曲库、歌词、播放与双端交互的<span className="tv-accent">完整能力</span>
+              {t("home.featuresTitlePre")}
+              <span className="tv-accent">{t("home.featuresTitleAccent")}</span>
             </h2>
             <p className="tv-lead">
-              共 {featureModules.length} 大功能模块，从连接 NAS 后端到本地扫描、网盘串流与可视化舞台，
-              开箱即用，无需折腾。
+              {t("home.featuresLead", { count: featureModules.length })}
             </p>
           </div>
 
@@ -568,12 +563,14 @@ export default function HomePage() {
                   <TvIcon name={FEATURE_ICONS[m.key] ?? "spark"} size={24} />
                 </div>
                 <div style={{ minWidth: 0 }}>
-                  <h3 className="tv-feature-title">{m.title}</h3>
+                  <h3 className="tv-feature-title">{t(`features.${m.key}.title`)}</h3>
                   <p
                     className="tv-feature-desc"
-                    title={m.items.length ? m.items.join("；") : m.summary}
+                    title={
+                      ta(`features.${m.key}.items`).join("; ") || t(`features.${m.key}.summary`)
+                    }
                   >
-                    {m.summary}
+                    {t(`features.${m.key}.summary`)}
                   </p>
                 </div>
               </div>
@@ -582,7 +579,7 @@ export default function HomePage() {
 
           <div className="tv-more tv-reveal">
             <Link to="/features" className="tv-btn tv-btn-ghost">
-              查看全部 {featureModules.length} 个功能模块
+              {t("home.viewAllFeatures", { count: featureModules.length })}
               <TvIcon name="arrowRight" size={20} />
             </Link>
           </div>
@@ -594,26 +591,20 @@ export default function HomePage() {
         <div className="container">
           <div className="tv-home-head tv-reveal">
             <span className="tv-eyebrow">Screens</span>
-            <h2 className="tv-h2">为遥控器和大屏重新设计的界面</h2>
-            <p className="tv-lead">
-              完整的 D-Pad 焦点系统、10 秒轮播的多封面、可调高斯模糊滤镜与可视化频谱，全部按电视使用场景打磨。
-            </p>
+            <h2 className="tv-h2">{t("home.screensTitle")}</h2>
+            <p className="tv-lead">{t("home.screensLead")}</p>
           </div>
 
           <div className="tv-screens">
-            {topScreens.map((s, i) => {
-              const shot = screenShots[s.name];
+            {topScreens.map((key, i) => {
+              const shot = screenShots[key];
               const shotSrc = shot
                 ? firstOf(shot.file, ...(shot.fallbackFiles ?? []))
                 : null;
               return (
                 <ScreenCard
-                  key={s.name}
-                  name={s.name}
-                  tag={s.tag}
-                  desc={s.desc}
-                  hint={SCREEN_HINTS[s.name] ?? "遥控器左右切换，OK 选中"}
-                  kind={SCREEN_MOCKS[s.name] ?? "dashboard"}
+                  key={key}
+                  screenKey={key}
                   shotSrc={shotSrc}
                   delay={(i % 2) * 90}
                 />
@@ -622,16 +613,16 @@ export default function HomePage() {
           </div>
 
           <p className="tv-hero-note tv-reveal" style={{ marginTop: 28 }}>
-            以上为电视端实机界面；完整 {screens.length} 个界面见{" "}
+            {t("home.screensNote", { count: screenKeys.length })}{" "}
             <Link to="/screens" style={{ color: "var(--tv-brand)" }}>
-              界面预览
+              {t("nav.screens")}
             </Link>
-            。
+            {t("home.screensNoteEnd")}
           </p>
 
           <div className="tv-more tv-reveal" style={{ marginTop: 24 }}>
             <Link to="/screens" className="tv-btn tv-btn-ghost">
-              浏览全部 {screens.length} 个界面
+              {t("home.browseAllScreens", { count: screenKeys.length })}
               <TvIcon name="arrowRight" size={20} />
             </Link>
           </div>
@@ -642,23 +633,21 @@ export default function HomePage() {
       <section className="tv-cta">
         <div className="tv-cta-glow" aria-hidden="true" />
         <div className="container">
-          <h2 className="tv-cta-title tv-reveal">把 NAS 曲库搬上大屏</h2>
-          <p className="tv-cta-desc tv-reveal">
-            开源、免注册、无广告。下载 APK 装上电视，扫码即可用手机遥控队列与点歌。
-          </p>
+          <h2 className="tv-cta-title tv-reveal">{t("home.ctaTitle")}</h2>
+          <p className="tv-cta-desc tv-reveal">{t("home.ctaDesc")}</p>
           <div className="tv-cta-actions tv-reveal">
             <a
               href={APK_DOWNLOAD_URL}
               download
-              title={`直接下载最新 APK（${APK_VERSION}）`}
+              title={t("header.downloadTitle", { version: APK_VERSION })}
               className="tv-btn tv-btn-primary"
             >
               <TvIcon name="download" size={20} />
-              下载最新版
+              {t("home.ctaDownload")}
             </a>
             <a href={site.repo} target="_blank" rel="noreferrer" className="tv-btn tv-btn-ghost">
               <TvIcon name="code" size={20} />
-              参与开源
+              {t("home.ctaJoin")}
             </a>
           </div>
         </div>

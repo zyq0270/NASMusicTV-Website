@@ -13,6 +13,31 @@
       content="NAS Music TV,Android TV 音乐播放器,卡拉OK歌词,NAS 音乐,Jellyfin,Navidrome,Subsonic,百度网盘音乐,MTV,天气电台"
     />
     <meta name="theme-color" content="#06070e" />
+    <!--
+      多语言：React 挂载前预设 <html lang>，避免刷新时闪烁。
+      优先级与 src/i18n/store.ts 一致：URL ?lang=en > localStorage > 浏览器语言。
+      分享链接示例：<任意页面>?lang=en 直达英文版，?lang=zh 直达中文版。
+    -->
+    <script>
+      (function () {
+        try {
+          var lang = null;
+          var param = new URLSearchParams(window.location.search).get("lang");
+          if (param) {
+            var v = param.trim().toLowerCase().replace(/_/g, "-");
+            if (v === "zh" || v === "zh-cn" || v === "cn" || v === "chinese") lang = "zh-CN";
+            else if (v === "en" || v === "en-us" || v === "english") lang = "en-US";
+          }
+          if (!lang) lang = localStorage.getItem("nasmusictv.lang");
+          if (lang !== "zh-CN" && lang !== "en-US") {
+            lang = (navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh-CN" : "en-US";
+          }
+          document.documentElement.lang = lang;
+        } catch (e) {
+          /* 隐私模式等场景保持静态默认值 */
+        }
+      })();
+    </script>
     <meta property="og:title" content="NAS Music TV · 为电视而生的开源多源音乐播放器" />
     <meta
       property="og:description"

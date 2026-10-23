@@ -1,12 +1,13 @@
 {
   "name": "web",
   "private": true,
-  "version": "1.0.8",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build && node -e \"const fs=require('fs'),p=require('path');const src=p.join(__dirname,'dist'),dst=p.join(__dirname,'..','dist');if(!fs.existsSync(src)){console.error('web/dist not found');process.exit(1)}fs.rmSync(dst,{recursive:true,force:true});fs.cpSync(src,dst,{recursive:true});console.log('Copied web/dist -> root dist/')\"",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "smoke": "vite build --config vite.smoke.config.ts && node scripts/runtime-smoke.cjs"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

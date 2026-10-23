@@ -122,9 +122,9 @@ export const shareCover: ShotSpec = {
   fallbackFiles: ["01-dashboard.png"],
 };
 
-/** 各界面截图，key 与 site.tsx 中 screens[].name 一一对应（均已于本轮收齐） */
+/** 各界面截图，key 与 site.tsx 的 screenKeys 一一对应（均已于本轮收齐） */
 export const screenShots: Record<string, ShotSpec> = {
-  首页仪表盘: {
+  dashboard: {
     file: "01-dashboard.png",
     spec: "已收齐（1568×872，接近 16:9）",
     note:
@@ -132,7 +132,7 @@ export const screenShots: Record<string, ShotSpec> = {
     mobileFile: "01-dashboard-mobile.png",
     mobileSpec: "2340×1080（手机横屏，可选）",
   },
-  播放页: {
+  player: {
     file: "02-player.png",
     spec: "已收齐（1568×883）",
     note:
@@ -140,7 +140,7 @@ export const screenShots: Record<string, ShotSpec> = {
     mobileFile: "02-player-mobile.png",
     mobileSpec: "2340×1080（手机横屏，可选）",
   },
-  "K 歌页": {
+  karaoke: {
     file: "03-karaoke.png",
     spec: "已收齐（1568×883）",
     note:
@@ -148,19 +148,19 @@ export const screenShots: Record<string, ShotSpec> = {
     mobileFile: "03-karaoke-mobile.png",
     mobileSpec: "2340×1080（手机横屏，可选）",
   },
-  "MTV 播放页": {
+  mtv: {
     file: "04-mtv.png",
     spec: "已收齐（1568×883，带左右黑边的全屏视频帧）",
     note:
       "MTV 播放页：全屏 MV 视频帧铺满画面、正中发光歌名（鸿雁）与其下方逐字歌词、左下角圆形返回、底部中央 上一首 / 暂停 / 下一首 三个圆按钮、右下角「歌词」「切换」两个圆角方按钮、最底部细渐变进度条。",
   },
-  可视化舞台: {
+  visualizer: {
     file: "05-visualizer.png",
     spec: "已收齐（1568×883）",
     note:
       "可视化舞台：左上角圆形关闭（×）按钮、顶部居中半透明胶囊标题（当前句歌词）、占满屏幕的可视化效果（数学函数散点曲线：坐标轴 / 网格 / 刻度 + 右侧「y sin(x/2) sin(x/3)」图例）、左下角歌名 + 歌手、最底部一排进度圆点指示器（当前点青蓝高亮）。",
   },
-  曲库页: {
+  library: {
     file: "06-library.png",
     spec: "已收齐（1568×830）",
     note:
@@ -168,37 +168,37 @@ export const screenShots: Record<string, ShotSpec> = {
     mobileFile: "06-library-mobile.png",
     mobileSpec: "2340×1080（手机横屏，可选）",
   },
-  发现页: {
+  discover: {
     file: "07-discover.png",
     spec: "已收齐（1568×831）",
     note:
       "发现页：Tab 选中「发现」、六行筛选标签组（语种 / 纯音乐 / 年代 / 情怀 / 风格 / 主题，每行左侧分组名 + 一排胶囊按钮，默认「所有」为青绿选中态），从粤语、钢琴到驾车、雨天等场景组合一键筛选。",
   },
-  搜索页: {
+  search: {
     file: "08-search.png",
     spec: "已收齐（1568×866）",
     note:
       "搜索页：搜索框已输入「赵雷」并带清除 ×、「搜索来源」五个青绿点亮胶囊（NAS / 网络 / 百度 / Jamendo / 本地）+「全部点亮」、「全部播放」/「加入队列」+ 计数「68 首」、结果行（序号 + 封面 + 歌名 + 「网络」来源标签 + 歌手 + 0:00 与下载 / 收藏 / 队列 / 添加四个行内图标）。",
   },
-  天气电台: {
+  "weather-radio": {
     file: "09-weather-radio.png",
     spec: "已收齐（1568×830）",
     note:
       "天气电台：「← 返回」+「天气电台」大标题 + 右上「▶ 播放全部」、天气卡片（图标 + 30°C + Beijing · 少云）、右侧两行天气场景胶囊（阳光·轻音乐 / 多云·民谣（选中）/ 雨天·钢琴 / 雪天·温暖 / 风天·激昂 / 雷雨·史诗）、「电台歌曲 (10)」计数与歌曲行（序号 01 / 02 + 封面 + 歌名 + 「网络」标签 + 歌手 + 0:00 与下载 ↓）。",
   },
-  详情页: {
+  detail: {
     file: "10-detail.png",
     spec: "已收齐（1560×729）",
     note:
       "艺术家详情页：「← 返回」+ 艺术家名大标题「呼斯楞」+ 右上「全部播放」青绿胶囊 /「加入队列」+「29 首」、左侧大号圆形头像占位（音符符号）、右侧歌曲列表（序号 + 方形封面 + 歌名 +「已下载」青绿 /「百度」黄色标签 + 歌手名 + 0:00 与 ♡ / ✓ / ↓ / ≡ / + 行内图标）。",
   },
-  队列页: {
+  queue: {
     file: "11-queue.png",
     spec: "已收齐（1560×830）",
     note:
       "播放队列：左侧当前曲目大封面卡（卡下居中歌名「鸿雁」）、右侧「播放队列」大标题 + 计数「3 首」+「清空」按钮、队列行（01 行为正在播放项，整行青绿半透明底 + 序号与歌名青绿 +「已下载」蓝青标签；02 / 03 行「网络」绿色标签；行尾 0:00 与 ↓ 下载 / ↑ 上移 / × 移除）。",
   },
-  我的页: {
+  mine: {
     file: "12-mine.png",
     spec: "已收齐（1568×830）",
     note:
@@ -206,25 +206,25 @@ export const screenShots: Record<string, ShotSpec> = {
     mobileFile: "12-mine-mobile.png",
     mobileSpec: "2340×1080（手机横屏）或 1080×2340（手机竖屏，可选）",
   },
-  设置页: {
+  settings: {
     file: "13-settings.png",
     spec: "已收齐（1568×862）",
     note:
       "设置页：左侧设置导航卡片（青绿齿轮方块 +「设置」+ 通用（选中）/ 播放 / 下载 / 服务器）、右侧「通用」「语言」小标题与「选择应用界面语言」、语言选项（跟随系统（选中）/ 中文 / English）、「暗色主题 · 使用深色背景保护视力」与「界面动画」两张开关卡片（右侧青绿「✓ 开启」）。",
   },
-  连接页: {
+  connection: {
     file: "14-connection.png",
     spec: "已收齐（1560×744，IP 已用示例地址）",
     note:
       "连接页：页面正中「服务器配置」卡片（青绿圆角方块图标 + 副标题「选择您的 NAS 音乐后端类型」）、「服务器类型」五种后端一行平铺（Jellyfin（青绿选中胶囊）/ Navidrome / Subsonic / 道理鱼 / 飞牛）、「服务器地址」输入框（示例 http://192.168.8.183:8096）+ 青绿「连接测试」按钮。",
   },
-  关于页: {
+  about: {
     file: "15-about.png",
     spec: "已收齐（1560×734）",
     note:
       "关于页：左侧设置导航卡片（缓存管理 / 网络检测 / 网盘 / 数据管理 / 关于（青绿高亮选中））、右侧青绿「关于」大标题 + 信息表（应用名称 NAS Music TV / 版本 v2.32.5 / 构建类型 release / 开源协议 GPL v3 / 支持后端 Jellyfin · Navidrome · Subsonic · 道理鱼 · 飞牛 / 内容类型 主媒体）。",
   },
-  手机遥控页: {
+  remote: {
     file: "16-remote.png",
     spec: "已收齐（1080×2340，手机竖屏）",
     note:

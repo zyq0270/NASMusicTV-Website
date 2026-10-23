@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { effects, effectSrc } from "../data/effects";
+import { useI18n } from "../i18n";
 
 /**
  * 特效图集页：可视化舞台的画面快照网格 + 灯箱大图浏览。
@@ -10,8 +11,14 @@ import { effects, effectSrc } from "../data/effects";
  *   - 点击卡片或按 Enter 打开，Esc 关闭，← / → 或两侧按钮切换（首尾循环）
  *   - 打开时锁定页面滚动并把焦点移到关闭按钮，关闭后焦点回到触发卡片
  *   - 图片加载失败时降级为占位框（显示效果名），不出现破图
+ *
+ * 【多语言体系】效果名按枚举名从词典取：t(`effects.names.${shot.enum}`)。
  */
 export default function EffectsPage() {
+  const { t } = useI18n();
+  /** 效果名（随语言切换） */
+  const nameOf = (enumName: string) => t(`effects.names.${enumName}`);
+
   /** 加载失败的截图（枚举名 → true），网格与灯箱共用同一份降级状态 */
   const [failed, setFailed] = useState<Record<string, boolean>>({});
   /** 灯箱当前下标；null 表示未打开 */
@@ -74,17 +81,18 @@ export default function EffectsPage() {
         <div className="container">
           <span className="section-eyebrow">Effects</span>
           <h1 className="section-title">
-            特效图集
-            <span className="gradient-text"> · {effects.length} 套画面快照</span>
+            {t("effectsPage.title")}
+            <span className="gradient-text">{t("effectsPage.titleSub", { count: effects.length })}</span>
           </h1>
-          <p className="section-desc">
-            可视化舞台在播放时铺满全屏，效果按设备性能分低 / 中 / 高三档画质，
-            遥控器左右键即时切换。本页汇总各效果的画面快照，点击任意画面可放大浏览。
-          </p>
+          <p className="section-desc">{t("effectsPage.desc")}</p>
           <div style={{ marginTop: 22, display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {["全屏舞台", "低 / 中 / 高三档画质", `${effects.length} 张快照`].map((t) => (
-              <span className="pill" key={t}>
-                {t}
+            {[
+              t("effectsPage.pillStage"),
+              t("effectsPage.pillQuality"),
+              t("effectsPage.pillCount", { count: effects.length }),
+            ].map((text) => (
+              <span className="pill" key={text}>
+                {text}
               </span>
             ))}
           </div>
@@ -99,19 +107,19 @@ export default function EffectsPage() {
                 key={shot.enum}
                 type="button"
                 className="effect-card"
-                aria-label={`放大查看：${shot.name}`}
+                aria-label={t("effectsPage.zoomAria", { name: nameOf(shot.enum) })}
                 onClick={(e) => openFrom(idx, e.currentTarget)}
               >
                 <span className="effect-frame">
                   {failed[shot.enum] ? (
                     <span className="shot-placeholder">
-                      <span className="shot-title">{shot.name}</span>
+                      <span className="shot-title">{nameOf(shot.enum)}</span>
                       <span className="shot-file">{shot.enum}.jpg</span>
                     </span>
                   ) : (
                     <img
                       src={effectSrc(shot)}
-                      alt={`${shot.name} 可视化特效画面快照`}
+                      alt={t("effectsPage.shotAlt", { name: nameOf(shot.enum) })}
                       loading="lazy"
                       decoding="async"
                       onError={() => markFailed(shot.enum)}
@@ -119,7 +127,7 @@ export default function EffectsPage() {
                   )}
                 </span>
                 <span className="effect-meta">
-                  <span className="effect-name">{shot.name}</span>
+                  <span className="effect-name">{nameOf(shot.enum)}</span>
                   <span className="effect-enum">{shot.enum}</span>
                 </span>
               </button>
@@ -127,16 +135,15 @@ export default function EffectsPage() {
           </div>
 
           <p className="card-summary" style={{ marginTop: 24 }}>
-            以上为端上实拍画面快照，实际观感随画质档位与设备性能略有差异；
-            快照持续补充中，数量以本页列出的为准。
+            {t("effectsPage.note")}
           </p>
 
           <div style={{ marginTop: 28, display: "flex", gap: 14, flexWrap: "wrap" }}>
             <Link to="/download" className="cta-primary">
-              下载安装
+              {t("nav.download")}
             </Link>
             <Link to="/features" className="cta-ghost">
-              查看完整功能清单
+              {t("screensPage.featuresBtn")}
             </Link>
           </div>
         </div>
@@ -147,14 +154,14 @@ export default function EffectsPage() {
           className="effect-lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label={`${current.name} · 大图浏览`}
+          aria-label={t("effectsPage.lightboxAria", { name: nameOf(current.enum) })}
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpenAt(null);
           }}
         >
           <div className="effect-lightbox-top">
             <div className="effect-lightbox-caption">
-              <span className="effect-lightbox-name">{current.name}</span>
+              <span className="effect-lightbox-name">{nameOf(current.enum)}</span>
               <span className="effect-lightbox-enum">{current.enum}</span>
             </div>
             <span className="effect-counter">
@@ -164,7 +171,7 @@ export default function EffectsPage() {
               ref={closeBtnRef}
               type="button"
               className="effect-icon-btn"
-              aria-label="关闭大图"
+              aria-label={t("effectsPage.closeAria")}
               onClick={() => setOpenAt(null)}
             >
               <CloseOutlined />
@@ -180,7 +187,7 @@ export default function EffectsPage() {
             <button
               type="button"
               className="effect-icon-btn effect-nav"
-              aria-label="上一张"
+              aria-label={t("common.prev")}
               onClick={() => step(-1)}
             >
               <LeftOutlined />
@@ -189,18 +196,18 @@ export default function EffectsPage() {
             <figure className="effect-lightbox-figure">
               {failed[current.enum] ? (
                 <span className="shot-placeholder" style={{ minHeight: 220 }}>
-                  <span className="shot-title">{current.name}</span>
+                  <span className="shot-title">{nameOf(current.enum)}</span>
                   <span className="shot-file">{current.enum}.jpg</span>
                 </span>
               ) : (
                 <img
                   src={effectSrc(current)}
-                  alt={`${current.name} 可视化特效画面`}
+                  alt={t("effectsPage.lightboxAlt", { name: nameOf(current.enum) })}
                   onError={() => markFailed(current.enum)}
                 />
               )}
               <figcaption className="effect-lightbox-cap">
-                <span>{current.name}</span>
+                <span>{nameOf(current.enum)}</span>
                 <span className="effect-lightbox-enum">{current.enum}</span>
               </figcaption>
             </figure>
@@ -208,14 +215,14 @@ export default function EffectsPage() {
             <button
               type="button"
               className="effect-icon-btn effect-nav"
-              aria-label="下一张"
+              aria-label={t("common.next")}
               onClick={() => step(1)}
             >
               <RightOutlined />
             </button>
           </div>
 
-          <p className="effect-lightbox-hint">Esc 关闭 · ← / → 切换上一张 / 下一张</p>
+          <p className="effect-lightbox-hint">{t("effectsPage.lightboxHint")}</p>
         </div>
       )}
     </>
