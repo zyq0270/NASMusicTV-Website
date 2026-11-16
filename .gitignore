@@ -35,3 +35,4 @@ download/*.apk
 .claude/
 .workbuddy-ai/
 .edgeone/
+.workbuddy/

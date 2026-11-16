@@ -24,10 +24,12 @@ backend/uploads
 web/node_modules
 admin/node_modules
 
-# 构建产物（容器内重新构建）
+# 构建产物（容器内重新构建；本地残留不进构建上下文）
 web/dist
 admin/dist
 backend/target
+dist/
+build/
 
 # Maven 本地仓库
 .m2

@@ -13,6 +13,27 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.2.1] - 2026-11-16
+
+维护版（patch）：兼容帽子云静态网站默认输出目录 `build`，补齐双平台部署文档。
+
+### Added
+- 新增 `scripts/sync-build-dir.cjs`：把根 `dist/` 同步一份到 `build/`，兼容帽子云在 `framework: none` 时按 CRA 默认选择的输出目录。
+- 新增 `docs/MAOZIYUN-DEPLOY.md`：记录 `"/src/build": not found` 的根因、控制台改 `dist` 的步骤、仓库侧兜底方案、验收清单，以及与 EdgeOne Makers 的配置差异。
+- 根 `package.json` 拆出 `build:web` / `build:sync` 两个子脚本，`build` 保持单一入口不变。
+
+### Changed
+- `.dockerignore` 排除根 `dist/` 与 `build/`，避免本地残留产物被拷进构建上下文。
+- `.gitignore` 新增 `.workbuddy/`，避免工作区记忆数据进入版本库。
+- README 新增「部署（帽子云 · 静态网站）」章节，同步状态表与版本说明更新为 1.2.1，目录结构补 `scripts/` 与第二份部署文档。
+- 网站版本号 `package.json` / `web/package.json` / `web/package-lock.json` 统一 1.2.0 → **1.2.1**。
+
+### Fixed
+- 修复帽子云部署报 `"/src/build": not found`：平台把 `outputDir` 设成 `build` 而 Vite 产物在 `dist/`。现控制台改 `dist` 与仓库侧 `build/` 副本双保险。
+- 修复 `npm run build` 在根目录执行时无 `build/` 产物的问题。
+
+> 备注：帽子云日志里的 `nas-music-tv-website@1.0.5` / `web@1.1.0` 表明平台拉的是旧提交；本次改动需推送到其绑定仓库后才会生效。
+
 ## [1.2.0] - 2026-11-16
 
 内容同步 + 版式升级（minor）：官网整体对齐应用 v2.38.15 → **v2.39.18**（跨 19 个版本），修复腾讯云 EdgeOne Makers 部署失败，并接入 Gitee 同步与百度网盘分发。

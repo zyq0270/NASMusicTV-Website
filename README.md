@@ -14,7 +14,7 @@ NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍
 
 | 对象 | 版本 | 日期 | 说明 |
 | --- | --- | --- | --- |
-| 官网 | v1.2.0 | 2026-11-16 | 本次改版：内容同步 + 版式升级 + 云部署修复 |
+| 官网 | v1.2.1 | 2026-11-16 | 内容同步 + 版式升级 + 云部署修复 + 帽子云输出目录兼容 |
 | Android 应用 | v2.39.18（versionCode 203） | 2026-11-10 | 跨 v2.38.15 → v2.39.18 共 19 个版本 |
 | 可视化特效 | 公开版可选 27 套 | — | 总清单 29 套，2 套编译期隐藏 |
 | 照片墙转场 | 70 种 | — | 新增 33 种，下线 6 个故障效果 |
@@ -50,10 +50,12 @@ NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍
 NASMusicTV-Website/
 ├── edgeone.json              # 腾讯云 EdgeOne Makers 构建配置（输出目录 / SPA 回退 / 缓存头）
 ├── docs/
-│   └── EDGEONE-DEPLOY.md     # 云部署步骤与文件数 / 单文件体积排障
+│   ├── EDGEONE-DEPLOY.md     # 腾讯云 EdgeOne Makers 部署与排障
+│   └── MAOZIYUN-DEPLOY.md    # 帽子云部署与排障
 ├── Dockerfile                # 多阶段构建：web 构建 → nginx 托管
 ├── docker-compose.yml        # web 服务编排（部署平台用）
 ├── deploy/app.conf           # nginx 配置（SPA 回退 + gzip + 健康检查）
+├── scripts/sync-build-dir.cjs  # 兼容帽子云默认输出目录 build/（dist 的副本）
 ├── download/                 # 可选：自建部署的站内 APK（默认不进产物，见下）
 ├── dist/                     # 构建产物（由 web/dist 复制，git 忽略）
 ├── db/                       # 占位（本仓库无后端数据库）
@@ -137,6 +139,19 @@ npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 
 ---
 
+## 部署（帽子云 · 静态网站）
+
+平台在 `framework: none` 时按 Create React App 的默认口径把「输出目录」设成 `build`，而本站是 Vite、产物在 `dist/`，会报 `"/src/build": not found`。
+
+1. **应用详情 → 构建设置 → 输出目录改成 `dist`**，构建命令保持 `npm run build`，根目录留空。
+2. 保存后点右上角 **部署 → 立即部署**（改设置不会自动重跑）。
+3. 仓库侧已做兜底：`npm run build` 会把 `dist/` 同步一份到 `build/`（`scripts/sync-build-dir.cjs`），即使控制台没改也能发布。
+4. 需先把本地提交推送到平台绑定的仓库分支，否则云端仍构建旧代码。
+
+> 详见 [`docs/MAOZIYUN-DEPLOY.md`](docs/MAOZIYUN-DEPLOY.md)。帽子云**不读取** `edgeone.json`，两个平台的配置不通用。
+
+---
+
 ## 部署（GitHub Pages）
 
 推送 `main` 触发 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)，产物发布到 `https://hxzhang2000.github.io/NASMusicTV-Website/`。首次启用需在仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
@@ -172,5 +187,5 @@ docker run --rm -p 8080:80 nasmtv-web   # http://localhost:8080
 
 ## 版本
 
-- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version`（当前 `1.2.0`）。
+- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version`（当前 `1.2.1`）。
 - 版本号与构建时间由 Vite 在构建时注入（`web/src/version.ts` → `SITE_VERSION` / `SITE_BUILD_TIME`），页脚与关于页自动同步。
