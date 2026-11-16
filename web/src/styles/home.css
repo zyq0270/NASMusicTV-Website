@@ -1343,3 +1343,95 @@
     animation: none !important;
   }
 }
+
+
+/* ==========================================================================
+ * v2.39 改版：Hero 版本徽标 + What's new 六卡区块
+ * 沿用 TV 设计系统色板；reduced-motion 下不做位移（.tv-reveal 已统一兜底）
+ * ========================================================================== */
+.tv-pill.is-version {
+  border-color: rgba(0, 212, 170, 0.45);
+  color: var(--tv-brand, #00d4aa);
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.tv-whatsnew-version {
+  display: inline-block;
+  margin-top: 14px;
+}
+
+.tv-whatsnew-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.tv-whatsnew-card {
+  position: relative;
+  padding: 26px 24px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(20, 26, 36, 0.96), rgba(12, 17, 25, 0.96));
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tv-whatsnew-card:hover,
+.tv-whatsnew-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(0, 212, 170, 0.55);
+  box-shadow: 0 14px 40px rgba(0, 212, 170, 0.12);
+}
+
+.tv-whatsnew-index {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--tv-brand, #00d4aa);
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+
+.tv-whatsnew-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.tv-whatsnew-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #b6c0d0;
+}
+
+@media (max-width: 1024px) {
+  .tv-whatsnew-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .tv-whatsnew-grid {
+    grid-template-columns: 1fr;
+  }
+  .tv-whatsnew-title {
+    font-size: 17px;
+  }
+  .tv-whatsnew-desc {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-whatsnew-card,
+  .tv-whatsnew-card:hover {
+    transform: none;
+    transition: none;
+  }
+}

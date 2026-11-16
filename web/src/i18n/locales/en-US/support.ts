@@ -21,7 +21,11 @@ export const enSupport = {
     },
     {
       q: "How do I update when a new version ships?",
-      a: "Tap “Download the latest APK” on the download page and install over the top — no need to uninstall the old version, and playback history and settings are kept. Historical versions are available on GitHub Releases.",
+      a: "Tap “Download from Baidu Netdisk” on the download page, enter the access code and install over the top — no need to uninstall the old version, and playback history and settings are kept. Historical versions are available on GitHub Releases.",
+    },
+    {
+      q: "Why is the download now on Baidu Netdisk?",
+      a: "The v2.39.18 package is about 43 MB, above the 25 MiB per-file limit of the Tencent Cloud EdgeOne Makers plan hosting this site, so it is no longer published alongside the site. A Baidu Netdisk share is used instead (also more reliable inside China) — open the link and enter the access code. GitHub Releases remains as a historical / fallback entry.",
     },
     {
       q: "Can I listen without connecting a NAS backend?",
@@ -53,10 +57,14 @@ export const enSupport = {
     },
   ],
   changelog: {
-    v2_38_15: "Settings → Playback adds “Last high-quality separation failure details”; the K-song page no longer truncates separation failure messages and now attaches device diagnostics such as model, RAM and ONNX Runtime.",
-    v2_38_14: "Playback stats “Top Artists” now split duets: both artists of a collaboration are counted once each, while solo and duet tracks are merged per artist.",
-    v2_38_13: "Added the 26th visualizer effect “Desert Smoke”: the setting sun sinks into layered sand dunes while a lone wisp of smoke rises straight into the sky, with camel caravans occasionally crossing the ridges; fixed the black screen on entry and the blank first frame.",
-    v2_38_12: "Added the 25th visualizer effect “Flock of Birds”: starlings sweep across the wilderness with Boids self-organized flight, banking turns and perching before take-off again; fixed mis-drawn parallax bands.",
+    v2_39_18: "Photo wall adds 33 transitions and removes 6 broken tile effects, settling at 70; capture-date watermarks and NAS scan status added; the Arcade Collection is now publicly distributed, taking selectable effects from 26 to 27; TV-driven fixes cover FLAC crashes, line-by-line lyric scrolling, cramped settings values and 40+ more, plus 59 findings from the full-codebase review",
+    v2_39_17: "New visualizer effect “Arcade Collection”: an embedded Contra auto-play bot that clears all 8 stages in an endless loop, with 489 frames packed into a single 1024×1024 atlas (about 56 KB) — no remote input needed",
+    v2_39_16: "154 findings from the full-codebase review landed in one pass: album transitions crashing hardware rendering on API < 26, missing host allow-listing for Bilibili MV URLs, emoji split by String.length in word-by-word lyrics and more",
+    v2_39_14: "New visualizer effect “Eco Earth”: 150 trees / 19 animals / mountains / tornadoes / three cloud layers / aurora / meteors and a four-season cycle, with song energy driving rotation and cloud speed — page and models fully offline",
+    v2_39_13: "New visualizer effect “Lyric Stage”: one theme holding 5 switchable sub-modes (dot matrix / word light / full overview / tilted rhythm / split guide), switched with the remote's up / down keys or a phone swipe, persisted across tracks",
+    v2_39_10: "New visualizer effect “Open Road”: a native OpenGL ES night highway with terrain / sky / fog / three LOD vegetation layers / an autopilot camera, a low-quality tier and automatic downgrade on sustained low FPS; Pixel Cities completes all 57 cities",
+    v2_39_8: "LX Music source scripts added for higher-quality playback URLs with per-platform verification; per-source master switches cover NAS / online / Baidu / Jamendo / local — a disabled source disappears site-wide and is never requested",
+    v2_39_6: "Light theme added (follow system / dark / light), remote focus highlight on by default, K-song goes full screen; fixed low contrast in light mode and the phone status / navigation bars staying black",
   },
   effects: {
     names: {

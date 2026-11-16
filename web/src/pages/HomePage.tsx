@@ -362,7 +362,7 @@ function ScreenCard({
  * 5. 页面
  * -------------------------------------------------------------------------- */
 export default function HomePage() {
-  const { t, ta } = useI18n();
+  const { t, ta, tv } = useI18n();
   const { firstOf } = useScreenshots();
   useRevealOnScroll();
 
@@ -376,6 +376,7 @@ export default function HomePage() {
   const topScreens = screenKeys.slice(0, 6);
 
   const devices = ta("site.devices");
+  const whatsNew = tv<{ title: string; desc: string }[]>("home.whatsNewItems");
 
   return (
     <div className="tv-home">
@@ -408,6 +409,7 @@ export default function HomePage() {
                 {t("home.heroBadge")}
               </span>
               <span className="tv-pill">{site.license}</span>
+              <span className="tv-pill is-version">{APK_VERSION}</span>
               {devices.map((d) => (
                 <span className="tv-pill" key={d}>
                   {d}
@@ -429,7 +431,8 @@ export default function HomePage() {
               <div className="tv-hero-actions">
                 <a
                   href={APK_DOWNLOAD_URL}
-                  download
+                  target="_blank"
+                  rel="noreferrer"
                   title={t("header.downloadTitle", { version: APK_VERSION })}
                   className="tv-btn tv-btn-primary"
                 >
@@ -491,6 +494,40 @@ export default function HomePage() {
                 <div className="tv-stat-label">{t(`stats.${s.key}`)}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= What's new：v2.39.x 新增能力 ================= */}
+      <section className="tv-section tv-whatsnew" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="tv-home-head tv-reveal">
+            <span className="tv-eyebrow">{t("home.whatsNewEyebrow")}</span>
+            <h2 className="tv-h2">{t("home.whatsNewTitle")}</h2>
+            <p className="tv-lead">{t("home.whatsNewLead")}</p>
+            <span className="tv-pill is-version tv-whatsnew-version">
+              {t("home.whatsNewVersion", { version: APK_VERSION })}
+            </span>
+          </div>
+          <div className="tv-whatsnew-grid">
+            {whatsNew.map((item, i) => (
+              <div
+                className="tv-whatsnew-card tv-reveal"
+                key={item.title}
+                style={{ transitionDelay: `${(i % 3) * 80}ms` }}
+                tabIndex={0}
+              >
+                <div className="tv-whatsnew-index">{String(i + 1).padStart(2, "0")}</div>
+                <h3 className="tv-whatsnew-title">{item.title}</h3>
+                <p className="tv-whatsnew-desc">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="tv-more tv-reveal">
+            <Link to="/download" className="tv-btn tv-btn-ghost">
+              {t("home.whatsNewMore")}
+              <TvIcon name="arrowRight" size={20} />
+            </Link>
           </div>
         </div>
       </section>
@@ -638,7 +675,8 @@ export default function HomePage() {
           <div className="tv-cta-actions tv-reveal">
             <a
               href={APK_DOWNLOAD_URL}
-              download
+              target="_blank"
+              rel="noreferrer"
               title={t("header.downloadTitle", { version: APK_VERSION })}
               className="tv-btn tv-btn-primary"
             >

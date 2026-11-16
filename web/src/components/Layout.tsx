@@ -102,7 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {t("common.source")}
               </Button>
             </a>
-            <a href={APK_DOWNLOAD_URL} download title={t("header.downloadTitle", { version: APK_VERSION })}>
+            <a href={APK_DOWNLOAD_URL} target="_blank" rel="noreferrer" title={t("header.downloadTitle", { version: APK_VERSION })}>
               <Button type="primary" icon={<DownloadOutlined />}>
                 {t("common.download")}
               </Button>
@@ -140,6 +140,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="footer-links">
                 <a href={site.repo} target="_blank" rel="noreferrer">
                   {t("footer.githubRepo")}
+                </a>
+                <a href={site.giteeRepo} target="_blank" rel="noreferrer">
+                  {t("footer.giteeRepo")}
+                </a>
+                <a href={site.giteeReleases} target="_blank" rel="noreferrer">
+                  {t("footer.giteeReleases")}
                 </a>
                 <a href={site.releases} target="_blank" rel="noreferrer">
                   {t("footer.releases")}

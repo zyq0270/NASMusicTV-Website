@@ -1,7 +1,7 @@
 /**
  * 多语言体系 · 中文词典（zh-CN）· Highlights
  *
- * 收录：首页 9 张 Highlights 卡片。键与 data/site.tsx 中结构的 key 一一对应。
+ * 收录：首页 12 张 Highlights 卡片。键与 data/site.tsx 中结构的 key 一一对应。
  */
 
 export const zhHighlights = {
@@ -20,11 +20,15 @@ export const zhHighlights = {
     },
     visualizer: {
       title: "可视化特效库",
-      desc: "26 套全屏特效：歌词点阵、怀旧 CRT 电视、行星齿轮系、太阳系、3D 世界地球、DNA 双螺旋、星空星轨、明月、俯拍岸线「海边」、迷雾之战、雪松、鸟群、大漠孤烟，按设备分低/中/高三档画质，遥控器即时切换。",
+      desc: "27 套可选全屏特效：经典 26 套之外新增「街机合集」，另有像素城市 57 座城、旷野公路、千里江山、歌词舞台、生态地球等实验效果；按设备分低/中/高三档画质，遥控器即时切换。",
     },
     "photo-wall": {
       title: "照片墙可视化",
-      desc: "三来源照片全屏轮播：图库 / 外接存储 / Jellyfin，43 种转场效果、Ken Burns 运镜、端上人脸检测。",
+      desc: "三来源照片全屏轮播：图库 / 外接存储 / Jellyfin，70 种转场随机切换、拍摄日期水印、Ken Burns 运镜与端上人脸检测，老电视 API 22 也能跑。",
+    },
+    "new-effects": {
+      title: "六套全新画面特效",
+      desc: "像素城市 57 座城、旷野公路、千里江山、歌词舞台（5 个子模式）、生态地球与魂斗罗驱动的街机合集，全部离线内置。",
     },
     mtv: {
       title: "MTV 音乐视频",
@@ -33,6 +37,14 @@ export const zhHighlights = {
     "weather-radio": {
       title: "天气电台",
       desc: "根据实时天气自动匹配心情电台，双源天气切换，支持 5 天预报。",
+    },
+    "light-theme": {
+      title: "浅色主题与焦点高亮",
+      desc: "主题支持跟随系统 / 深色 / 浅色三态；遥控器焦点高亮默认开启且可关，手指点按自动收起、方向键恢复。",
+    },
+    "source-switch": {
+      title: "音乐源独立总开关",
+      desc: "NAS / 网络 / 百度 / Jamendo / 本地各自可关，关闭后全站不再出现该源内容，也停止向该源请求数据。",
     },
     "phone-remote": {
       title: "手机扫码遥控",

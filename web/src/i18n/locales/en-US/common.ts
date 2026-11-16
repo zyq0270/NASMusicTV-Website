@@ -15,6 +15,8 @@ export const enCommon = {
     menu: "Menu",
     prev: "Previous",
     next: "Next",
+    panCode: "Access code",
+    panDownload: "Netdisk download",
     mock: "Mockup",
     realShot: "Screenshot",
     switchView: "{name}: toggle mockup / screenshot",
@@ -31,15 +33,17 @@ export const enCommon = {
   header: {
     homeAria: "{name} home",
     brandSub: "Multi-source music · TV / Phone",
-    downloadTitle: "Download the latest APK ({version})",
+    downloadTitle: "Get the latest APK ({version}) on Baidu Netdisk",
   },
   footer: {
     brandDesc:
-      "Open-source Android music player for TV, phone and tablet, bringing together NAS, online music and Baidu Netdisk sources.",
+      "Open-source Android music player for TV, phone and tablet, bringing together NAS, online music, Baidu Netdisk and Jamendo sources, with 27 visualizer effects and 70 photo-wall transitions.",
     product: "Product",
     resources: "Resources",
     musicSources: "Supported music sources",
     githubRepo: "GitHub Repository",
+    giteeRepo: "Gitee Repository",
+    giteeReleases: "Gitee Releases",
     releases: "Release Notes",
     docs: "Documentation",
     issues: "Report an Issue",
@@ -50,13 +54,14 @@ export const enCommon = {
   site: {
     tagline: "The open-source multi-source music player built for TV",
     subtitle:
-      "Bring NAS (Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛), local music, online music and Baidu Netdisk together in one player — with word-by-word karaoke lyrics, K-song backing tracks, MTV music videos, weather radio and a visualizer stage made for the big screen. A single APK serves both TV (remote control) and phone (touchscreen).",
+      "Bring NAS (Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛), local music, online music, Baidu Netdisk and Jamendo together in one player — with word-by-word karaoke lyrics, K-song backing tracks, MTV music videos, weather radio, 27 visualizer effects and 70 photo-wall transitions made for the big screen. A single APK serves both TV (remote control) and phone (touchscreen).",
     devices: ["Android TV", "Phone", "Tablet"],
   },
   stats: {
     nasBackends: "NAS backends",
     parallelSources: "Music sources searched in parallel",
     visualEffects: "Visualizer effects",
+    photoTransitions: "Photo-wall transitions",
     oneApk: "One APK for TV & phone",
   },
   langSwitch: {

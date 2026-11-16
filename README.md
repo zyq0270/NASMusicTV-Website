@@ -1,35 +1,46 @@
 # NASMusicTV-Website
 
-NAS Music TV 的**官方网站**（落地页）。一个纯前端的单页站点，用于介绍这款开源的 Android 多源音乐播放器（TV / 手机 / 平板通用）：聚合 NAS、网络音乐与百度网盘多音乐源，支持逐字卡拉OK歌词、K 歌伴奏、MTV、天气电台等电视专属体验。
+NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍这款开源的 Android 多源音乐播放器（电视 / 手机 / 平板通用）：聚合 NAS、网络音乐、百度网盘与 Jamendo 多音乐源，支持逐字卡拉OK歌词、K 歌伴奏、MTV、天气电台、27 套可视化特效与照片墙 70 种转场。
 
-> 本仓库只托管**官网前端**，源码位于 [`hxzhang2000/NASMusicTV-Website`](https://github.com/hxzhang2000/NASMusicTV-Website)。Android 应用本体在 [`hxzhang2000/NASMusicTV`](https://github.com/hxzhang2000/NASMusicTV)。官网「下载安装」页提供最新版通用 APK 的站内直链（构建时从仓库根 `download/` 拷入 `dist/download/` 随站点发布），历史版本见该仓库的 Releases。
+> 本仓库只托管**官网前端**。Android 应用本体在 [hxzhang2000/NASMusicTV](https://github.com/hxzhang2000/NASMusicTV)（Gitee 镜像：[hxzhang2000/NASMusicTV](https://gitee.com/hxzhang2000/NASMusicTV)）。最新版 APK 通过**百度网盘分享**分发，不随站点产物发布。
 
 [![Release](https://img.shields.io/github/v/release/hxzhang2000/NASMusicTV?color=blue&label=App%20Release)](https://github.com/hxzhang2000/NASMusicTV/releases)
 [![Website](https://img.shields.io/badge/website-repo-00d4aa?logo=github)](https://github.com/hxzhang2000/NASMusicTV-Website)
+[![Gitee](https://img.shields.io/badge/Gitee-NASMusicTV--Website-red?logo=gitee)](https://gitee.com/hxzhang2000/NASMusicTV-Website)
+
+---
+
+## 当前同步状态
+
+| 对象 | 版本 | 日期 | 说明 |
+| --- | --- | --- | --- |
+| 官网 | v1.2.0 | 2026-11-16 | 本次改版：内容同步 + 版式升级 + 云部署修复 |
+| Android 应用 | v2.39.18（versionCode 203） | 2026-11-10 | 跨 v2.38.15 → v2.39.18 共 19 个版本 |
+| 可视化特效 | 公开版可选 27 套 | — | 总清单 29 套，2 套编译期隐藏 |
+| 照片墙转场 | 70 种 | — | 新增 33 种，下线 6 个故障效果 |
 
 ---
 
 ## 技术栈
 
-- **构建**：[Vite](https://vitejs.dev/) 5 + TypeScript 5
+- **构建**：Vite 5 + TypeScript 5
 - **框架**：React 18
-- **UI**：[Ant Design](https://ant.design/) 5（强制深色主题 `theme.darkAlgorithm`）+ `@ant-design/icons`
-- **路由**：`react-router-dom` 6（`createBrowserRouter` + `RouterProvider`）
-- **部署**：多阶段 Docker 构建（Node 20 构建 → nginx 1.27 托管静态产物）
+- **UI**：Ant Design 5（强制深色主题 `theme.darkAlgorithm`）+ `@ant-design/icons`
+- **路由**：`react-router-dom`（`createBrowserRouter` + `RouterProvider`）
+- **部署**：腾讯云 EdgeOne Makers（Gitee 源）/ GitHub Pages / 多阶段 Docker（Node 20 → nginx 1.27）
 
-整个网站**不依赖任何后端**：界面截图通过 `index.json` 清单加载（支持本地文件 / 图床外链 / 别名三种来源），缺失时自动渲染 CSS 绘制的空帧占位，不会出现破图。
+整个网站**不依赖任何后端**：界面截图通过 `index.json` 清单加载，缺失时自动渲染 CSS 空帧占位。
 
 ---
 
 ## 功能特性（站点本身）
 
-- **6 个路由页**：首页（`/`，含 Hero、统计、Highlights、功能模块、TV 界面 mockup、CTA）、功能特性（`/features`，锚点导航 + 16 大模块）、界面预览（`/screens`）、特效图集（`/effects`，可视化效果快照网格 + 灯箱）、下载安装（`/download`，通用 APK 站内直链 + 最新版本卡 + 安装说明 + FAQ）、关于项目（`/about`，版本/开源协议/API 清单）。
-- **中英双语 + 界面语言切换**：全站文案集中在 `web/src/i18n/locales/` 中英词典（tsc 强制两种语言键齐全），顶栏「中 / EN」分段开关即时切换并 `localStorage` 持久化；antd 组件库语言、`<html lang>`、`document.title` 同步跟随，默认按浏览器语言推断，刷新无闪烁。**分享直达链接**：任意页面加 `?lang=en` 即以英文打开、`?lang=zh` 即以中文打开（显式参数优先，并记住该选择）。
-- **深色沉浸设计系统**：统一的青绿品牌色（`#00D4AA`）、等宽大字统计、卡片悬浮焦点态，色板与组件全部收敛在 `web/src/styles/` 下。
-- **纯 CSS 界面 mockup + 内联 SVG 图标**：首页 TV 界面预览与全部图标均为手写 CSS / SVG，**首屏零图片与零图标字体请求**。
-- **响应式**：桌面 / 平板 / 手机三档断点（1024 / 720 / 1279 / 767px），手机端导航折叠为汉堡菜单，小字放大到 ≥15px 保证可读性。
-- **可访问性**：`prefers-reduced-motion` 全站兜底、键盘 `:focus-visible` 青绿描边、装饰元素 `aria-hidden`、语义图标带 `aria-label`。
-- **滚动渐入**：首页用 Intersection Observer 触发，用户关闭系统动效时直接显示，不做任何动画。
+- **6 个路由页**：首页（Hero、统计、What's new、Highlights、功能模块、TV 界面 mockup、CTA）、功能特性、界面预览、特效图集、下载安装、关于项目。
+- **v2.39 What's new 区块**：首页新增六卡网格，集中呈现新特效、照片墙转场、浅色主题、洛雪音源、电视实测修复与两轮全库审查。
+- **中英双语 + 界面语言切换**：文案集中在 `web/src/i18n/locales/`（tsc 强制两种语言键齐全），顶栏「中 / EN」即时切换并 `localStorage` 持久化；`?lang=en` / `?lang=zh` 分享直达。
+- **深色沉浸设计系统**：青绿品牌色 `#00D4AA`、等宽大字统计、卡片悬浮焦点态。
+- **纯 CSS 界面 mockup + 内联 SVG 图标**：首屏零图片与零图标字体请求。
+- **响应式 + 可访问性**：桌面 / 平板 / 手机三档断点，`prefers-reduced-motion` 全站兜底，键盘 `:focus-visible` 描边。
 
 ---
 
@@ -37,155 +48,123 @@ NAS Music TV 的**官方网站**（落地页）。一个纯前端的单页站点
 
 ```
 NASMusicTV-Website/
-├── Dockerfile            # 多阶段构建：web 构建 → nginx 托管
-├── docker-compose.yml    # web 服务编排（部署平台用）
-├── deploy/
-│   └── app.conf          # nginx 配置（SPA 回退 + gzip + 健康检查）
-├── download/             # 最新版 APK（构建时自动拷入 dist/download/，供站内直链下载）
-├── dist/                 # 构建产物（由 web/dist 复制而来）
-├── db/                   # 占位（本仓库无后端数据库）
-└── web/                  # 官网前端工程
-    ├── index.html        # 入口 + SEO meta（og:image / twitter:image）
-    ├── vite.config.ts    # 版本注入 + APK 拷贝 + 应用 CHANGELOG 解析
-    ├── package.json      # 网站版本唯一来源（version 字段）
-    ├── public/screens/   # 界面截图清单（index.json / urls.txt）
-    ├── scripts/          # fetch-screenshots.sh / place-screenshots.sh
+├── edgeone.json              # 腾讯云 EdgeOne Makers 构建配置（输出目录 / SPA 回退 / 缓存头）
+├── docs/
+│   └── EDGEONE-DEPLOY.md     # 云部署步骤与文件数 / 单文件体积排障
+├── Dockerfile                # 多阶段构建：web 构建 → nginx 托管
+├── docker-compose.yml        # web 服务编排（部署平台用）
+├── deploy/app.conf           # nginx 配置（SPA 回退 + gzip + 健康检查）
+├── download/                 # 可选：自建部署的站内 APK（默认不进产物，见下）
+├── dist/                     # 构建产物（由 web/dist 复制，git 忽略）
+├── db/                       # 占位（本仓库无后端数据库）
+└── web/                      # 官网前端工程
+    ├── index.html            # 入口 + SEO meta
+    ├── vite.config.ts        # 版本注入 + 应用 CHANGELOG 解析 + 可选 APK 拷贝
+    ├── package.json          # 网站版本唯一来源（version 字段）
+    ├── public/screens/       # 界面截图清单与图片
+    ├── public/effects/       # 特效快照
+    ├── scripts/              # 截图抓取 / 运行时冒烟
     └── src/
-        ├── main.tsx      # 入口：I18nProvider（antd 深色主题 + 中英语言）+ AntApp
-        ├── App.tsx       # RouterProvider
-        ├── router.tsx    # 6 条路由 + 兜底
-        ├── i18n/         # 多语言体系：locales/（中英词典）、store、useI18n、I18nProvider、LanguageSwitch
-        ├── components/
-        │   ├── Layout.tsx        # 顶栏导航（含语言切换）+ 页脚
-        │   ├── Screenshot.tsx    # 截图位组件（TV/手机切换、空帧降级）
-        │   └── TvIcons.tsx       # 内联 SVG 图标集
-        ├── data/
-        │   ├── site.tsx          # 站点结构化数据（图标 / key / 版本号，文案全部在 i18n 词典）
-        │   ├── screenshots.ts    # 截图槽位清单与解析逻辑
-        │   └── appChangelog.md   # 应用 CHANGELOG 快照（Docker/CI 构建时回落到此）
-        ├── hooks/
-        │   └── useScreenshots.ts # 清单优先 / 逐张探测兜底
-        ├── pages/        # HomePage / FeaturesPage / ScreensPage / EffectsPage / DownloadPage / AboutPage
-        └── styles/       # styles.css（全站）+ home.css（首页 TV 设计系统）
+        ├── main.tsx / App.tsx / router.tsx
+        ├── i18n/             # 中英词典、store、I18nProvider、LanguageSwitch
+        ├── components/       # Layout / Screenshot / TvIcons
+        ├── data/             # site.tsx / effects.ts / screenshots.ts / appChangelog.md
+        ├── hooks/            # useScreenshots
+        ├── pages/            # Home / Features / Screens / Effects / Download / About
+        └── styles/           # styles.css / home.css
 ```
 
 ---
 
 ## 本地运行
 
-### 环境要求
-
-- Node.js 20+（Docker 构建使用 `node:20-alpine`）
-- npm 9+
-
-### 安装与启动
+- 环境：Node.js 20+ / npm 9+
 
 ```bash
 cd web
-
-# 安装依赖
 npm install
-
-# 本地开发（默认 http://localhost:5174，监听 0.0.0.0）
-npm run dev
-
-# 类型检查 + 生产构建（产物在 web/dist）
-npm run build
-
-# 本地预览构建产物（默认 http://localhost:4173）
-npm run preview
+npm run dev       # http://localhost:5174
+npm run build     # tsc + vite build + 复制到根 dist/
+npm run preview   # http://localhost:4173
+npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 ```
-
-> 开发服务器端口由 `web/vite.config.ts` 的 `server.port`（当前 `5174`）决定。
 
 ---
 
-## 界面截图管理
+## APK 分发（百度网盘）
 
-界面预览页（`/screens`）与首页 Hero 的图片来自 `web/public/screens/index.json` 清单。三种来源按优先级取：
+| 项 | 值 |
+| --- | --- |
+| 版本 | v2.39.18 |
+| 文件名 | `NASMusicTV-release-v2-39-18.apk` |
+| 体积 | 约 43 MB |
+| 主入口 | 百度网盘分享（国内速度快） |
+| 提取码 | 在下载页展示，配置于 `web/src/data/site.tsx` |
+| 备用 / 历史版本 | GitHub Releases、Gitee Releases |
 
-1. **`index.json` 清单**（推荐）：可写本地文件名，也可写图床 / CDN / GitHub 外链。
-2. **`web/public/screens/` 本地图片**：自动识别 `.png` / `.jpg` / `.jpeg` / `.webp`。
-3. **别名**：`01.png`、`首页.png`、`01-首页.jpg` 等同样会被识别。
+**为什么不再提供站内直链**：腾讯云 EdgeOne Makers 有**单文件 25 MiB**上限，v2.39.18 的 43 MB 安装包必然触发 `File size limit exceeded`。旧版 v2.38.15 的 24.5 MiB 只是勉强卡线。
 
-清单支持两种写法：
+发新版只需改 `web/src/data/site.tsx` 三处常量：`APK_VERSION` / `APK_PAN_URL` / `APK_PAN_CODE`；`APK_FILE_NAME`、版本徽标、下载页文案会自动推导。`recentChangelog` 与中英词典 `changelog.*` 需同步追加。
 
-```jsonc
-// 写法 A：对象（槽位名 → 地址），外链/本地均可
-{ "urls": { "01-dashboard": "https://cdn.example.com/01-dashboard.png" } }
+**自建 NAS / Docker 部署**若要恢复站内直链：把 APK 放进仓库根 `download/`，用 `INCLUDE_APK=1 npm run build` 构建（默认不拷贝，避免云端超限），并把 `site.tsx` 的 `APK_DOWNLOAD_URL` 指向 `APK_DIRECT_URL`。
 
-// 写法 B：数组（本地文件名或外链）
-{ "files": ["01-dashboard.png", "https://cdn.example.com/02-player.jpg"] }
-```
-
-批量更新截图：编辑 `web/public/screens/urls.txt`（每行「槽位名 网址」），执行
-
-```bash
-bash web/scripts/fetch-screenshots.sh
-```
-
-脚本会下载图片到 `web/public/screens/` 并重写 `index.json`。某张图缺失不会破图，对应位置仅显示界面名空帧。
-
-> ✅ 16 张界面截图已自托管于 `web/public/screens/`（`01-dashboard.jpg` … `16-remote.jpg`），`index.json` 指向本地文件名，官网可离线、稳定加载，不再依赖 `raw.githubusercontent.com` 外链。换图只需替换对应文件即可。
+下载页「更新内容」来自应用仓库 `CHANGELOG.md` 最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 回落 `web/src/data/appChangelog.md` 快照（已刷新到 v2.39.x 全量段落）。
 
 ---
 
-## APK 直链管理
+## 部署（腾讯云 EdgeOne Makers · Gitee 源）
 
-下载页、首页 Hero、顶栏与关于页的下载按钮全部指向站内直链 `<站点基路径>/download/<APK 文件名>`，不绕跳 GitHub：
+配置已固化在仓库根 [`edgeone.json`](edgeone.json)：
 
-1. 把应用新版本的 APK 放进仓库根目录 `download/`，删掉旧文件（文件名形如 `NASMusicTV-release-v2-38-15.apk`）。
-2. 修改 `web/src/data/site.tsx` 里的 `APK_VERSION`（当前 `v2.38.15`）——APK 文件名、下载直链、页面展示版本号都由它自动推导。
-3. 构建时 Vite 插件会把 `download/*.apk` 拷进 `dist/download/` 随站点发布；dev server 同样以 `/download/` 提供（只服务纯 `.apk` 文件名，防路径穿越）。
+```json
+{
+  "installCommand": "npm install",
+  "buildCommand": "npm run build && node -e \"...清理 node_modules...\"",
+  "outputDirectory": "./dist",
+  "nodeVersion": "20.18.0",
+  "rewrites": [{ "source": "/*", "destination": "/index.html" }]
+}
+```
 
-下载页的「更新摘要」来自应用仓库 `CHANGELOG.md` 的最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 环境回落 `web/src/data/appChangelog.md` 快照——**应用发版后记得刷新该快照**（直接复制应用仓库的 `CHANGELOG.md` 覆盖即可）。
+控制台一次性设置（**项目设置 → 构建部署配置**）：
+
+1. 代码源选 **Gitee → `hxzhang2000/NASMusicTV-Website`**，分支 `main`。
+2. 确认安装命令 `npm install`、构建命令以 `npm run build` 开头、**输出目录 `./dist`**。`edgeone.json` 会覆盖控制台默认值，两处保持一致最稳。
+3. `rewrites` 的 `/* → /index.html` 是 SPA 深链回退（`/download`、`/features` 直接访问不再 404）。
+4. 重新部署。产物应为 **48 个文件 / 约 29 MB / 最大单文件 < 2 MB**。
+
+> 详细排障（含 20,000 文件数上限的成因与三层修复）见 [`docs/EDGEONE-DEPLOY.md`](docs/EDGEONE-DEPLOY.md)。
 
 ---
 
 ## 部署（GitHub Pages）
 
-推送 `main` 触发 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)，产物发布到
-`https://hxzhang2000.github.io/NASMusicTV-Website/`。
+推送 `main` 触发 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)，产物发布到 `https://hxzhang2000.github.io/NASMusicTV-Website/`。首次启用需在仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
 
-首次启用需一次性设置：仓库 **Settings → Pages → Source** 选 **GitHub Actions**（未设置时工作流的部署步骤会失败）。
-
-- Pages 项目站点跑在 `/<仓库名>/` 子路径下，工作流用 `VITE_BASE` 覆盖 Vite 的 `base`；路由 `basename` 与
-  `screens` / `effects` / `download` 的资源路径都由 `import.meta.env.BASE_URL` 推导，换仓库名或改子路径不必改代码。
-- 根域名部署（NAS / Docker）不设 `VITE_BASE`，`base` 仍是 `/`，产物与改动前完全一致。
-- Pages 没有 `try_files` 回退，工作流把 `dist/index.html` 复制成 `dist/404.html` 来承接深链
-  （如 `/NASMusicTV-Website/download`），自定义 404 的内容即站点首页壳，React Router 照常按路径渲染。
-- `web/public/.nojekyll` 随产物输出，关闭 Pages 默认的 Jekyll 处理，避免下划线开头的资源被忽略。
-- 体积：产物约 54 MB（特效图集 22 MB + APK 25 MB + 界面截图 6.8 MB），在 Pages 的 1 GB 站点上限内；
-  若下载直链在海外节点变慢，可把下载按钮改指 Releases 资产而不随站点发布 APK。
-- 已知取舍：`*.github.io` 在中国大陆可达性较差，正式对外入口仍建议用 NAS / Docker 那套，Pages 作为改动预览站。
+- Pages 跑在 `/<仓库名>/` 子路径，工作流用 `VITE_BASE` 覆盖 Vite `base`；根域名部署不设该变量。
+- 工作流把 `dist/index.html` 复制成 `dist/404.html` 承接深链；`web/public/.nojekyll` 关闭 Jekyll 处理。
 
 ---
 
 ## 部署（Docker）
 
 ```bash
-# 构建镜像（开发平台执行；可注入 NPM_REGISTRY 加速）
 docker compose build
-
-# 本地起一个 nginx 容器预览
 docker build -t nasmtv-web .
-docker run --rm -p 8080:80 nasmtv-web
-# 打开 http://localhost:8080
+docker run --rm -p 8080:80 nasmtv-web   # http://localhost:8080
 ```
 
-- 多阶段构建：先 `npm run build` 产出 `web/dist`，再拷入 `nginx:1.27-alpine`，由 `deploy/app.conf` 托管。
-- `app.conf` 已配置 SPA history 回退（`try_files $uri $uri/ /index.html`）、静态资源长期缓存、gzip 与 `/nginx-health` 健康检查。
-- `docker-compose.yml` 用于部署平台的 Swarm 编排（Traefik 标签由平台注入）。
+- 多阶段构建：`npm run build` → 拷入 `nginx:1.27-alpine`，由 `deploy/app.conf` 托管。
+- `app.conf` 已配置 SPA history 回退、静态资源长缓存、gzip 与 `/nginx-health` 健康检查。
 
 ---
 
 ## 相关链接
 
-- **官网源码（本站）**：[hxzhang2000/NASMusicTV-Website](https://github.com/hxzhang2000/NASMusicTV-Website)
-- 应用源码与 APK 下载：[hxzhang2000/NASMusicTV](https://github.com/hxzhang2000/NASMusicTV)
-- 应用版本发布记录：[Releases](https://github.com/hxzhang2000/NASMusicTV/releases)
-- 官网问题反馈（文档 / 样式 / 部署）：[Website Issues](https://github.com/hxzhang2000/NASMusicTV-Website/issues)
-- 应用问题反馈（APK / 功能）：[App Issues](https://github.com/hxzhang2000/NASMusicTV/issues)
+- **官网源码（本站）**：[GitHub](https://github.com/hxzhang2000/NASMusicTV-Website) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV-Website)
+- **应用源码**：[GitHub](https://github.com/hxzhang2000/NASMusicTV) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV)
+- **版本发布记录**：[GitHub Releases](https://github.com/hxzhang2000/NASMusicTV/releases) · [Gitee Releases](https://gitee.com/hxzhang2000/NASMusicTV/releases)
+- **问题反馈**：[官网 / 文档](https://github.com/hxzhang2000/NASMusicTV-Website/issues) · [应用 / 功能](https://github.com/hxzhang2000/NASMusicTV/issues)
 
 ## 开源协议
 
@@ -193,6 +172,5 @@ docker run --rm -p 8080:80 nasmtv-web
 
 ## 版本
 
-- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version` 字段（当前 `1.0.8`）。
-- 升级版本只需 `npm version <patch|minor|major>` 或手动修改该字段，重新构建后界面（页脚 + 关于页）会自动同步，无需改代码。
-- 版本号与构建时间由 Vite 在构建时注入（`web/src/version.ts` → `SITE_VERSION` / `SITE_BUILD_TIME`）。
+- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version`（当前 `1.2.0`）。
+- 版本号与构建时间由 Vite 在构建时注入（`web/src/version.ts` → `SITE_VERSION` / `SITE_BUILD_TIME`），页脚与关于页自动同步。

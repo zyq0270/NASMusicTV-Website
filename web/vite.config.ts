@@ -54,11 +54,13 @@ const CHANGELOG_SECTION_LABELS: Record<string, string> = {
 
 function parseAppChangelog(text: string): AppChangelogLatest | null {
   const m = text.match(
-    /^##\s+\[?(v?\d+(?:\.\d+)*)\]?\s*-\s*(\d{4}-\d{2}-\d{2})[^\n]*\n([\s\S]*?)(?=\n##\s|(?![\s\S]))/m
+    /^##\s+\\?\[?(v?\d+(?:\.\d+)*)\]?\s*-\s*(\d{4}-\d{2}-\d{2})[^\n]*\n([\s\S]*?)(?=\n##\s|(?![\s\S]))/m
   );
   if (!m) return null;
   const [, version, date, body] = m;
-  const summaryMatch = body.match(/^>\s*\*\*(.+?)\*\*\s*$/m);
+  // 兼容两种写法：`> **摘要**` 与 `> 普通摘要`（应用 v2.39.18 起用后者）
+  const summaryMatch =
+    body.match(/^>\s*\*\*(.+?)\*\*\s*$/m) ?? body.match(/^>\s*(.+?)\s*$/m);
   const summary = summaryMatch ? summaryMatch[1].trim() : "";
 
   const sections: AppChangelogSection[] = [];
@@ -87,7 +89,13 @@ function parseAppChangelog(text: string): AppChangelogLatest | null {
     version,
     date,
     summary,
-    sections: sections.filter((s) => s.items.length > 0),
+    // 下载页只展示每个分区前 6 条、单条最长 140 字，避免应用大版本一次灌入几十条
+    sections: sections
+      .filter((s) => s.items.length > 0)
+      .map((s) => ({
+        label: s.label,
+        items: s.items.slice(0, 6).map((i) => (i.length > 140 ? `${i.slice(0, 137)}…` : i)),
+      })),
   };
 }
 
@@ -131,8 +139,8 @@ if (!appChangelog) {
 
 /**
  * APK 直链下载接入：
- * - 构建：把仓库根目录 download/ 下的 *.apk 拷进 dist/download/，随站点一起发布；
- *   构建脚本随后会把 web/dist 整体拷到根 dist/，Docker 镜像内同样生效。
+ * - 构建：默认【不】把 APK 拷进产物（v2.39.18 起 43 MB 超过 EdgeOne Makers 单文件 25 MiB 上限，
+ *   改由百度网盘分享）。自建 NAS / Docker 部署如需站内直链，设 INCLUDE_APK=1 即可恢复拷贝。
  * - 开发：dev server 以 /download/<文件名> 直接提供同一目录，本地也能验证直链。
  * 文件名含版本号（如 NASMusicTV-release-v2-36-5.apk），版本号只需改 site.tsx 的 APK_VERSION。
  */
@@ -146,6 +154,10 @@ function apkDownloadPlugin(): Plugin {
     name: "apk-download-dir",
     // 构建结束后拷贝 APK 到产物目录
     closeBundle() {
+      if (process.env.INCLUDE_APK !== "1") {
+        console.log("[apk-download] 生产产物默认不含 APK；设 INCLUDE_APK=1 可启用站内直链");
+        return;
+      }
       const apks = listApks();
       if (apks.length === 0) {
         this.warn("download/ 下未找到 APK，下载页直链将不可用");

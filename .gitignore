@@ -26,3 +26,12 @@ __pycache__/
 venv/
 .DS_Store
 .tmp-smoke-dist/
+
+# ── 官网改版 1.2.0：产物 / 大文件 / 工具缓存一律不进版本库 ──
+web/dist/
+dist/
+download/*.apk
+.codegraph/
+.claude/
+.workbuddy-ai/
+.edgeone/

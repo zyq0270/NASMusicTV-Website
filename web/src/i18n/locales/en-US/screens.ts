@@ -33,13 +33,13 @@ export const enScreens = {
     visualizer: {
       name: "Visualizer Stage",
       tag: "TV / Phone",
-      desc: "26 full-screen visualizer effects (lyric dot matrix, vintage CRT TV, planetary gears, solar system, 3D world globe, DNA double helix, star trails, moonlit night, seaside shoreline, fog of war, snow cedar, flock of birds, desert smoke and more) with low / medium / high quality tiers, one-tap exit in the top-left, the current lyric line in the top pill, the song title and artist always visible bottom-left, and progress dots at the bottom; the effect you pick on the remote stays fixed, particles pulse with the beat and the lyric dot matrix auto-scales its font.",
-      hint: "Left / right keys instantly switch between the 26 effects",
+      desc: "27 selectable full-screen visualizer effects in the public build (the classic 26 plus the Arcade Collection), alongside experimental Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage and Eco Earth; low / medium / high quality tiers, one-tap exit in the top-left, the current lyric line in the top pill, the song title and artist always visible bottom-left, and progress dots at the bottom; the effect you pick on the remote stays fixed, particles pulse with the beat and the lyric dot matrix auto-scales its font.",
+      hint: "Left / right keys instantly switch between the 27 effects",
     },
     "photo-wall": {
       name: "Photo Wall",
       tag: "TV / Phone",
-      desc: "Full-screen photo slideshow visualizer: three mixed sources (gallery / external storage / Jellyfin), 43 transitions switching randomly, slow Ken Burns push-in, optional audio reaction (beat pulse / bass breathing); full-screen or complete fit modes, with on-device face detection showing only photos containing portraits.",
+      desc: "Full-screen photo slideshow visualizer: three mixed sources (gallery / external storage / Jellyfin), 70 random transitions, a red capture-date watermark in the bottom-right after each photo settles, slow Ken Burns push-in, optional audio reaction (beat pulse / bass breathing); full-screen or complete fit modes, on-device face detection showing only photos containing portraits, and automatic NAS scanning with status shown in Settings.",
     },
     library: {
       name: "Library",
@@ -80,7 +80,7 @@ export const enScreens = {
     settings: {
       name: "Settings",
       tag: "TV / Phone",
-      desc: "Split left / right: a gear + “Settings” card on the left listing General / Playback / Download / Server with the active one highlighted in teal; the “General” panel on the right shows language (follow system / 中文 / English), the dark theme (uses a dark background to protect your eyes) and interface animation as two switch cards, with the teal “✓ On” state directly visible; playback mode, in-app volume, visualizer quality (low / medium / high), the local music master switch, lyric scaling, cover filters, last separation failure details, weather API key and endpoint configuration are all managed on the same page.",
+      desc: "Split left / right: a gear + “Settings” card on the left listing General / Playback / Download / Server with the active one highlighted in teal; the “General” panel on the right shows language (follow system / 中文 / English), theme (follow system / dark / light), focus highlight and interface animation switches, with the teal “✓ On” state directly visible; playback mode, in-app volume, visualizer quality (low / medium / high), the local music master switch, lyric scaling, cover filters, last separation failure details, log level filter, weather API key and endpoint configuration are all managed on the same page.",
     },
     connection: {
       name: "Connection",
@@ -90,7 +90,7 @@ export const enScreens = {
     about: {
       name: "About",
       tag: "TV / Phone",
-      desc: "Settings navigation on the left (Cache management / Network check / Netdisk / Data management / About) and the teal “About” title on the right, with an info table of label-value rows: app name NAS Music TV, version v2.38.15, build type release, license GPL v3, supported backends Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛, and real backend API versions and connection status viewable at runtime.",
+      desc: "Settings navigation on the left (Cache management / Network check / Netdisk / Data management / About) and the teal “About” title on the right, with an info table of label-value rows: app name NAS Music TV, version v2.39.18, build type release, license GPL v3, supported backends Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛, and real backend API versions and connection status viewable at runtime.",
     },
     remote: {
       name: "Phone Remote",

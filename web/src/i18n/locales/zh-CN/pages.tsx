@@ -20,6 +20,39 @@ export const zhPages = {
     highlightsLead:
       "从多源聚合曲库，到逐字卡拉OK歌词、实时人声消除、B 站 MV 与天气电台，NAS Music TV 把电视端缺失的音乐体验一次性补齐。",
     viewEffects: "查看特效图集 →",
+    whatsNewEyebrow: "What's new",
+    whatsNewTitle: "v2.39.18 带来了什么",
+    whatsNewVersion: "应用 {version} · 2026-11-10",
+    whatsNewLead:
+      "从 10 月到 11 月，应用连续迭代 19 个版本：六套全新画面特效、照片墙转场扩到 70 种、浅色主题、洛雪音源与音乐源总开关，以及两轮全库代码审查带来的稳定性大修。",
+    whatsNewItems: [
+      {
+        title: "六套全新画面特效",
+        desc: "像素城市 57 座城、旷野公路、千里江山、歌词舞台（5 个子模式）、生态地球与魂斗罗驱动的「街机合集」，全部离线内置。",
+      },
+      {
+        title: "照片墙 70 种转场",
+        desc: "新增 33 种并下线 6 个拼块故障效果，补上拍摄日期水印与 NAS 自动扫描，API 22 老电视同样可用。",
+      },
+      {
+        title: "浅色主题与焦点高亮",
+        desc: "主题支持跟随系统 / 深色 / 浅色三态，遥控器焦点高亮默认开启；浅色下对比度与手机状态栏底色同步校正。",
+      },
+      {
+        title: "洛雪音源与音乐源总开关",
+        desc: "第三方音源脚本逐平台验证可用性；NAS / 网络 / 百度 / Jamendo / 本地各自可关，关闭后全站不再出现也不再请求。",
+      },
+      {
+        title: "电视实测驱动的大修",
+        desc: "FLAC 在老电视整进程崩溃、逐行歌词不跳行、设置页长值被压成三行、切歌通知封面不刷新等 40 余项逐条修复。",
+      },
+      {
+        title: "两轮全库代码审查",
+        desc: "154 项 + 59 项发现落地：老设备转场降级、B 站 MV 直链主机白名单、歌词按码点切分、出站重定向逐跳地址守卫。",
+      },
+    ],
+    whatsNewMore: "查看完整更新摘要 →",
+
     featuresTitlePre: "覆盖曲库、歌词、播放与双端交互的",
     featuresTitleAccent: "完整能力",
     featuresLead:
@@ -57,7 +90,7 @@ export const zhPages = {
     tvCardTitle: "TV 专属体验",
     tvCardItems: [
       "完整 D-Pad 焦点导航 + HDMI-CEC 遥控器媒体键",
-      "可视化舞台 26 套特效（低 / 中 / 高三档画质），遥控器选定即恒定显示",
+      "可视化舞台公开版 27 套可选特效 + 照片墙 70 种转场，低 / 中 / 高三档画质，遥控器选定即恒定显示",
       "K 歌 / MTV 全屏页二维码，手机扫码遥控队列",
       "前台通知栏支持上一首 / 播放暂停 / 下一首",
     ],
@@ -78,8 +111,8 @@ export const zhPages = {
     pillCount: "{count} 张快照",
     title: "特效图集",
     titleSub: " · {count} 套画面快照",
-    desc: "可视化舞台在播放时铺满全屏，效果按设备性能分低 / 中 / 高三档画质，遥控器左右键即时切换。本页汇总各效果的画面快照，点击任意画面可放大浏览。",
-    note: "以上为端上实拍画面快照，实际观感随画质档位与设备性能略有差异；快照持续补充中，数量以本页列出的为准。",
+    desc: "可视化舞台在播放时铺满全屏，公开版可选 27 套效果，按设备性能分低 / 中 / 高三档画质，遥控器左右键即时切换。本页汇总经典效果的画面快照，点击任意画面可放大浏览。",
+    note: "以上为端上实拍画面快照，实际观感随画质档位与设备性能略有差异；v2.39.x 新增的像素城市、旷野公路、千里江山、歌词舞台、生态地球、街机合集等效果快照尚未收录，数量以本页列出的为准。",
     zoomAria: "放大查看：{name}",
     shotAlt: "{name} 可视化特效画面快照",
     lightboxAria: "{name} · 大图浏览",
@@ -90,20 +123,25 @@ export const zhPages = {
   downloadPage: {
     title: "下载与安装",
     titleSub: " · 一个 APK 通吃所有设备",
-    desc: "官网提供最新版 APK 直链下载：手机 / 平板点击即可安装，电视端建议用 U 盘 / adb 安装。同一个安装包内置三种架构并自动适配设备，无需再挑架构、挑版本。",
+    desc: "最新版安装包通过百度网盘分享（国内主入口），手机 / 平板下载后点击即可安装，电视端建议用 U 盘 / adb 安装。同一个安装包内置三种架构并自动适配设备，无需再挑架构、挑版本。",
     latestVersion: "最新版本 {version}",
     universalApk: "通用 APK · 内置 ARM64 / ARMv7 / x86_64",
     allDevices: "手机 · 平板 · 电视 · 模拟器",
-    downloadBtn: "直接下载最新 APK（{version}）",
-    licenseNote: "当前协议：{license} · 安装包同时发布在 GitHub 官方 Release，请勿从第三方渠道下载。",
+    downloadBtn: "从百度网盘下载（{version} · {size}）",
+    licenseNote: "当前协议：{license} · 打开网盘链接后输入提取码即可下载；历史版本见 GitHub Releases，请勿从第三方渠道下载。",
     apkLatest: "Latest · {version}",
     apkTagUniversal: "通用安装包 · 全架构合一",
     apkTagOverwrite: "覆盖安装，播放数据自动保留",
     changelogTitle: "{range} 更新摘要",
     badgeNew: "NEW",
-    directDownload: "直接下载",
+    directDownload: "网盘下载",
     viewOnGithub: "到 GitHub 查看该版本",
-    apkNote: "新版本发布后，本页直链与文件名随版本号同步更新",
+    panCodeLabel: "提取码",
+    panCodeHint: "打开网盘链接后输入提取码 {code} 即可下载",
+    panSize: "安装包约 {size}",
+    panWhy: "安装包 {size} 超过官网所部署云平台单文件 25 MiB 上限，故改由百度网盘分享，历史版本与备用入口见 Releases。",
+    giteeReleases: "Gitee Releases 备用",
+    apkNote: "新版本发布后，本页网盘链接、提取码与文件名随版本同步更新",
     devicesTitle: "一个 APK，全设备适配",
     devicesDesc:
       "手机、平板、电视、盒子与模拟器装的是同一个安装包：运行时自动识别设备类型，电视走遥控器焦点体系，手机走触屏与 MiniPlayer，互不影响。",
@@ -170,7 +208,7 @@ export const zhPages = {
       "{name} 是一款面向家庭影音场景的 Android 音乐播放器。它把自建 NAS 音乐库、设备本地音乐、网络音乐与百度网盘音乐统一在一个界面里，并为电视端补上逐字卡拉OK歌词、K 歌伴奏、MTV 音乐视频、天气电台与可视化舞台等专属体验。",
     releaseTitle: "发布方式",
     releaseDesc:
-      "以单个通用 APK 发布（当前 v{version}），内置 ARM64 / ARMv7 / x86_64 三种架构，手机、平板、电视与模拟器共用同一份安装包，运行时自动识别设备类型并切换交互体系。官网提供最新版直链下载，历史版本见 GitHub Releases。",
+      "以单个通用 APK 发布（当前 v{version}），内置 ARM64 / ARMv7 / x86_64 三种架构，手机、平板、电视与模拟器共用同一份安装包，运行时自动识别设备类型并切换交互体系。因安装包超过 25 MiB，最新版通过百度网盘分享，历史版本见 GitHub / Gitee Releases。",
     licenseTitle: "开源协议",
     licenseDescBefore: "项目以",
     licenseDescAfter:

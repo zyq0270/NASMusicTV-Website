@@ -1,0 +1,42 @@
+{
+  "name": "nasmusictv-website",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build && node -e \"const fs=require('fs');['node_modules','web/node_modules'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}));console.log('[edgeone] build deps cleaned')\"",
+  "outputDirectory": "./dist",
+  "nodeVersion": "20.18.0",
+  "rewrites": [
+    {
+      "source": "/*",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/effects/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/screens/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,36 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.2.0] - 2026-11-16
+
+内容同步 + 版式升级（minor）：官网整体对齐应用 v2.38.15 → **v2.39.18**（跨 19 个版本），修复腾讯云 EdgeOne Makers 部署失败，并接入 Gitee 同步与百度网盘分发。
+
+### Added
+- 新增 `edgeone.json`：声明 `installCommand` / `buildCommand` / `outputDirectory: ./dist` / `nodeVersion` / SPA `rewrites` / 静态资源 `headers`，把云部署配置固化进仓库，不再依赖控制台手工填写。
+- 新增 `docs/EDGEONE-DEPLOY.md`：记录 20,000 文件数上限与 25 MiB 单文件上限的成因、三层修复、控制台步骤、验收清单与常见错误对照表。
+- 首页新增「What's new」六卡区块（`tv-whatsnew-grid`），集中呈现 v2.39.x 的六套新画面特效、照片墙 70 种转场、浅色主题、洛雪音源、电视实测修复与两轮全库审查；Hero 增加应用版本徽标。
+- Highlights 由 9 张扩到 **12 张**（新增「六套全新画面特效」「浅色主题与焦点高亮」「音乐源独立总开关」）；功能模块由 16 个扩到 **18 个**（新增「洛雪音源与取链」「主题与无障碍」）。
+- 首页统计由 4 项扩到 **5 项**：新增「照片墙转场 70」；可视化特效由 26 更正为公开版可选 **27 套**。
+- 中英词典同步 `changelog.v2_39_*` 共 8 条版本摘要（覆盖 v2.39.6 → v2.39.18），`CHANGELOG_RANGE` 更新为 `v2.38.15 → v2.39.18`。
+- 下载页新增百度网盘提取码展示、网盘分发原因说明与 Gitee Releases 备用入口；页脚新增 Gitee 仓库 / Releases 链接。
+- FAQ 新增「为什么改用百度网盘下载？」；中英双语同步。
+
+### Changed
+- **APK 分发改为百度网盘分享**：v2.39.18 安装包 43 MB 超过 EdgeOne Makers 单文件 25 MiB 上限，改由网盘（链接 + 提取码 `8gbt`）作为国内主入口，GitHub / Gitee Releases 保留为历史版本与备用入口。全站下载按钮由站内直链改为外链。
+- `site.tsx`：新增 `APK_PAN_URL` / `APK_PAN_CODE` / `APK_SIZE` / `APK_DIRECT_URL` / `APK_RELEASES_GITEE` 与 Gitee 仓库地址；`APK_VERSION` → `v2.39.18`；`stats` 与 `highlights` / `featureModules` 扩项。
+- `vite.config.ts`：APK 拷贝插件默认关闭（仅 `INCLUDE_APK=1` 时供自建部署使用），避免产物含超限大文件；CHANGELOG 解析兼容转义方括号 `\[v2.39.18]` 与普通 `>` 摘要，并限制每分区 6 条 / 单条 140 字，避免下载页被几十条条目灌满。
+- 应用 CHANGELOG 快照 `web/src/data/appChangelog.md` 刷新为 v2.39.x 全量段落（体积由 412 KB 降至约 60 KB）。
+- 中英文案全面同步应用最新状态：特效 26 → 27 套、照片墙转场 43 → 70 种、主题由暗色开关改为跟随系统 / 深色 / 浅色三态、补入焦点高亮、洛雪音源、音乐源总开关、拍摄日期水印、NAS 自动扫描、日志分级等；界面预览「关于页」版本号改为 v2.39.18。
+- `.gitignore` 补齐 `web/dist/`、`dist/`、`download/*.apk`、`.codegraph/`、`.claude/`、`.workbuddy-ai/`；旧 APK 从 git 索引移除（本地文件保留）。
+- README 重写：新增「当前同步状态」表、EdgeOne Makers 部署章节、百度网盘分发表与 Gitee 链接，目录结构补 `edgeone.json` / 部署文档。
+- 网站版本号 `web/package.json` 与根 `package.json` 统一为 **1.2.0**。
+
+### Fixed
+- 修复腾讯云 EdgeOne Makers 部署报 `File count exceeds the per-build limit: 20,127 files found, maximum 20,000`：根因是输出目录被设成项目根目录，把 `npm install` 生成的约 19,955 个 `node_modules` 文件一起当产物上传。修复后产物为 **48 个文件 / 约 28.8 MB / 最大单文件 < 2 MB**。
+- 预防 `File size limit exceeded ... 25 MiB`：43 MB 的 APK 不再进入产物。
+- 修复 SPA 深链在云平台上 404：通过 `rewrites: /* → /index.html`。
+- 修复应用 CHANGELOG 解析失败（转义方括号）导致下载页「更新内容」块被隐藏。
+
 ## [1.1.0] - 2026-10-23
 
 小功能版（minor）：全站上线英文版本，支持顶栏中 / EN 界面语言即时切换，并建成统一的多语言管理体系。

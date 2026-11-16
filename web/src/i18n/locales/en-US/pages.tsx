@@ -21,6 +21,39 @@ export const enPages = {
     highlightsLead:
       "From the aggregated multi-source library to word-by-word karaoke lyrics, real-time vocal elimination, Bilibili MVs and weather radio, NAS Music TV fills in every music experience the TV was missing.",
     viewEffects: "Browse the effects gallery →",
+    whatsNewEyebrow: "What's new",
+    whatsNewTitle: "What shipped in v2.39.18",
+    whatsNewVersion: "App {version} · 2026-11-10",
+    whatsNewLead:
+      "Nineteen releases between October and November: six brand-new visual worlds, 70 photo-wall transitions, a light theme, LX Music sources, per-source master switches and a stability overhaul driven by two full-codebase reviews.",
+    whatsNewItems: [
+      {
+        title: "Six new visual worlds",
+        desc: "Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage (5 sub-modes), Eco Earth and the Contra-driven Arcade Collection — all bundled offline.",
+      },
+      {
+        title: "70 photo-wall transitions",
+        desc: "33 added and 6 broken tile effects removed, plus capture-date watermarks and automatic NAS scanning — all the way down to API 22 TVs.",
+      },
+      {
+        title: "Light theme & focus highlight",
+        desc: "Theme follows the system or is pinned dark / light; remote focus highlight is on by default, with contrast and phone system bars corrected for light mode.",
+      },
+      {
+        title: "LX Music sources & source switches",
+        desc: "Third-party source scripts verified per platform; NAS / online / Baidu / Jamendo / local can each be disabled site-wide, with all requests stopped.",
+      },
+      {
+        title: "TV-tested fixes",
+        desc: "40+ real-device fixes: FLAC crashing old TVs, line-by-line lyrics not advancing, cramped settings values, notification covers not refreshing on track change and more.",
+      },
+      {
+        title: "Two full-codebase reviews",
+        desc: "154 + 59 findings landed: transition fallbacks on old devices, MV URL host allow-listing, code-point lyric splitting and hop-by-hop outbound redirect guards.",
+      },
+    ],
+    whatsNewMore: "Full release summary →",
+
     featuresTitlePre: "The complete toolkit for library, lyrics, playback and ",
     featuresTitleAccent: "dual-device interaction",
     featuresLead:
@@ -61,7 +94,7 @@ export const enPages = {
     tvCardTitle: "TV-only experience",
     tvCardItems: [
       "Complete D-Pad focus navigation + HDMI-CEC remote media keys",
-      "26 visualizer stage effects (low / medium / high quality); the effect picked on the remote stays fixed",
+      "27 selectable visualizer effects and 70 photo-wall transitions (low / medium / high quality); the effect picked on the remote stays fixed",
       "QR code on the K-song / MTV full-screen pages for phone queue control",
       "Foreground notification with previous / play-pause / next",
     ],
@@ -82,8 +115,8 @@ export const enPages = {
     pillCount: "{count} snapshots",
     title: "Effects gallery",
     titleSub: " · {count} snapshots",
-    desc: "The visualizer stage fills the screen during playback, with effects tiered by device performance into low / medium / high quality and instantly switchable with the remote's left / right keys. This page collects snapshots of each effect — tap any frame to enlarge.",
-    note: "The above are on-device snapshots; the real look varies slightly with quality tier and device performance. Snapshots are added over time — count on what is listed here.",
+    desc: "The visualizer stage fills the screen during playback, with 27 selectable effects in the public build, tiered by device performance into low / medium / high quality and instantly switchable with the remote's left / right keys. This page collects snapshots of the classic effects — tap any frame to enlarge.",
+    note: "The above are on-device snapshots; the real look varies slightly with quality tier and device performance. Snapshots for the v2.39.x additions (Pixel Cities, Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage, Eco Earth, Arcade Collection) are not included yet — count on what is listed here.",
     zoomAria: "Enlarge: {name}",
     shotAlt: "{name} visualizer effect snapshot",
     lightboxAria: "{name} · enlarged view",
@@ -94,21 +127,26 @@ export const enPages = {
   downloadPage: {
     title: "Download & install",
     titleSub: " · one APK for every device",
-    desc: "The site offers a direct link to the latest APK: phone / tablet install with a tap, TV is best installed via USB drive / adb. One package bundles three architectures and adapts automatically — no more picking architectures or versions.",
+    desc: "The latest build is shared via Baidu Netdisk (primary mirror for China): phone / tablet install with a tap after downloading, TV is best installed via USB drive / adb. One package bundles three architectures and adapts automatically — no more picking architectures or versions.",
     latestVersion: "Latest {version}",
     universalApk: "Universal APK · ARM64 / ARMv7 / x86_64 built in",
     allDevices: "Phone · Tablet · TV · Emulator",
-    downloadBtn: "Download the latest APK ({version})",
+    downloadBtn: "Download from Baidu Netdisk ({version} · {size})",
     licenseNote:
-      "License: {license} · The package is also published on the official GitHub Release — please do not download from third-party channels.",
+      "License: {license} · Open the netdisk link and enter the access code to download; historical versions are on GitHub Releases — please do not download from third-party channels.",
     apkLatest: "Latest · {version}",
     apkTagUniversal: "Universal package · all architectures in one",
     apkTagOverwrite: "Install over the top; playback data is kept",
     changelogTitle: "{range} release summary",
     badgeNew: "NEW",
-    directDownload: "Direct download",
+    directDownload: "Netdisk download",
     viewOnGithub: "View this version on GitHub",
-    apkNote: "When a new version ships, this page's direct link and filename update with the version number",
+    panCodeLabel: "Access code",
+    panCodeHint: "Open the netdisk link and enter code {code} to download",
+    panSize: "Package about {size}",
+    panWhy: "The {size} package exceeds the 25 MiB per-file limit of the cloud platform hosting this site, so it is shared via Baidu Netdisk; Releases keep historical and fallback builds.",
+    giteeReleases: "Gitee Releases fallback",
+    apkNote: "When a new version ships, this page's netdisk link, access code and filename update together",
     devicesTitle: "One APK, every device",
     devicesDesc:
       "Phone, tablet, TV, box and emulator all install the same package: device type is detected at runtime — TV uses the remote focus system, phone uses touch and the MiniPlayer, with no interference.",
@@ -177,7 +215,7 @@ export const enPages = {
       "{name} is an Android music player for home audio-video setups. It unifies your self-hosted NAS library, on-device local music, online music and Baidu Netdisk music in one interface, and adds TV-specific experiences: word-by-word karaoke lyrics, K-song backing tracks, MTV music videos, weather radio and the visualizer stage.",
     releaseTitle: "How it ships",
     releaseDesc:
-      "Released as a single universal APK (currently v{version}) bundling ARM64 / ARMv7 / x86_64 — phone, tablet, TV and emulator share one package, with device type detected at runtime to switch interaction models. The site offers a direct link to the latest build; historical versions are on GitHub Releases.",
+      "Released as a single universal APK (currently v{version}) bundling ARM64 / ARMv7 / x86_64 — phone, tablet, TV and emulator share one package, with device type detected at runtime to switch interaction models. As the package exceeds 25 MiB, the latest build is shared via Baidu Netdisk; historical versions are on GitHub / Gitee Releases.",
     licenseTitle: "License",
     licenseDescBefore: "The project is open source under",
     licenseDescAfter:

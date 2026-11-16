@@ -1,7 +1,7 @@
 /**
  * 多语言体系 · English dictionary (en-US) · Feature modules
  *
- * 收录：功能特性页 / 首页 Features 区的 16 个功能模块。
+ * 收录：功能特性页 / 首页 Features 区的 18 个功能模块。
  */
 
 export const enFeatures = {
@@ -26,6 +26,7 @@ export const enFeatures = {
         "API version overview: real versions are fetched at runtime from backends, while third-party services show static versions",
         "Connection page layout: a centered “Server configuration” card with all five backend types in one row (the active one as a teal pill), plus a server address field and a “Test connection” button",
         "Cross-source search: independent switches for NAS / online / Baidu / Jamendo, searched in parallel and merged with de-duplication",
+        "Per-source master switches: NAS / online / Baidu / Jamendo / local can each be disabled — the source disappears from Home, Library, Search, Discover and smart radio, and all requests to it stop"
       ],
     },
     local: {
@@ -54,7 +55,18 @@ export const enFeatures = {
         "Song favorites: favorite online songs and play them directly next time",
         "Endpoint configuration: preset endpoints or custom Meting-API endpoints / Bilibili MTV search endpoints",
         "Radio: a public radio directory with tag / keyword filtering and instant live-stream playback",
-        "Independent music (Jamendo): CC-licensed library with a hot chart, genre filters and search",
+        "Independent music (Jamendo): CC-licensed library with a hot chart, genre filters and search, plus its own master switch and Client ID card in Settings",
+        "LX Music sources: import third-party source scripts for higher-quality playback URLs, with 5 built-in verified sources and per-platform availability checks"
+      ],
+    },
+    luoxue: {
+      title: "LX Music Sources & URLs",
+      summary: "Third-party source scripts, per-platform availability checks and outbound URL guards",
+      items: [
+        "Import LX Music source scripts in Settings to obtain higher-quality playback URLs for online songs",
+        "One-tap verification per source, showing whether each platform can play and why it failed; built-in sources are auto-downloaded before verification",
+        "Built-in list: 5 verified playable sources (1010 / Xinglan / HYW / Molan / Xinghai) are filled in automatically",
+        "Outbound safety: every 302 redirect is validated hop by hop and all URLs returned by scripts pass an address guard that blocks intranet and cloud-metadata targets",
       ],
     },
     discover: {
@@ -116,7 +128,7 @@ export const enFeatures = {
         "Queue row info: index, title, artist, source / status tags (“Downloaded” in blue-teal / “Online” in green), 0:00 duration, and inline download ↓ / move up ↑ / remove × actions",
         "Equalizer: presets + per-band gain adjustment",
         "In-app volume: 0–100% app-level gain independent of system volume, with dual entries in the settings slider and the playback page volume bar, and automatic crossfade adaptation between tracks",
-        "Visualizer stage: 26 effects (lyric dot matrix, vintage CRT TV, planetary gears, solar system, 3D world globe, DNA double helix, star trails, moonlit night, seaside shoreline, fog of war, snow cedar, flock of birds, desert smoke and more) with low / medium / high quality tiers; switch instantly with left / right keys and the effect you pick stays fixed; the full screen keeps only the exit button top-left, the lyric pill on top, the song title and artist bottom-left and the progress dots at the bottom; the lyric dot matrix auto-scales its font and particles pulse with the beat",
+        "Visualizer stage: 27 selectable effects in the public build (the classic 26 plus the Arcade Collection), plus experimental Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage and Eco Earth; low / medium / high quality tiers, instant left / right switching and the effect you pick stays fixed; the full screen keeps only the exit button top-left, the lyric pill on top, the song title and artist bottom-left and the progress dots at the bottom; the lyric dot matrix auto-scales its font and particles pulse with the beat",
         "Vocal elimination: separates vocals from the backing track in real time, keeping K-song backing music intact",
         "Pitch shift / playback speed: adjustable on the playback page to match the backing track and rhythm while singing",
         "Song details panel: bitrate, sample rate and encoding format shown on hover",
@@ -137,15 +149,28 @@ export const enFeatures = {
     },
     "photo-wall": {
       title: "Photo Wall Visualizer",
-      summary: "Full-screen slideshow from three sources, 43 transitions, on-device face detection",
+      summary: "Full-screen slideshow from three sources, 70 transitions, capture-date watermarks, on-device face detection",
       items: [
         "Three sources with independent switches, mixed in one rotation: gallery (Android 13+ scoped storage), external storage (USB drive / SD card) and Jellyfin photo library",
-        "43 transition effects across eight families — fade / slide / zoom / mask shapes / blocks / dissolve / light / stylized — drawn randomly by default with no immediate repeats",
+        "70 transition effects: 33 new ones (parallax slide, 3D dolly, Hitchcock zoom, spiral wipe, 3D grid flip, grain dissolve, Voronoi shatter, watercolor bleed and more) on top of the original 43, with 6 broken tile effects removed; all work on API 22 and gracefully fall back to cross-fade on older devices",
         "Slow Ken Burns push-in: zoom 1.00→1.08 + pan, with optional audio reaction (pulse with the beat / breathe with the bass)",
         "Fit modes: full screen (crop to fill) and complete (letterbox)",
+        "Capture-date watermark: after each photo settles, a red YYYY/MM/DD hh:mm:ss timestamp appears in the bottom-right",
+        "Automatic NAS scan: photos are scanned once the NAS connects, with scan status and source status shown in Settings (20,000 photos read in real-world testing)",
         "On-device face detection: YuNet (ONNX Runtime) detects portraits with data never leaving the device, in a separate result library that does not migrate with the music library",
         "Photo wall settings panel: 9 settings in one place (source switches / directory selection / transition / fit / faces), with permission hints and live photo counts",
         "Decode buffering: canvas-based downsampling, up to 3 cached frames, RGB_565 downgrade at low quality and a 2048px safety valve",
+      ],
+    },
+    theme: {
+      title: "Theme & Accessibility",
+      summary: "Light / dark / follow-system, remote focus highlight and log level filters",
+      items: [
+        "Light theme: added in v2.39.6 — theme is now follow system / dark / light; the visualizer and photo wall stay dark",
+        "Contrast fixes: play / pause buttons, sung karaoke characters and solid brand badges were all re-tuned for light mode",
+        "System bars follow suit: the phone status bar and bottom navigation no longer stay black",
+        "Focus highlight: on by default and switchable, hides on touch and returns with the D-pad without relying on device-model detection",
+        "Full-screen K-song: the top navigation bar is hidden, consistent between TV and phone",
       ],
     },
     library: {
@@ -181,8 +206,10 @@ export const enFeatures = {
       items: [
         "Settings navigation on the left: gear icon + “Settings” title, with vertical entries for General / Playback / Download / Server plus Cache management / Network check / Netdisk / Data management / About (each with an icon), the active one highlighted in teal and switching the right panel instantly with the remote's up / down keys",
         "General · Language: follow system / 中文 / English, with the active option selected in teal, directly deciding the app's interface language",
-        "General · Theme: dark theme switch (uses a dark background to protect your eyes), on by default",
+        "General · Theme: follow system / dark / light — light mode has corrected contrast for playback buttons, sung karaoke characters and brand badges",
+        "General · Focus highlight: on by default and switchable; hides on touch and returns with the D-pad, fixing TVs where the focused item was invisible",
         "General · Animation: interface animation switch (page transitions and tool hub effects), which can be turned off to improve fluency on older devices",
+        "Logs · Level filter: all / info / warning / error / debug; release builds record warnings and errors only, with a debug level for device diagnostics",
         "Local music: master switch for the local source, indexed track count and a “Rescan” entry, with on-demand permissions",
         "Visualizer quality: low / medium / high tiers to match visualizer detail and frame rate to device performance, keeping older devices smooth",
         "Playback settings: playback mode, equalizer, in-app volume, lyric scaling, cover filters, last high-quality separation failure details and more",

@@ -167,7 +167,7 @@ export default function AboutPage() {
             <h3>{t("aboutPage.ctaTitle")}</h3>
             <p>{t("aboutPage.ctaDesc")}</p>
             <div className="cta-band-actions">
-              <a href={APK_DOWNLOAD_URL} download className="cta-primary">
+              <a href={APK_DOWNLOAD_URL} target="_blank" rel="noreferrer" className="cta-primary">
                 <DownloadOutlined /> {t("aboutPage.downloadBtn")}
               </a>
               <a href={`${site.repo}/issues`} target="_blank" rel="noreferrer" className="cta-ghost">

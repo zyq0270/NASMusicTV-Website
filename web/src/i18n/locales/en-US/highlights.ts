@@ -1,7 +1,7 @@
 /**
  * 多语言体系 · English dictionary (en-US) · Highlights
  *
- * 收录：首页 9 张 Highlights 卡片。
+ * 收录：首页 12 张 Highlights 卡片。
  */
 
 export const enHighlights = {
@@ -20,11 +20,15 @@ export const enHighlights = {
     },
     visualizer: {
       title: "Visualizer Library",
-      desc: "26 full-screen effects — lyric dot matrix, vintage CRT TV, planetary gears, solar system, 3D world globe, DNA double helix, star trails, moonlit night, seaside shoreline, fog of war, snow cedar, flock of birds, desert smoke and more — with low / medium / high quality tiers per device, switchable from the remote.",
+      desc: "27 selectable full-screen effects: the classic 26 plus the new Arcade Collection, alongside experimental Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage, Eco Earth and more — with low / medium / high quality tiers, switchable from the remote.",
     },
     "photo-wall": {
       title: "Photo Wall Visualizer",
-      desc: "Full-screen slideshow from three sources: gallery / external storage / Jellyfin, with 43 transitions, Ken Burns motion and on-device face detection.",
+      desc: "Full-screen slideshow from three sources: gallery / external storage / Jellyfin, with 70 random transitions, capture-date watermarks, Ken Burns motion and on-device face detection — all working down to API 22.",
+    },
+    "new-effects": {
+      title: "Six brand-new visual worlds",
+      desc: "Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage (5 sub-modes), Eco Earth and an auto-playing Contra bot in the Arcade Collection — all bundled offline.",
     },
     mtv: {
       title: "MTV Music Videos",
@@ -33,6 +37,14 @@ export const enHighlights = {
     "weather-radio": {
       title: "Weather Radio",
       desc: "Auto-matches mood radio to the real-time weather, with dual weather sources and a 5-day forecast.",
+    },
+    "light-theme": {
+      title: "Light theme & focus highlight",
+      desc: "Theme follows the system or is pinned to dark / light; remote focus highlight is on by default, hides on touch and returns with the D-pad.",
+    },
+    "source-switch": {
+      title: "Per-source master switches",
+      desc: "NAS / online / Baidu / Jamendo / local can each be turned off — content disappears site-wide and the app stops requesting from that source entirely.",
     },
     "phone-remote": {
       title: "Phone QR Remote",
