@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { effects, effectSrc } from "../data/effects";
+import { effects, effectSrc, publicEffectCount } from "../data/effects";
 import { useI18n } from "../i18n";
 
 /**
@@ -111,6 +111,9 @@ export default function EffectsPage() {
                 onClick={(e) => openFrom(idx, e.currentTarget)}
               >
                 <span className="effect-frame">
+                  {shot.restricted && (
+                    <span className="effect-restricted-badge">{t("effectsPage.restrictedBadge")}</span>
+                  )}
                   {failed[shot.enum] ? (
                     <span className="shot-placeholder">
                       <span className="shot-title">{nameOf(shot.enum)}</span>
@@ -135,7 +138,7 @@ export default function EffectsPage() {
           </div>
 
           <p className="card-summary" style={{ marginTop: 24 }}>
-            {t("effectsPage.note")}
+            {t("effectsPage.note", { count: effects.length, publicCount: publicEffectCount })}
           </p>
 
           <div style={{ marginTop: 28, display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -207,7 +210,12 @@ export default function EffectsPage() {
                 />
               )}
               <figcaption className="effect-lightbox-cap">
-                <span>{nameOf(current.enum)}</span>
+                <span>
+                  {nameOf(current.enum)}
+                  {current.restricted && (
+                    <span className="effect-restricted-inline"> · {t("effectsPage.restrictedBadge")}</span>
+                  )}
+                </span>
                 <span className="effect-lightbox-enum">{current.enum}</span>
               </figcaption>
             </figure>

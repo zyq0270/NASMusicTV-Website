@@ -1555,6 +1555,28 @@ code.inline {
   object-fit: cover;
 }
 
+/* 版权未公开快照角标：仅展示，不代表公开版可选 */
+.effect-restricted-badge {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 183, 77, 0.75);
+  color: #ffb74d;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.effect-restricted-inline {
+  color: #ffb74d;
+  font-weight: 600;
+}
+
 /* 悬浮时画面轻微推近；系统关闭动效时整段跳过 */
 @media (prefers-reduced-motion: no-preference) {
   .effect-card:hover .effect-frame img,

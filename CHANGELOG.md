@@ -13,6 +13,22 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.2.2] - 2026-11-16
+
+内容补齐（patch）：特效图集对齐应用 v2.39.18 的 29 套 VisualizerTheme，私有快照显式标注版权状态。
+
+### Added
+- 特效图集新增 7 张端上实拍快照：街机合集、生态地球、旷野公路、像素城市、歌词舞台、照片墙、千里江山（来源 `docs/snapshot/`，同步至 `web/public/effects/`）。
+- `EffectShot` 新增 `restricted` 字段；像素城市 / 旷野公路标记为版权未公开，卡片右上角与灯箱均显示标注，不计入「公开版可选」计数。
+
+### Removed
+- 图集移除 3 套应用已下线的历史效果：心跳（`ECG_WAVE`）、反馈残像（`MILKDROP_FEEDBACK`）、歌词点阵（`LYRICS_DOT_MATRIX`，已被歌词舞台吸收）。中英词典对应条目同步删除。
+
+### Changed
+- 图集页计数改为动态推导：`effects.length` = 29 张快照，`publicEffectCount` = 27 套公开可选，与应用公开版口径一致；页脚说明按版权状态区分。
+- 中英词典 `effects.names` 补齐 7 项、移除 3 项，两侧键保持齐平；`effectsPage.note` 改为带计数插值的新文案。
+- 网站版本号 `package.json` / `web/package.json` / `web/package-lock.json` 统一 1.2.1 → **1.2.2**。
+
 ## [1.2.1] - 2026-11-16
 
 维护版（patch）：兼容帽子云静态网站默认输出目录 `build`，补齐双平台部署文档。
