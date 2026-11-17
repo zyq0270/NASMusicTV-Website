@@ -13,7 +13,6 @@ import {
   APK_FILE_NAME,
   APK_RELEASES_LATEST,
   APK_RELEASES_GITEE,
-  APK_PAN_CODE,
   APK_SIZE,
   APK_VERSION,
   CHANGELOG_RANGE,
@@ -61,15 +60,14 @@ export default function DownloadPage() {
           </div>
           <div style={{ marginTop: 26, display: "flex", gap: 14, flexWrap: "wrap" }}>
             <a href={APK_DOWNLOAD_URL} target="_blank" rel="noreferrer" className="cta-primary">
-              <DownloadOutlined /> {t("downloadPage.downloadBtn", { version: APK_VERSION, size: APK_SIZE })}
+              <DownloadOutlined /> {t("downloadPage.downloadBtn", { version: APK_VERSION })}
             </a>
             <a href={APK_RELEASES_LATEST} target="_blank" rel="noreferrer" className="cta-ghost">
               <GithubOutlined /> GitHub Releases
             </a>
           </div>
           <p className="hero-note">
-            {t("downloadPage.panCodeLabel")}: <strong>{APK_PAN_CODE}</strong> ·{" "}
-            {t("downloadPage.panCodeHint", { code: APK_PAN_CODE })}
+            {t("downloadPage.giteeDirectHint")}
           </p>
           <p className="hero-note">{t("downloadPage.licenseNote", { license: site.license })}</p>
         </div>
@@ -79,7 +77,7 @@ export default function DownloadPage() {
         <div className="container">
           <div className="apk-panel">
             <div className="apk-meta">
-            <div className="apk-pan-note">{t("downloadPage.panWhy", { size: APK_SIZE })}</div>
+            <div className="apk-size-note">{t("downloadPage.sizeWhy", { size: APK_SIZE })}</div>
               <span className="pill pill-strong">{t("downloadPage.apkLatest", { version: APK_VERSION })}</span>
               <div className="apk-filename">{APK_FILE_NAME}</div>
               <div className="apk-tags">
@@ -131,10 +129,6 @@ export default function DownloadPage() {
               <a href={APK_RELEASES_GITEE} target="_blank" rel="noreferrer" className="cta-ghost">
                 {t("downloadPage.giteeReleases")}
               </a>
-              <span className="apk-action-note">
-                {t("downloadPage.panCodeLabel")}: <strong>{APK_PAN_CODE}</strong> ·{" "}
-                {t("downloadPage.panSize", { size: APK_SIZE })}
-              </span>
               <span className="apk-action-note">{t("downloadPage.apkNote")}</span>
             </div>
           </div>

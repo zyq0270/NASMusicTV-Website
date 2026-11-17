@@ -21,11 +21,11 @@ export const enSupport = {
     },
     {
       q: "How do I update when a new version ships?",
-      a: "Tap “Download from Baidu Netdisk” on the download page, enter the access code and install over the top — no need to uninstall the old version, and playback history and settings are kept. Historical versions are available on GitHub Releases.",
+      a: "Tap Download latest on the download page to open the newest Gitee Release page, then pick the NASMusicTV-release-*.apk attachment and install over the top — no need to uninstall the old version, and playback history and settings are kept. historical versions are on GitHub / Gitee Releases.",
     },
     {
-      q: "Why is the download now on Baidu Netdisk?",
-      a: "The v2.39.18 package is about 43 MB, above the 25 MiB per-file limit of the Tencent Cloud EdgeOne Makers plan hosting this site, so it is no longer published alongside the site. A Baidu Netdisk share is used instead (also more reliable inside China) — open the link and enter the access code. GitHub Releases remains as a historical / fallback entry.",
+      q: "Why is the main download link on Gitee?",
+      a: "The v2.39.20 package is about 43 MB, above the 25 MiB per-file limit of the Tencent Cloud EdgeOne Makers plan hosting this site, so it is not published alongside the site. The main link opens the newest Gitee Release page (/releases/latest) — no login, no access code, fast in China, and it follows the newest release automatically; pick the APK attachment there. GitHub / Gitee Releases keep historical builds.",
     },
     {
       q: "Can I listen without connecting a NAS backend?",
@@ -53,10 +53,12 @@ export const enSupport = {
     },
     {
       q: "Is the project open source?",
-      a: "Yes. The project is open source under GPL v3, hosted on GitHub — issues and PRs are welcome.",
+      a: "Yes. The project is open source under GPL v3, mirrored on GitHub and Gitee (faster in China) — issues and PRs are welcome.",
     },
   ],
   changelog: {
+    v2_39_20: "Added a Gitee China mirror (GitHub-to-Gitee pull mirror, triggered on demand with scripts to trigger / check status / verify); fixed weather radio on old TVs by embedding the ISRG Root X1 trust anchor (trust added, verification not loosened) and the too-short log retention window (dedicated E-level quota + high-frequency W dedup), so real errors are no longer drowned out",
+    v2_39_19: "Added Gitee mirror setup guide and one-command sync scripts: an on-demand GitHub → Gitee pull mirror plus a push-based fallback; when the GitHub account is flagged, sync switches to username + personal access token credentials with no OAuth required",
     v2_39_18: "Photo wall adds 33 transitions and removes 6 broken tile effects, settling at 70; capture-date watermarks and NAS scan status added; the Arcade Collection is now publicly distributed, taking selectable effects from 26 to 27; TV-driven fixes cover FLAC crashes, line-by-line lyric scrolling, cramped settings values and 40+ more, plus 59 findings from the full-codebase review",
     v2_39_17: "New visualizer effect “Arcade Collection”: an embedded Contra auto-play bot that clears all 8 stages in an endless loop, with 489 frames packed into a single 1024×1024 atlas (about 56 KB) — no remote input needed",
     v2_39_16: "154 findings from the full-codebase review landed in one pass: album transitions crashing hardware rendering on API < 26, missing host allow-listing for Bilibili MV URLs, emoji split by String.length in word-by-word lyrics and more",

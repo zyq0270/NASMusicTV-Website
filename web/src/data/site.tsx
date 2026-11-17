@@ -40,29 +40,43 @@ export const site = {
 
 /**
  * 应用最新版本（下载页 / 首页 / 关于页共用，唯一来源）。
- * 当前对应应用仓库 v2.39.18 / versionCode 203（2026-11-10）。
+ * 当前对应应用仓库 v2.39.20 / versionCode 205（2026-11-16）。
  */
-export const APK_VERSION = "v2.39.18";
+export const APK_VERSION = "v2.39.20";
 
 /**
- * APK 分发方式（网站 1.2.0 起）：
- * v2.39.18 安装包 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
- * 因此不再随站点产物发布，改用百度网盘分享（国内主入口）+ Releases（历史版本 / 备用）。
- * 发新版时改这三处即可：APK_VERSION / APK_PAN_URL / APK_PAN_CODE。
+ * APK 分发方式（网站 1.3.3 起）：
+ * v2.39.20 安装包约 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
+ * 因此不随站点产物发布。主入口为「Gitee 最新 Release 页面」（/releases/latest），
+ * 浏览器访问会 302 到最新版本的 Release 页，用户在该页点 APK 附件下载；
+ * 好处是发版后无需改官网链接即可指向最新版。
+ * GitHub / Gitee Releases 收录历史版本。发新版只需改 APK_VERSION（版本号 / 文件名 / 文案随动）。
  */
-export const APK_PAN_URL = "https://pan.baidu.com/s/1PvG6kbi6W8KzRwHL0S7dGg?pwd=8gbt";
-export const APK_PAN_CODE = "8gbt";
 export const APK_SIZE = "43 MB";
 
-/** 全站下载按钮统一指向此处（外链，打开网盘分享页） */
-export const APK_DOWNLOAD_URL = APK_PAN_URL;
+/** 文件名仅用于版本卡展示；由版本号自动推导 */
+export const APK_FILE_NAME = `NASMusicTV-release-${APK_VERSION.replace(/\./g, "-")}.apk`;
+
+/**
+ * 固定版本 APK 直链（备用 / 供需要直链的场景使用）。
+ * 由 APK_VERSION 自动推导，已实测匿名可下载（302 → CDN，无需 token / 登录）。
+ * 注意 Gitee 不支持 releases/latest/download/<文件> 写法（会 404），必须带版本号。
+ */
+export const APK_GITEE_URL = `${site.giteeRepo}/releases/download/${APK_VERSION}/${APK_FILE_NAME}`;
+
+/**
+ * 主下载入口：Gitee 最新 Release 页面（网站 1.3.3 起，替代固定 APK 直链）。
+ * 浏览器带正常 Accept 头访问 /releases/latest 会 302 → /releases/tag/<最新版>，
+ * 页面列出 APK 附件供用户点选；发版后无需改官网即可指向最新版。
+ */
+export const APK_GITEE_LATEST = `${site.giteeRepo}/releases/latest`;
+
+/** 全站下载按钮统一指向此处：Gitee 最新 Release 页面（见 APK_GITEE_LATEST） */
+export const APK_DOWNLOAD_URL = APK_GITEE_LATEST;
 
 /** 历史版本 / 备用入口 */
 export const APK_RELEASES_LATEST = `${site.repo}/releases/latest`;
 export const APK_RELEASES_GITEE = site.giteeReleases;
-
-/** 文件名仅用于版本卡展示；由版本号自动推导 */
-export const APK_FILE_NAME = `NASMusicTV-release-${APK_VERSION.replace(/\./g, "-")}.apk`;
 
 /**
  * 自建 NAS / Docker 部署可选的站内直链：把 APK 放进仓库根 download/ 并设
@@ -78,8 +92,10 @@ export interface RecentChangelogEntry {
 }
 
 export const recentChangelog: RecentChangelogEntry[] = [
-  { version: "v2.39.18", date: "11-10", highlight: true },
-  { version: "v2.39.17", date: "11-10", highlight: true },
+  { version: "v2.39.20", date: "11-16", highlight: true },
+  { version: "v2.39.19", date: "11-16", highlight: true },
+  { version: "v2.39.18", date: "11-10" },
+  { version: "v2.39.17", date: "11-10" },
   { version: "v2.39.16", date: "11-09" },
   { version: "v2.39.14", date: "11-08", highlight: true },
   { version: "v2.39.13", date: "11-06", highlight: true },
@@ -89,7 +105,7 @@ export const recentChangelog: RecentChangelogEntry[] = [
 ];
 
 /** 下载页「版本说明」标题范围 */
-export const CHANGELOG_RANGE = "v2.38.15 → v2.39.18";
+export const CHANGELOG_RANGE = "v2.38.15 → v2.39.20";
 
 /** 首页统计项：value 为数字本体，label 文案在词典 stats.<key> 中维护 */
 export interface StatItem {

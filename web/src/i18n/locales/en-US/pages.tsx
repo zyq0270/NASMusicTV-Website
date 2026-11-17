@@ -14,6 +14,7 @@ export const enPages = {
     downloadLatest: "Download latest APK",
     explore: "See what it can do",
     githubSource: "GitHub source",
+    giteeSource: "Gitee source",
     heroNote:
       "One APK for TV, phone and tablet: TV uses the remote focus system, phone uses touch and the MiniPlayer.",
     heroAlt: "NAS Music TV home dashboard preview",
@@ -22,10 +23,10 @@ export const enPages = {
       "From the aggregated multi-source library to word-by-word karaoke lyrics, real-time vocal elimination, Bilibili MVs and weather radio, NAS Music TV fills in every music experience the TV was missing.",
     viewEffects: "Browse the effects gallery →",
     whatsNewEyebrow: "What's new",
-    whatsNewTitle: "What shipped in v2.39.18",
-    whatsNewVersion: "App {version} · 2026-11-10",
+    whatsNewTitle: "What shipped in v2.39.20",
+    whatsNewVersion: "App {version} · 2026-11-16",
     whatsNewLead:
-      "Nineteen releases between October and November: six brand-new visual worlds, 70 photo-wall transitions, a light theme, LX Music sources, per-source master switches and a stability overhaul driven by two full-codebase reviews.",
+      "Twenty-one releases between October and November: six brand-new visual worlds, 70 photo-wall transitions, a light theme, LX Music sources, per-source master switches, a stability overhaul driven by two full-codebase reviews, plus a new Gitee China mirror and a fix for weather radio on old TVs.",
     whatsNewItems: [
       {
         title: "Six new visual worlds",
@@ -129,13 +130,13 @@ export const enPages = {
   downloadPage: {
     title: "Download & install",
     titleSub: " · one APK for every device",
-    desc: "The latest build is shared via Baidu Netdisk (primary mirror for China): phone / tablet install with a tap after downloading, TV is best installed via USB drive / adb. One package bundles three architectures and adapts automatically — no more picking architectures or versions.",
+    desc: "Clicking download opens the newest Gitee Release page, where you pick the APK attachment (no login, fast in China, always points to the newest release). Phone / tablet install with a tap after downloading, TV is best installed via USB drive / adb. One package bundles three architectures and adapts automatically — no more picking architectures or versions.",
     latestVersion: "Latest {version}",
     universalApk: "Universal APK · ARM64 / ARMv7 / x86_64 built in",
     allDevices: "Phone · Tablet · TV · Emulator",
-    downloadBtn: "Download from Baidu Netdisk ({version} · {size})",
+    downloadBtn: "Download latest ({version})",
     licenseNote:
-      "License: {license} · Open the netdisk link and enter the access code to download; historical versions are on GitHub Releases — please do not download from third-party channels.",
+      "License: {license} · The main link opens the newest Gitee Release page — pick the APK attachment there; historical versions are on GitHub / Gitee Releases — please do not download from third-party channels.",
     apkLatest: "Latest · {version}",
     apkTagUniversal: "Universal package · all architectures in one",
     apkTagOverwrite: "Install over the top; playback data is kept",
@@ -143,14 +144,12 @@ export const enPages = {
     badgeNew: "NEW",
     showAllUpdates: "Show all updates",
     showLessUpdates: "Show less",
-    directDownload: "Netdisk download",
+    directDownload: "Open Gitee to download",
     viewOnGithub: "View this version on GitHub",
-    panCodeLabel: "Access code",
-    panCodeHint: "Open the netdisk link and enter code {code} to download",
-    panSize: "Package about {size}",
-    panWhy: "The {size} package exceeds the 25 MiB per-file limit of the cloud platform hosting this site, so it is shared via Baidu Netdisk; Releases keep historical and fallback builds.",
+    sizeWhy: "The {size} package exceeds the 25 MiB per-file limit of the cloud platform hosting this site, so it is not shipped with the site: the main link opens the newest Gitee Release page to pick an attachment, and Releases keep historical builds.",
     giteeReleases: "Gitee Releases fallback",
-    apkNote: "When a new version ships, this page's netdisk link, access code and filename update together",
+    giteeDirectHint: "Click Download latest above to open the newest Gitee Release page — pick the NASMusicTV-release-*.apk attachment there to download. No login, fast in China, and the link always points to the newest release.",
+    apkNote: "When a new version ships, the Gitee link and filename here are derived from the version automatically",
     devicesTitle: "One APK, every device",
     devicesDesc:
       "Phone, tablet, TV, box and emulator all install the same package: device type is detected at runtime — TV uses the remote focus system, phone uses touch and the MiniPlayer, with no interference.",
@@ -219,11 +218,11 @@ export const enPages = {
       "{name} is an Android music player for home audio-video setups. It unifies your self-hosted NAS library, on-device local music, online music and Baidu Netdisk music in one interface, and adds TV-specific experiences: word-by-word karaoke lyrics, K-song backing tracks, MTV music videos, weather radio and the visualizer stage.",
     releaseTitle: "How it ships",
     releaseDesc:
-      "Released as a single universal APK (currently v{version}) bundling ARM64 / ARMv7 / x86_64 — phone, tablet, TV and emulator share one package, with device type detected at runtime to switch interaction models. As the package exceeds 25 MiB, the latest build is shared via Baidu Netdisk; historical versions are on GitHub / Gitee Releases.",
+      "Released as a single universal APK (currently v{version}) bundling ARM64 / ARMv7 / x86_64 — phone, tablet, TV and emulator share one package, with device type detected at runtime to switch interaction models. As the package exceeds 25 MiB, the latest build is distributed via the newest Gitee Release page; historical versions are on GitHub / Gitee Releases.",
     licenseTitle: "License",
     licenseDescBefore: "The project is open source under",
     licenseDescAfter:
-      ": free to use, modify and distribute (derivative works must be open-sourced under GPL v3 as well). Source is hosted on GitHub — issues and pull requests are welcome.",
+      ": free to use, modify and distribute (derivative works must be open-sourced under GPL v3 as well). Source is mirrored on GitHub and Gitee (faster in China) — issues and pull requests are welcome.",
     thanksTitle: "Thanks & disclaimer",
     thanksDesc:
       "Thanks to Jellyfin, Navidrome, Subsonic, Jamendo, Open-Meteo, OpenWeatherMap and other open-source and service providers; this project is not affiliated with those services or Baidu Netdisk, and you should follow each provider's terms and copyright rules when using them.",
@@ -240,8 +239,9 @@ export const enPages = {
     tableSource: "Version source",
     starTitle: "Star trend & community",
     starDesc:
-      "The project keeps iterating on GitHub — star it to follow updates, and feel free to submit the music sources and TV experiences you'd like to see.",
-    starBtn: "Star the project",
+      "The project keeps iterating on GitHub and Gitee — star it to follow updates, and feel free to submit the music sources and TV experiences you'd like to see.",
+    starBtn: "Star on GitHub",
+    giteeBtn: "Gitee repo",
     historyBtn: "View Star History",
     contributeTitle: "Contribute",
     contributeItems: [

@@ -2,7 +2,7 @@
 
 NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍这款开源的 Android 多源音乐播放器（电视 / 手机 / 平板通用）：聚合 NAS、网络音乐、百度网盘与 Jamendo 多音乐源，支持逐字卡拉OK歌词、K 歌伴奏、MTV、天气电台、27 套公开可视化特效（图集展示 29 张，含 2 套版权未公开快照）与照片墙 70 种转场。
 
-> 本仓库只托管**官网前端**。Android 应用本体在 [hxzhang2000/NASMusicTV](https://github.com/hxzhang2000/NASMusicTV)（Gitee 镜像：[hxzhang2000/NASMusicTV](https://gitee.com/hxzhang2000/NASMusicTV)）。最新版 APK 通过**百度网盘分享**分发，不随站点产物发布。
+> 本仓库只托管**官网前端**。Android 应用本体在 [hxzhang2000/NASMusicTV](https://github.com/hxzhang2000/NASMusicTV)（Gitee 镜像：[hxzhang2000/NASMusicTV](https://gitee.com/hxzhang2000/NASMusicTV)）。最新版 APK 通过 **Gitee Release** 分发，不随站点产物发布。
 
 [![Release](https://img.shields.io/github/v/release/hxzhang2000/NASMusicTV?color=blue&label=App%20Release)](https://github.com/hxzhang2000/NASMusicTV/releases)
 [![Website](https://img.shields.io/badge/website-repo-00d4aa?logo=github)](https://github.com/hxzhang2000/NASMusicTV-Website)
@@ -14,8 +14,8 @@ NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍
 
 | 对象 | 版本 | 日期 | 说明 |
 | --- | --- | --- | --- |
-| 官网 | v1.3.0 | 2026-11-17 | 性能 / SEO / 可访问性与明暗主题切换优化 |
-| Android 应用 | v2.39.18（versionCode 203） | 2026-11-10 | 跨 v2.38.15 → v2.39.18 共 19 个版本 |
+| 官网 | v1.3.4 | 2026-11-17 | 移除百度网盘下载入口，仅保留 Gitee 最新 Release 页 |
+| Android 应用 | v2.39.20（versionCode 205） | 2026-11-16 | 跨 v2.38.15 → v2.39.20 共 21 个版本 |
 | 可视化特效 | 公开版可选 27 套 | — | 图集展示 29 张：27 套公开 + 2 套（像素城市 / 旷野公路）因版权未公开，仅展示快照 |
 | 照片墙转场 | 70 种 | — | 新增 33 种，下线 6 个故障效果 |
 
@@ -93,24 +93,26 @@ npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 
 ---
 
-## APK 分发（百度网盘）
+## APK 分发（Gitee 最新 Release 页）
 
 | 项 | 值 |
 | --- | --- |
-| 版本 | v2.39.18 |
-| 文件名 | `NASMusicTV-release-v2-39-18.apk` |
+| 版本 | v2.39.20 |
+| 文件名 | `NASMusicTV-release-v2-39-20.apk` |
 | 体积 | 约 43 MB |
-| 主入口 | 百度网盘分享（国内速度快） |
-| 提取码 | 在下载页展示，配置于 `web/src/data/site.tsx` |
-| 备用 / 历史版本 | GitHub Releases、Gitee Releases |
+| 主入口 | Gitee **最新 Release 页面**（`/releases/latest`）：浏览器访问自动跳到最新版本的 Release 页，用户在该页点 APK 附件下载（免登录、无需提取码、国内快） |
+| 主链接 | `https://gitee.com/hxzhang2000/NASMusicTV/releases/latest`（常量 `APK_GITEE_LATEST`，发版后无需改官网即指向最新版） |
+| 历史版本 | GitHub Releases、Gitee Releases |
 
-**为什么不再提供站内直链**：腾讯云 EdgeOne Makers 有**单文件 25 MiB**上限，v2.39.18 的 43 MB 安装包必然触发 `File size limit exceeded`。旧版 v2.38.15 的 24.5 MiB 只是勉强卡线。
+**为什么主入口用 Gitee 最新 Release 页面**：腾讯云 EdgeOne Makers 有**单文件 25 MiB**上限，v2.39.20 的约 43 MB 安装包必然触发 `File size limit exceeded`，无法随站点发布。Gitee 的 `/releases/latest` 在浏览器访问时（带正常 Accept 头）会 302 到 `/releases/tag/<最新版>`，页面列出 APK 附件供点选；最大好处是**发版后官网链接无需改动即自动指向最新版**，避免忘记同步固定直链。
 
-发新版只需改 `web/src/data/site.tsx` 三处常量：`APK_VERSION` / `APK_PAN_URL` / `APK_PAN_CODE`；`APK_FILE_NAME`、版本徽标、下载页文案会自动推导。`recentChangelog` 与中英词典 `changelog.*` 需同步追加。
+> 实测注意：用 curl 不带浏览器 Accept 头访问 `/releases/latest` 会被误导向源码归档（`blazearchive`），带 `Accept: text/html` 才是 Release 页面——浏览器访问正常。Gitee 另**不支持** `releases/latest/download/<文件>` 这种免版本号直链写法（会 404），所以固定直链仍需版本号，但主入口已不再用它。
 
-**自建 NAS / Docker 部署**若要恢复站内直链：把 APK 放进仓库根 `download/`，用 `INCLUDE_APK=1 npm run build` 构建（默认不拷贝，避免云端超限），并把 `site.tsx` 的 `APK_DOWNLOAD_URL` 指向 `APK_DIRECT_URL`。
+发新版时**主下载链接无需改动**：`APK_DOWNLOAD_URL` = `APK_GITEE_LATEST`（`/releases/latest`）会自动跟随最新 Release。只需在 App 仓库用 `gitee_release.py` 把新版 APK 传到对应 Gitee Release（附件文件名 `NASMusicTV-release-<版本>.apk`）。版本号相关仍要改 `web/src/data/site.tsx` 的 `APK_VERSION`（`APK_FILE_NAME` / 固定直链 `APK_GITEE_URL` / 版本徽标 / 下载页文案随动）；`recentChangelog` 与中英词典 `changelog.*` 需同步追加，并刷新 `web/src/data/appChangelog.md` 快照。
 
-下载页「更新内容」来自应用仓库 `CHANGELOG.md` 最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 回落 `web/src/data/appChangelog.md` 快照（已刷新到 v2.39.x 全量段落）。
+**自建 NAS / Docker 部署**若要恢复站内直链：把 APK 放进仓库根 `download/`，用 `INCLUDE_APK=1 npm run build` 构建（默认不拷贝，避免云端超限），并把 `site.tsx` 的 `APK_DOWNLOAD_URL` 改为指向 `APK_DIRECT_URL`（当前指向 `APK_GITEE_LATEST`）。
+
+下载页「更新内容」来自应用仓库 `CHANGELOG.md` 最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 回落 `web/src/data/appChangelog.md` 快照（已刷新到 v2.39.20）。
 
 ---
 
@@ -187,5 +189,5 @@ docker run --rm -p 8080:80 nasmtv-web   # http://localhost:8080
 
 ## 版本
 
-- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version`（当前 `1.3.0`）。
+- 网站有**独立于 Android 应用**的版本号，唯一来源是 `web/package.json` 的 `version`（当前 `1.3.4`）。
 - 版本号与构建时间由 Vite 在构建时注入（`web/src/version.ts` → `SITE_VERSION` / `SITE_BUILD_TIME`），页脚与关于页自动同步。

@@ -39,7 +39,7 @@ export const zhCommon = {
   header: {
     homeAria: "{name} 首页",
     brandSub: "多源音乐 · TV / 手机双端",
-    downloadTitle: "在百度网盘下载最新 APK（{version}）",
+    downloadTitle: "打开 Gitee 最新 Release 下载（{version}）",
     themeToggle: "切换深浅主题",
   },
   footer: {

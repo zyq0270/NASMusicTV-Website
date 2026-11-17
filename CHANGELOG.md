@@ -13,6 +13,69 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.3.4] - 2026-11-17
+
+下载渠道精简（patch）：移除百度网盘下载入口，仅保留 Gitee 最新 Release 页作为主下载渠道。
+
+### Removed
+- 移除百度网盘备用下载：删除 `APK_PAN_URL` / `APK_PAN_CODE` 常量、下载页首屏与 APK 面板的「百度网盘备用」按钮、提取码提示与体积说明。
+- 中英词典删除下载相关键 `panBackupBtn` / `panBackupNote` / `panCodeLabel` / `panCodeHint` / `panSize`；`panWhy` 更名 `sizeWhy`、样式类 `apk-pan-note` 更名 `apk-size-note`（文案已改为纯 Gitee 说明）。
+- README「APK 分发」移除百度备用行与相关表述，标题改为「Gitee 最新 Release 页」。
+
+### Changed
+- 下载页 FAQ 与说明文案去掉百度备用措辞；「无需提取码」保留为 Gitee 的优点说明。
+- 产品功能里的百度网盘音乐源（音源聚合、FAQ、版权声明等）**保持不变**，仅移除下载分发渠道。
+- 网站版本 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.3 → **1.3.4**。
+
+### 验证
+- `npm run build` 通过；`npm run smoke` 六路由渲染、中英切换零运行时错误。
+
+## [1.3.3] - 2026-11-17
+
+下载入口再调整（patch）：主下载按钮由固定 APK 直链改为打开 Gitee 最新 Release 页面，自动跟随新版。
+
+### Changed
+- `APK_DOWNLOAD_URL` 由固定直链 `APK_GITEE_URL` 改为 `APK_GITEE_LATEST`（`{giteeRepo}/releases/latest`）；浏览器访问实测 302 → `/releases/tag/v2.39.20` 正常显示 Release 页，发版后链接自动指向最新版，无需改官网。固定直链常量 `APK_GITEE_URL` 保留备用。
+- 主按钮文案改为「下载最新版（{version}）」，首屏 / APK 面板 / 顶栏提示改为「打开 Gitee 最新 Release 页面，在附件中下载 APK」语义；百度网盘仍为备用直链。
+- 中英 `desc` / `downloadBtn` / `directDownload` / `giteeDirectHint` / `licenseNote` / `panWhy` / `releaseDesc` / FAQ 同步；`downloadBtn` 不再传 `size` 参数。
+- README「APK 分发」章节重写：说明 `/releases/latest` 的浏览器行为、curl Accept 头差异、以及 Gitee 不支持 `releases/latest/download/<文件>` 的约束。
+- 网站版本 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.2 → **1.3.3**。
+
+### 验证
+- `/releases/latest` 带浏览器头实测：HTTP 302 → `/releases/tag/v2.39.20` → HTTP 200 正常显示 Release 页。
+
+## [1.3.2] - 2026-11-17
+
+下载入口调整（patch）：主下载从百度网盘改为 Gitee Release 的 APK 直链，百度降为备用。
+
+### Changed
+- `APK_DOWNLOAD_URL` 由百度网盘改为 Gitee Release APK 直链 `APK_GITEE_URL`（由 `APK_VERSION` + `APK_FILE_NAME` 自动推导，已实测匿名 HTTP 200 可取 44.5 MB APK，无需 token / 登录）。
+- 下载页主 CTA、首屏提示、APK 面板操作区、顶栏下载按钮统一改为 Gitee 语义；百度网盘保留为备用入口（新增「百度网盘备用」按钮 + 提取码降级为备用说明）。
+- FAQ「为什么改用百度网盘下载」改为「为什么主下载链接是 Gitee」，中英 `desc` / `licenseNote` / `panWhy` / `apkNote` / `releaseDesc` 等文案同步。
+- README「APK 分发」章节重写：说明 Gitee 主链接推导规则、匿名直链可用性，以及 Gitee 不支持 `releases/latest/download/<文件>`（会 404）须带版本号的约束。
+- 网站版本 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.1 → **1.3.2**。
+
+### 验证
+- Gitee 直链实测：HEAD 302 → `attach_files/.../download`，跟随重定向 HTTP 200，拿到完整 44,537,948 字节 APK。
+
+## [1.3.1] - 2026-11-17
+
+内容同步（patch）：跟随 Android 应用 v2.39.20，并在全站显著位置补充 Gitee 开源与下载入口。
+
+### Added
+- 首页 Hero 新增「Gitee 源码」按钮（国内访问更快），与 GitHub 源码并列。
+- 关于页社区区新增「Gitee 仓库」按钮；下载页首屏新增「从 Gitee 下载」按钮（Gitee Releases）。
+- 中英词典新增 `home.giteeSource` / `aboutPage.giteeBtn` / `downloadPage.giteeReleasesPrimary` 键。
+
+### Changed
+- 应用版本 v2.39.18 → **v2.39.20**（versionCode 203 → 205），APK 文件名、版本徽标、首页 What's new、关于页截图描述同步更新。
+- 版本说明追加 v2.39.19（Gitee 国内镜像）与 v2.39.20（老电视天气 / 日志保留修复）；`appChangelog.md` 快照刷新至 v2.39.20。
+- FAQ / 关于页文案补充 Gitee 镜像说明；首页 What's new 导语迭代版本数 19 → 21。
+- 网站版本 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.0 → **1.3.1**。
+
+### 验证
+- `npm run build` 通过；`npm run smoke` 六路由渲染、中英切换零运行时错误。
+
 ## [1.3.0] - 2026-11-17
 
 体验与工程质量升级（minor）：性能、SEO、可访问性、明暗主题切换与代码质量多维度优化。

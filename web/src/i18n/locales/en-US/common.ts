@@ -35,7 +35,7 @@ export const enCommon = {
   header: {
     homeAria: "{name} home",
     brandSub: "Multi-source music · TV / Phone",
-    downloadTitle: "Get the latest APK ({version}) on Baidu Netdisk",
+    downloadTitle: "Open the latest Gitee Release to download ({version})",
     themeToggle: "Toggle light / dark theme",
   },
   footer: {

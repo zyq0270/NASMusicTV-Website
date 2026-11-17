@@ -144,6 +144,9 @@ export default function AboutPage() {
                 <a href={site.repo} target="_blank" rel="noreferrer" className="cta-primary">
                   <GithubOutlined /> {t("aboutPage.starBtn")}
                 </a>
+                <a href={site.giteeRepo} target="_blank" rel="noreferrer" className="cta-ghost">
+                  <CodeOutlined /> {t("aboutPage.giteeBtn")}
+                </a>
                 <a href={site.stars} target="_blank" rel="noreferrer" className="cta-ghost">
                   {t("aboutPage.historyBtn")}
                 </a>

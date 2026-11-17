@@ -460,6 +460,15 @@ export default function HomePage() {
                   <TvIcon name="code" size={20} />
                   {t("home.githubSource")}
                 </a>
+                <a
+                  href={site.giteeRepo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="tv-btn tv-btn-ghost"
+                >
+                  <TvIcon name="globe" size={20} />
+                  {t("home.giteeSource")}
+                </a>
               </div>
 
               <p className="tv-hero-note">{t("home.heroNote")}</p>
