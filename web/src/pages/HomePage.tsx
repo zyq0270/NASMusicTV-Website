@@ -447,10 +447,6 @@ export default function HomePage() {
                   <TvIcon name="download" size={20} />
                   {t("home.downloadLatest")}
                 </a>
-                <Link to="/features" className="tv-btn tv-btn-ghost">
-                  <TvIcon name="rocket" size={20} />
-                  {t("home.explore")}
-                </Link>
                 <a
                   href={site.repo}
                   target="_blank"

@@ -12,7 +12,6 @@ export const zhPages = {
     heroBadge: "Android 开源应用",
     heroTitle: "把 NAS 曲库、网盘与网络音乐搬进客厅大屏",
     downloadLatest: "下载最新 APK",
-    explore: "看看能做什么",
     githubSource: "GitHub 源码",
     giteeSource: "Gitee 源码",
     heroNote: "电视、手机、平板共用同一 APK：电视走遥控器焦点体系，手机走触屏与 MiniPlayer。",

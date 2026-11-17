@@ -13,6 +13,21 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.3.5] - 2026-11-17
+
+首页 Hero 微调（patch）：移除首屏「看看能做什么」按钮，四个按钮挤在一行被右侧电视主视觉覆盖。
+
+### Removed
+- 首页 Hero 操作栏移除「看看能做什么」（跳转 `/features`）链接按钮，其余下载 APK / GitHub 源码 / Gitee 源码三个按钮保持不变。
+- 中英词典删除首页键 `home.explore`（`zh-CN` / `en-US` 的 `pages`）。
+
+### 说明
+- `/features` 页面本身保留，仍可通过顶部导航进入；仅去掉首屏该入口按钮。
+- 网站版本 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.4 → **1.3.5**。
+
+### 验证
+- `npm run build`（含 `tsc --noEmit`）通过。
+
 ## [1.3.4] - 2026-11-17
 
 下载渠道精简（patch）：移除百度网盘下载入口，仅保留 Gitee 最新 Release 页作为主下载渠道。

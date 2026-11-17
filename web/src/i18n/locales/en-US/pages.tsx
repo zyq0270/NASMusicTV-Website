@@ -12,7 +12,6 @@ export const enPages = {
     heroBadge: "Open-source Android app",
     heroTitle: "Bring your NAS library, netdisk and online music to the living-room screen",
     downloadLatest: "Download latest APK",
-    explore: "See what it can do",
     githubSource: "GitHub source",
     giteeSource: "Gitee source",
     heroNote:
