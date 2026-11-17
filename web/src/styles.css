@@ -5,10 +5,10 @@
 }
 
 :root {
-  /* 【美化要点 · 全站色板对齐首页 TV 设计系统】
-     背景 #0A0E14 / 卡片 #141A24 / 悬浮 #1C2433；
-     品牌主色由紫 #7C5CFF 改为产品 TV 端选中态青绿 #00D4AA，让品牌色贯穿全站；
-     辅助紫 #7B61FF 用于渐变强调，暖黄 #FFB800 用于歌词高亮。 */
+  /* 【设计令牌唯一来源】
+     全站色板 / 圆角 / 间距 / 阴影 / 字体统一在此定义；
+     首页 home.css 的 .tv-home 直接引用这些变量（不再重复定义），
+     确保品牌色调整只需改这一处。 */
   --bg: #0a0e14;
   --bg-soft: #141a24;
   --card: #141a24;
@@ -21,6 +21,33 @@
   --accent: #ffb800;
   --radius: 16px;
   --max: 1180px;
+
+  /* —— TV 设计系统令牌（原 home.css .tv-home 定义，统一迁移至此）—— */
+  --tv-bg: #0a0e14;
+  --tv-bg-deep: #05070c;
+  --tv-card: #141a24;
+  --tv-card-hover: #1c2433;
+  --tv-brand: #00d4aa;
+  --tv-brand-ink: #05201a;
+  --tv-purple: #7b61ff;
+  --tv-yellow: #ffb800;
+  --tv-title: #ffffff;
+  --tv-text: #c8d0da;
+  --tv-dim: #7e8ea5;
+  --tv-border: rgba(255, 255, 255, 0.06);
+  --tv-border-strong: rgba(255, 255, 255, 0.12);
+  --tv-radius: 16px;
+  --tv-radius-lg: 20px;
+  --tv-unit: 8px;
+  --tv-section: 104px;
+  --tv-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --tv-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55);
+  --tv-shadow-focus: 0 0 0 2px var(--tv-brand), 0 8px 32px rgba(0, 212, 170, 0.2);
+
+  /* —— 字体（系统字体栈，不引入外部字体请求）—— */
+  --tv-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tv-mono: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
 }
 
 html {
@@ -264,8 +291,7 @@ a {
 
 .section-eyebrow {
   display: inline-block;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -540,8 +566,7 @@ a {
 }
 
 .stat-value {
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-size: 32px;
   font-weight: 700;
   color: var(--brand);
@@ -1120,8 +1145,7 @@ a {
   background: rgba(0, 0, 0, 0.28);
   border: 1px solid var(--border);
   color: #9ef3e0;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-size: 13.5px;
   letter-spacing: 0.2px;
   word-break: break-all;
@@ -1171,8 +1195,7 @@ a {
   font-size: 12px;
   font-weight: 400;
   color: #7e8ea5;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
 }
 
 .apk-changelog-summary {
@@ -1254,15 +1277,13 @@ a {
   font-size: 13px;
   font-weight: 700;
   color: var(--text);
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
 }
 
 .apk-changelog-date {
   font-size: 11.5px;
   color: #7e8ea5;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
 }
 
 .apk-changelog-badge {
@@ -1653,8 +1674,7 @@ code.inline {
 
 .effect-counter {
   margin-left: auto;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-size: 13px;
   color: var(--brand);
 }

@@ -141,6 +141,8 @@ export const enPages = {
     apkTagOverwrite: "Install over the top; playback data is kept",
     changelogTitle: "{range} release summary",
     badgeNew: "NEW",
+    showAllUpdates: "Show all updates",
+    showLessUpdates: "Show less",
     directDownload: "Netdisk download",
     viewOnGithub: "View this version on GitHub",
     panCodeLabel: "Access code",

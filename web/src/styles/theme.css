@@ -1,0 +1,122 @@
+/* ==========================================================================
+   theme.css — 明暗主题切换（浅色模式覆盖）
+   默认深色由 styles.css 的 :root 提供；此处仅覆盖 html[data-theme="light"]。
+   说明：影视/预览框（tv-frame、mockup、截图框）保留深色，符合「屏幕本身是黑的」预期。
+   ========================================================================== */
+
+html[data-theme="light"] {
+  --bg: #f4f6fa;
+  --bg-soft: #ffffff;
+  --card: #ffffff;
+  --card-hover: #eef2f8;
+  --border: rgba(15, 23, 42, 0.1);
+  --text: #0f172a;
+  --text-dim: #475569;
+  --brand: #059e83;
+  --brand-2: #6d4aff;
+  --accent: #b45309;
+
+  --tv-bg: #f4f6fa;
+  --tv-bg-deep: #e7ecf3;
+  --tv-card: #ffffff;
+  --tv-card-hover: #eef2f8;
+  --tv-brand: #059e83;
+  --tv-brand-ink: #ffffff;
+  --tv-purple: #6d4aff;
+  --tv-yellow: #b45309;
+  --tv-title: #0f172a;
+  --tv-text: #334155;
+  --tv-dim: #64748b;
+  --tv-border: rgba(15, 23, 42, 0.1);
+  --tv-border-strong: rgba(15, 23, 42, 0.18);
+  --tv-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+  --tv-shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.14);
+  --tv-shadow-focus: 0 0 0 2px var(--tv-brand), 0 8px 32px rgba(5, 158, 131, 0.18);
+}
+
+/* 页面环境光晕在浅色下降低强度 */
+html[data-theme="light"] body::before {
+  opacity: 0.5;
+}
+
+/* 顶栏滚动后的毛玻璃底色 */
+html[data-theme="light"] .site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* 手机导航抽屉 */
+html[data-theme="light"] .nav-links.open {
+  background: rgba(255, 255, 255, 0.97);
+}
+
+/* 页脚底色与文字 */
+html[data-theme="light"] .site-footer {
+  background: rgba(244, 246, 250, 0.9);
+}
+html[data-theme="light"] .footer-title {
+  color: #334155;
+}
+html[data-theme="light"] .footer-bottom {
+  color: #64748b;
+}
+html[data-theme="light"] .brand-logo {
+  color: #ffffff;
+}
+
+/* 首页 Hero 标题渐变在浅色背景下改用深色到品牌色 */
+html[data-theme="light"] .tv-hero-brand {
+  background: linear-gradient(96deg, #0f172a 8%, #0b7a68 52%, var(--tv-brand) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 胶囊标签在浅色下用浅底深字，保证对比度 */
+html[data-theme="light"] .tv-pill {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: var(--tv-text);
+}
+
+/* 截图「模拟图 / 实机」切换按钮在浅色下用浅底 */
+html[data-theme="light"] .tv-screen-toggle {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(15, 23, 42, 0.14);
+  color: var(--tv-text);
+}
+
+/* ---------- 主题切换按钮（两种主题共用） ---------- */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 34px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+html[data-theme="light"] .theme-toggle {
+  border-color: rgba(15, 23, 42, 0.14);
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.theme-toggle:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle {
+    transition: none;
+  }
+}

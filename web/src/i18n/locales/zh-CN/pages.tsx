@@ -136,6 +136,8 @@ export const zhPages = {
     apkTagOverwrite: "覆盖安装，播放数据自动保留",
     changelogTitle: "{range} 更新摘要",
     badgeNew: "NEW",
+    showAllUpdates: "展开全部更新记录",
+    showLessUpdates: "收起更新记录",
     directDownload: "网盘下载",
     viewOnGithub: "到 GitHub 查看该版本",
     panCodeLabel: "提取码",

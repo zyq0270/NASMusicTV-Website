@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Tag } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -7,6 +8,31 @@ import { useI18n } from "../i18n";
 export default function FeaturesPage() {
   const { t, ta } = useI18n();
   const pills = [...ta("site.devices"), t("featuresPage.licensePill")];
+  /** 当前滚动到视口内的功能模块 key（用于左侧锚点导航高亮） */
+  const [activeKey, setActiveKey] = useState<string>(featureModules[0]?.key ?? "");
+
+  useEffect(() => {
+    const blocks = featureModules
+      .map((m) => document.getElementById(m.key))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (blocks.length === 0 || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]?.target.id) {
+          setActiveKey(visible[0].target.id);
+        }
+      },
+      // 顶部留出导航栏高度，底部收窄到约 40% 视口，避免多个模块同时命中
+      { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+    );
+
+    blocks.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -33,7 +59,12 @@ export default function FeaturesPage() {
           <div className="features-layout">
             <aside className="anchor-nav">
               {featureModules.map((m) => (
-                <a key={m.key} href={`#${m.key}`}>
+                <a
+                  key={m.key}
+                  href={`#${m.key}`}
+                  className={m.key === activeKey ? "is-active" : ""}
+                  aria-current={m.key === activeKey ? "true" : undefined}
+                >
                   {t(`features.${m.key}.title`)}
                 </a>
               ))}

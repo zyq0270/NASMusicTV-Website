@@ -24,6 +24,8 @@ export const zhCommon = {
     mock: "模拟图",
     realShot: "实机截图",
     switchView: "{name}：切换模拟图 / 实机截图",
+    skipToContent: "跳到主内容",
+    backToTop: "回到顶部",
   },
   nav: {
     aria: "主导航",
@@ -38,6 +40,7 @@ export const zhCommon = {
     homeAria: "{name} 首页",
     brandSub: "多源音乐 · TV / 手机双端",
     downloadTitle: "在百度网盘下载最新 APK（{version}）",
+    themeToggle: "切换深浅主题",
   },
   footer: {
     brandDesc:

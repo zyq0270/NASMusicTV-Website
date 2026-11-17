@@ -13,6 +13,10 @@
       content="NAS Music TV,Android TV 音乐播放器,卡拉OK歌词,NAS 音乐,Jellyfin,Navidrome,Subsonic,百度网盘音乐,MTV,天气电台,可视化特效,照片墙,浅色主题"
     />
     <meta name="theme-color" content="#06070e" />
+    <link
+      rel="canonical"
+      href="https://hxzhang2000.github.io/NASMusicTV-Website/"
+    />
     <!--
       多语言：React 挂载前预设 <html lang>，避免刷新时闪烁。
       优先级与 src/i18n/store.ts 一致：URL ?lang=en > localStorage > 浏览器语言。
@@ -38,6 +42,21 @@
         }
       })();
     </script>
+    <!--
+      主题：React 挂载前预设 <html data-theme>，避免深 / 浅色切换时首屏闪烁。
+      localStorage 键 nasmusictv.theme；默认深色（站点为深色沉浸设计）。
+    -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("nasmusictv.theme");
+          if (theme !== "light" && theme !== "dark") theme = "dark";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
     <meta property="og:title" content="NAS Music TV · 为电视而生的开源多源音乐播放器" />
     <meta
       property="og:description"
@@ -54,6 +73,23 @@
       name="twitter:image"
       content="/screens/01-dashboard.jpg"
     />
+    <!-- JSON-LD 结构化数据：让搜索引擎识别为 SoftwareApplication，提升软件类产品在搜索结果中的展示 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "NAS Music TV",
+        "description": "开源的 Android 多源音乐播放器（TV / 手机 / 平板通用）：聚合 Jellyfin、Navidrome、Subsonic、道理鱼、飞牛等 NAS 后端与网络音乐、百度网盘，支持逐字卡拉OK歌词、K 歌伴奏、MTV、天气电台、27 套可视化特效与 70 种照片墙转场。",
+        "version": "1.2.2",
+        "downloadURL": "https://pan.baidu.com/s/1PvG6kbi6W8KzRwHL0S7dGg?pwd=8gbt",
+        "operatingSystem": "Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "CNY"
+        }
+      }
+    </script>
     <!--
       百度统计（hm.js）：全站唯一埋点入口。
       本项目是 React Router SPA，页面切换不触发整页加载，hm.js 默认只上报首屏 PV，
@@ -65,28 +101,40 @@
       3. UrlChangeTracker 故意不采集 replaceState。本项目目前所有跳转均为 pushState
          （router.tsx 无 replace / <Navigate replace>），若将来引入 replace 跳转需改为
          手动 _trackPageview 上报。
+
+      延迟加载：将脚本注入与 _requirePlugin 调用收敛到 DOMContentLoaded 后执行，
+      避免在 <head> 解析阶段抢占首屏渲染关键路径。
     -->
     <script>
       var _hmt = _hmt || [];
       (function () {
-        var hm = document.createElement("script");
-        hm.src =
-          "https://hm.baidu.com/hm.js?dedffde230c3027148520cf301ea680b";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
+        function loadBaiduTongji() {
+          var hm = document.createElement("script");
+          hm.src =
+            "https://hm.baidu.com/hm.js?dedffde230c3027148520cf301ea680b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+
+          // SPA 路由变更跟踪（官方文档：
+          // https://tongji.baidu.com/web/help/article?id=324&type=0）
+          _hmt.push([
+            "_requirePlugin",
+            "UrlChangeTracker",
+            {
+              shouldTrackUrlChange: function (newPath, oldPath) {
+                // 忽略仅 query/hash 变化（如 ?from=xxx），避免重复 PV
+                return newPath && oldPath && newPath.split("?")[0] !== oldPath.split("?")[0];
+              },
+            },
+          ]);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", loadBaiduTongji);
+        } else {
+          loadBaiduTongji();
+        }
       })();
-      // SPA 路由变更跟踪（官方文档：
-      // https://tongji.baidu.com/web/help/article?id=324&type=0）
-      _hmt.push([
-        "_requirePlugin",
-        "UrlChangeTracker",
-        {
-          shouldTrackUrlChange: function (newPath, oldPath) {
-            // 忽略仅 query/hash 变化（如 ?from=xxx），避免重复 PV
-            return newPath && oldPath && newPath.split("?")[0] !== oldPath.split("?")[0];
-          },
-        },
-      ]);
     </script>
   </head>
   <body>

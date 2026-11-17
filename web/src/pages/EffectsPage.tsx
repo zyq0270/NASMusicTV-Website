@@ -26,6 +26,8 @@ export default function EffectsPage() {
   /** 打开灯箱的触发元素，关闭后把焦点还回去 */
   const triggerRef = useRef<HTMLElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  /** 灯箱容器，用于 Tab 焦点陷阱 */
+  const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const isOpen = openAt !== null;
 
@@ -50,6 +52,28 @@ export default function EffectsPage() {
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         step(1);
+      } else if (e.key === "Tab") {
+        // 焦点陷阱：Tab / Shift+Tab 在灯箱内的可聚焦元素间循环，避免逃逸到背景
+        const root = dialogRef.current;
+        if (!root) return;
+        const focusables = Array.from(
+          root.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => !el.hasAttribute("disabled"));
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (e.shiftKey) {
+          if (active === first || !root.contains(active)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else if (active === last || !root.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -123,6 +147,8 @@ export default function EffectsPage() {
                     <img
                       src={effectSrc(shot)}
                       alt={t("effectsPage.shotAlt", { name: nameOf(shot.enum) })}
+                      width={1280}
+                      height={720}
                       loading="lazy"
                       decoding="async"
                       onError={() => markFailed(shot.enum)}
@@ -157,6 +183,7 @@ export default function EffectsPage() {
           className="effect-lightbox"
           role="dialog"
           aria-modal="true"
+          ref={dialogRef}
           aria-label={t("effectsPage.lightboxAria", { name: nameOf(current.enum) })}
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpenAt(null);
@@ -206,6 +233,8 @@ export default function EffectsPage() {
                 <img
                   src={effectSrc(current)}
                   alt={t("effectsPage.lightboxAlt", { name: nameOf(current.enum) })}
+                  width={1280}
+                  height={720}
                   onError={() => markFailed(current.enum)}
                 />
               )}

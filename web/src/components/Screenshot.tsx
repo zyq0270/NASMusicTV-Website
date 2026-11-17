@@ -60,6 +60,8 @@ export default function Screenshot({
           className="shot-img"
           src={activeFile}
           alt={alt}
+          width={portrait ? 720 : 1280}
+          height={portrait ? 1280 : 720}
           loading="lazy"
           decoding="async"
         />

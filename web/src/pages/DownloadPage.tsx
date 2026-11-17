@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   CheckCircleOutlined,
   DownloadOutlined,
@@ -39,6 +39,10 @@ export default function DownloadPage() {
   const abis = tv<{ name: string; desc: string }[]>("downloadPage.abis");
   const devices = tv<{ title: string; desc: ReactNode }[]>("downloadPage.devices");
   const faqs = tv<{ q: string; a: string }[]>("faqs");
+  const [showAllChangelog, setShowAllChangelog] = useState(false);
+  const visibleChangelog = showAllChangelog
+    ? recentChangelog
+    : recentChangelog.slice(0, 3);
 
   return (
     <>
@@ -88,7 +92,7 @@ export default function DownloadPage() {
                     {t("downloadPage.changelogTitle", { range: CHANGELOG_RANGE })}
                   </div>
                   <div className="apk-changelog-list">
-                    {recentChangelog.map((entry) => (
+                    {visibleChangelog.map((entry) => (
                       <div
                         className={`apk-changelog-item${entry.highlight ? " apk-changelog-item--highlight" : ""}`}
                         key={entry.version}
@@ -102,6 +106,18 @@ export default function DownloadPage() {
                       </div>
                     ))}
                   </div>
+                  {recentChangelog.length > 3 && (
+                    <button
+                      type="button"
+                      className="changelog-toggle"
+                      onClick={() => setShowAllChangelog((v) => !v)}
+                      aria-expanded={showAllChangelog}
+                    >
+                      {showAllChangelog
+                        ? t("downloadPage.showLessUpdates")
+                        : t("downloadPage.showAllUpdates")}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -172,8 +188,12 @@ export default function DownloadPage() {
 
           {faqs.map((f) => (
             <div className="faq-item" key={f.q}>
-              <div className="faq-q">{f.q}</div>
-              <div className="faq-a">{f.a}</div>
+              <details>
+                <summary>
+                  <span className="faq-q">{f.q}</span>
+                </summary>
+                <div className="faq-a">{f.a}</div>
+              </details>
             </div>
           ))}
         </div>

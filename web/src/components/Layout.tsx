@@ -12,6 +12,8 @@ import { site, APK_DOWNLOAD_URL, APK_VERSION } from "../data/site";
 import { SITE_VERSION } from "../version";
 import { useI18n } from "../i18n";
 import LanguageSwitch from "../i18n/LanguageSwitch";
+import BackToTop from "./BackToTop";
+import ThemeToggle from "./ThemeToggle";
 
 /** 导航项：path 为路由，labelKey 为词典 nav.<key> */
 const NAV = [
@@ -62,6 +64,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        {t("common.skipToContent")}
+      </a>
+
       <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="header-inner">
           <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label={t("header.homeAria", { name: site.name })}>
@@ -89,6 +95,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="header-actions">
+            <ThemeToggle />
             <LanguageSwitch />
             <Button
               className="mobile-menu-btn"
@@ -98,7 +105,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               aria-label={t("common.menu")}
             />
             <a href={site.repo} target="_blank" rel="noreferrer">
-              <Button type="text" icon={<GithubOutlined />} style={{ color: "#98a2bf" }}>
+              <Button type="text" icon={<GithubOutlined />} style={{ color: "var(--text-dim)" }}>
                 {t("common.source")}
               </Button>
             </a>
@@ -111,7 +118,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="site-content">{children}</main>
+      <main id="main-content" className="site-content" tabIndex={-1}>{children}</main>
 
       <footer className="site-footer">
         <div className="container">
@@ -182,6 +189,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+
+      <BackToTop />
     </>
   );
 }

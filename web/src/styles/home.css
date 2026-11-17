@@ -7,7 +7,7 @@
            辅助紫 #7B61FF（渐变强调）、暖黄 #FFB800（K 歌歌词高亮）。
    - 文字层级：#FFFFFF 标题 / #C8D0DA 正文 / #7E8EA5 次要（原 #6B7A8F 在 #0A0E14 上
            对比度仅 4.39:1，未达 WCAG AA，微调为 #7E8EA5 → 5.76:1）。
-   - 字体：Inter / SF Pro Display 标题（700）；数字与标签用 JetBrains Mono / SF Mono。
+   - 字体：系统无衬线标题（700）；数字与标签用系统等宽字体栈。
    - 间距：8px 基准，卡片内边距 24–32px，区块间距 80–120px（--tv-section）。
    - 圆角：卡片 16px，胶囊按钮 999px，大屏焦点态 20px。
    - 阴影：卡片 0 4px 24px rgba(0,0,0,.4)；焦点 0 0 0 2px #00D4AA + 0 8px 32px rgba(0,212,170,.2)。
@@ -15,36 +15,8 @@
    ========================================================================== */
 
 .tv-home {
-  /* —— 色板 —— */
-  --tv-bg: #0a0e14;
-  --tv-bg-deep: #05070c;
-  --tv-card: #141a24;
-  --tv-card-hover: #1c2433;
-  --tv-brand: #00d4aa;
-  --tv-brand-ink: #05201a;
-  --tv-purple: #7b61ff;
-  --tv-yellow: #ffb800;
-  --tv-title: #ffffff;
-  --tv-text: #c8d0da;
-  --tv-dim: #7e8ea5;
-  --tv-border: rgba(255, 255, 255, 0.06);
-  --tv-border-strong: rgba(255, 255, 255, 0.12);
-
-  /* —— 圆角 / 间距 / 阴影 —— */
-  --tv-radius: 16px;
-  --tv-radius-lg: 20px;
-  --tv-unit: 8px;
-  --tv-section: 104px;
-  --tv-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --tv-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55);
-  --tv-shadow-focus: 0 0 0 2px var(--tv-brand), 0 8px 32px rgba(0, 212, 170, 0.2);
-
-  /* —— 字体 —— */
-  --tv-font: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial,
-    sans-serif;
-  --tv-mono: "JetBrains Mono", "SF Mono", ui-monospace, SFMono-Regular, Consolas, Menlo,
-    monospace;
+  /* 【设计令牌已统一迁移至 styles.css 的 :root（全站唯一来源）】
+     本容器直接继承 :root 的 --tv-* 变量，不再重复定义，避免品牌色调整需改两处。 */
 
   position: relative;
   color: var(--tv-text);
@@ -1352,7 +1324,7 @@
 .tv-pill.is-version {
   border-color: rgba(0, 212, 170, 0.45);
   color: var(--tv-brand, #00d4aa);
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -1386,7 +1358,7 @@
 }
 
 .tv-whatsnew-index {
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;

@@ -20,6 +20,8 @@ export const enCommon = {
     mock: "Mockup",
     realShot: "Screenshot",
     switchView: "{name}: toggle mockup / screenshot",
+    skipToContent: "Skip to main content",
+    backToTop: "Back to top",
   },
   nav: {
     aria: "Main navigation",
@@ -34,6 +36,7 @@ export const enCommon = {
     homeAria: "{name} home",
     brandSub: "Multi-source music · TV / Phone",
     downloadTitle: "Get the latest APK ({version}) on Baidu Netdisk",
+    themeToggle: "Toggle light / dark theme",
   },
   footer: {
     brandDesc:

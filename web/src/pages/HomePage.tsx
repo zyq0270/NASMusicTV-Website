@@ -23,10 +23,11 @@
  * 【多语言体系】全部文案经 useI18n() 的 t() / ta() 从词典取值（中英双语），
  * 结构与图标数据来自 data/site.tsx。
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { site, stats, highlights, featureModules, screenKeys, APK_DOWNLOAD_URL, APK_VERSION } from "../data/site";
 import { useScreenshots } from "../hooks/useScreenshots";
+import { useToggle } from "../hooks/useToggle";
 import { heroShot, screenShots } from "../data/screenshots";
 import { TvIcon } from "../components/TvIcons";
 import { useI18n } from "../i18n";
@@ -302,7 +303,7 @@ function ScreenCard({
   delay: number;
 }) {
   const { t } = useI18n();
-  const [showShot, setShowShot] = useState(false);
+  const [showShot, toggleShot] = useToggle(false);
   const shot = showShot && shotSrc ? shotSrc : null;
 
   const name = t(`screens.${screenKey}.name`);
@@ -320,7 +321,14 @@ function ScreenCard({
       <div className="tv-screen-frame">
         <div className="tv-screen-16x9">
           {shot ? (
-            <img src={shot} alt={t("home.screenShotAlt", { name })} loading="lazy" decoding="async" />
+            <img
+              src={shot}
+              alt={t("home.screenShotAlt", { name })}
+              width={1280}
+              height={720}
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             <TvMock kind={kind} />
           )}
@@ -329,7 +337,7 @@ function ScreenCard({
           <button
             type="button"
             className="tv-screen-toggle"
-            onClick={() => setShowShot((v) => !v)}
+            onClick={toggleShot}
             aria-pressed={showShot}
             aria-label={t("common.switchView", { name })}
           >
@@ -466,7 +474,10 @@ export default function HomePage() {
                       className="tv-frame-img"
                       src={heroFile}
                       alt={t("home.heroAlt")}
+                      width={1280}
+                      height={720}
                       loading="eager"
+                      fetchPriority="high"
                       decoding="async"
                     />
                   ) : (

@@ -1,0 +1,170 @@
+/* ==========================================================================
+   ui-extras.css — 交互增强层
+   承载：跳转链接（Skip Link）、回到顶部按钮、FAQ 折叠、更新记录折叠按钮、锚点高亮。
+   色值统一引用 styles.css :root 的设计令牌。
+   ========================================================================== */
+
+/* ---------- Skip Link：默认视觉隐藏，键盘聚焦时显现 ---------- */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--brand);
+  color: #04201a;
+  font-weight: 600;
+  font-size: 14px;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Skip Link 目标：避开吸顶导航、并去除聚焦时的默认描边（tabIndex=-1 仅用于程序化聚焦） */
+#main-content {
+  scroll-margin-top: 80px;
+  outline: none;
+}
+
+/* ---------- 回到顶部按钮 ---------- */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 170, 0.45);
+  background: rgba(10, 14, 20, 0.82);
+  color: var(--brand);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease,
+    visibility 0.25s;
+  backdrop-filter: blur(8px);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--brand);
+  color: #04201a;
+  transform: translateY(-2px);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* ---------- FAQ 折叠（原生 details / summary） ---------- */
+.faq-item details {
+  margin: 0;
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 170, 0.4);
+  color: var(--brand);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.faq-item details[open] summary::after {
+  content: "−";
+}
+
+.faq-item summary .faq-q {
+  margin: 0;
+}
+
+.faq-item details[open] .faq-a {
+  margin-top: 10px;
+}
+
+/* ---------- 下载页更新记录「展开/收起」按钮 ---------- */
+.changelog-toggle {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 212, 170, 0.45);
+  background: rgba(0, 212, 170, 0.04);
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.changelog-toggle:hover {
+  background: rgba(0, 212, 170, 0.12);
+  border-color: var(--brand);
+}
+
+.changelog-toggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* ---------- 功能页锚点导航当前项高亮 ---------- */
+.anchor-nav a.is-active {
+  color: var(--brand);
+  background: rgba(0, 212, 170, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(0, 212, 170, 0.32);
+}
+
+/* ---------- 动效可访问性兜底 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .skip-link,
+  .changelog-toggle {
+    transition: none;
+  }
+}
