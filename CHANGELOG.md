@@ -13,6 +13,28 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.3.0] - 2026-11-17
+
+体验与工程质量升级（minor）：性能、SEO、可访问性、明暗主题切换与代码质量多维度优化。
+
+### Added
+- 新增明 / 暗主题切换（导航栏按钮）：由 `<html data-theme>` 驱动，`localStorage` 持久化，`index.html` 内联脚本预设避免首屏闪烁；浅色模式仅翻转页面色令牌，TV 外框 / mockup / 截图框保留深色。
+- 新增 `robots.txt` 与覆盖 6 个路由的 `sitemap.xml`；`index.html` 增加 `canonical` 链接与 `SoftwareApplication` JSON-LD 结构化数据。
+- 新增 Skip Link（可聚焦、避开吸顶导航）、回到顶部按钮、灯箱完整焦点陷阱（Tab / Shift+Tab 在灯箱内循环）。
+- 下载页 FAQ 改为原生 `<details>` 折叠；更新记录默认展示 3 条并提供「展开全部 / 收起」。
+- 功能页左侧锚点导航新增滚动同步高亮（IntersectionObserver）。
+- 新增共享 `useToggle` hook，统一首页截图卡片的「模拟图 / 实机截图」切换。
+
+### Changed
+- 百度统计 `hm.js` 改为 `DOMContentLoaded` 后延迟加载，不再阻塞首屏（UrlChangeTracker 逻辑不变）。
+- 所有截图 `img` 补充 `width` / `height`（降低 CLS），首页 Hero 主视觉加 `fetchPriority="high"`。
+- 字体声明由未加载的 Inter / JetBrains Mono 统一为系统字体栈。
+- 设计令牌统一到 `styles.css` 的 `:root` 作为全站唯一来源，`home.css` 的 `.tv-home` 改为继承，消除重复定义。
+- 网站版本号 `package.json` / `web/package.json` / `web/package-lock.json` 统一 1.2.2 → **1.3.0**。
+
+### 验证
+- `npm run build` 通过；`npm run smoke`（jsdom 运行时冒烟）六路由渲染、中英切换、`?lang=` 直达均通过，零运行时错误。
+
 ## [1.2.2] - 2026-11-16
 
 内容补齐（patch）：特效图集对齐应用 v2.39.18 的 29 套 VisualizerTheme，私有快照显式标注版权状态。
