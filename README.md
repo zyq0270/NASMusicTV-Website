@@ -2,10 +2,10 @@
 
 NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍这款开源的 Android 多源音乐播放器（电视 / 手机 / 平板通用）：聚合 NAS、网络音乐、百度网盘与 Jamendo 多音乐源，支持逐字卡拉OK歌词、K 歌伴奏、MTV、天气电台、27 套公开可视化特效（图集展示 29 张，含 2 套版权未公开快照）与照片墙 70 种转场。
 
-> 本仓库只托管**官网前端**。Android 应用本体在 [hxzhang2000/NASMusicTV](https://github.com/hxzhang2000/NASMusicTV)（Gitee 镜像：[hxzhang2000/NASMusicTV](https://gitee.com/hxzhang2000/NASMusicTV)）。最新版 APK 通过 **Gitee Release** 分发，不随站点产物发布。
+> 本仓库只托管**官网前端**。Android 应用本体在 [zyq0270/NASMusicTV](https://github.com/zyq0270/NASMusicTV)（Gitee 镜像：[hxzhang2000/NASMusicTV](https://gitee.com/hxzhang2000/NASMusicTV)）。最新版 APK 通过 **Gitee Release** 分发，不随站点产物发布。
 
-[![Release](https://img.shields.io/github/v/release/hxzhang2000/NASMusicTV?color=blue&label=App%20Release)](https://github.com/hxzhang2000/NASMusicTV/releases)
-[![Website](https://img.shields.io/badge/website-repo-00d4aa?logo=github)](https://github.com/hxzhang2000/NASMusicTV-Website)
+[![Release](https://img.shields.io/github/v/release/zyq0270/NASMusicTV?color=blue&label=App%20Release)](https://github.com/zyq0270/NASMusicTV/releases)
+[![Website](https://img.shields.io/badge/website-repo-00d4aa?logo=github)](https://github.com/zyq0270/NASMusicTV-Website)
 [![Gitee](https://img.shields.io/badge/Gitee-NASMusicTV--Website-red?logo=gitee)](https://gitee.com/hxzhang2000/NASMusicTV-Website)
 
 ---
@@ -156,7 +156,7 @@ npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 
 ## 部署（GitHub Pages）
 
-推送 `main` 触发 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)，产物发布到 `https://hxzhang2000.github.io/NASMusicTV-Website/`。首次启用需在仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
+推送 `main` 触发 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)，产物发布到 `https://zyq0270.github.io/NASMusicTV-Website/`。首次启用需在仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
 
 - Pages 跑在 `/<仓库名>/` 子路径，工作流用 `VITE_BASE` 覆盖 Vite `base`；根域名部署不设该变量。
 - 工作流把 `dist/index.html` 复制成 `dist/404.html` 承接深链；`web/public/.nojekyll` 关闭 Jekyll 处理。
@@ -178,10 +178,10 @@ docker run --rm -p 8080:80 nasmtv-web   # http://localhost:8080
 
 ## 相关链接
 
-- **官网源码（本站）**：[GitHub](https://github.com/hxzhang2000/NASMusicTV-Website) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV-Website)
-- **应用源码**：[GitHub](https://github.com/hxzhang2000/NASMusicTV) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV)
-- **版本发布记录**：[GitHub Releases](https://github.com/hxzhang2000/NASMusicTV/releases) · [Gitee Releases](https://gitee.com/hxzhang2000/NASMusicTV/releases)
-- **问题反馈**：[官网 / 文档](https://github.com/hxzhang2000/NASMusicTV-Website/issues) · [应用 / 功能](https://github.com/hxzhang2000/NASMusicTV/issues)
+- **官网源码（本站）**：[GitHub](https://github.com/zyq0270/NASMusicTV-Website) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV-Website)
+- **应用源码**：[GitHub](https://github.com/zyq0270/NASMusicTV) · [Gitee](https://gitee.com/hxzhang2000/NASMusicTV)
+- **版本发布记录**：[GitHub Releases](https://github.com/zyq0270/NASMusicTV/releases) · [Gitee Releases](https://gitee.com/hxzhang2000/NASMusicTV/releases)
+- **问题反馈**：[官网 / 文档](https://github.com/zyq0270/NASMusicTV-Website/issues) · [应用 / 功能](https://github.com/zyq0270/NASMusicTV/issues)
 
 ## 开源协议
 
