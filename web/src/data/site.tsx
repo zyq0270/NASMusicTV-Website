@@ -17,6 +17,7 @@ import {
   SettingOutlined,
   ApiOutlined,
   BgColorsOutlined,
+  AimOutlined,
 } from "@ant-design/icons";
 
 /**
@@ -40,13 +41,13 @@ export const site = {
 
 /**
  * 应用最新版本（下载页 / 首页 / 关于页共用，唯一来源）。
- * 当前对应应用仓库 v2.39.20 / versionCode 205（2026-11-16）。
+ * 当前对应应用仓库 v2.39.27 / versionCode 212（2026-11-23）。
  */
-export const APK_VERSION = "v2.39.20";
+export const APK_VERSION = "v2.39.27";
 
 /**
  * APK 分发方式（网站 1.3.3 起）：
- * v2.39.20 安装包约 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
+ * v2.39.27 安装包约 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
  * 因此不随站点产物发布。主入口为「Gitee 最新 Release 页面」（/releases/latest），
  * 浏览器访问会 302 到最新版本的 Release 页，用户在该页点 APK 附件下载；
  * 好处是发版后无需改官网链接即可指向最新版。
@@ -92,6 +93,13 @@ export interface RecentChangelogEntry {
 }
 
 export const recentChangelog: RecentChangelogEntry[] = [
+  { version: "v2.39.27", date: "11-23", highlight: true },
+  { version: "v2.39.26", date: "11-20", highlight: true },
+  { version: "v2.39.25", date: "11-20" },
+  { version: "v2.39.24", date: "11-20" },
+  { version: "v2.39.23", date: "11-20" },
+  { version: "v2.39.22", date: "11-18" },
+  { version: "v2.39.21", date: "11-17" },
   { version: "v2.39.20", date: "11-16", highlight: true },
   { version: "v2.39.19", date: "11-16", highlight: true },
   { version: "v2.39.18", date: "11-10" },
@@ -105,7 +113,7 @@ export const recentChangelog: RecentChangelogEntry[] = [
 ];
 
 /** 下载页「版本说明」标题范围 */
-export const CHANGELOG_RANGE = "v2.38.15 → v2.39.20";
+export const CHANGELOG_RANGE = "v2.38.15 → v2.39.27";
 
 /** 首页统计项：value 为数字本体，label 文案在词典 stats.<key> 中维护 */
 export interface StatItem {
@@ -133,7 +141,7 @@ export const highlights: Highlight[] = [
   { key: "karaoke", icon: <PlayCircleOutlined /> },
   { key: "visualizer", icon: <PictureOutlined /> },
   { key: "photo-wall", icon: <PictureOutlined /> },
-  { key: "new-effects", icon: <PictureOutlined /> },
+  { key: "quick-dial", icon: <AimOutlined /> },
   { key: "mtv", icon: <DesktopOutlined /> },
   { key: "weather-radio", icon: <CloudOutlined /> },
   { key: "light-theme", icon: <BgColorsOutlined /> },
@@ -147,7 +155,7 @@ export interface FeatureModule {
   icon: React.ReactNode;
 }
 
-/** 18 个功能模块：title / summary / items 在词典 features.<key> 中维护 */
+/** 19 个功能模块：title / summary / items 在词典 features.<key> 中维护 */
 export const featureModules: FeatureModule[] = [
   { key: "dashboard", icon: <HomeOutlined /> },
   { key: "nas", icon: <CloudServerOutlined /> },
@@ -163,6 +171,7 @@ export const featureModules: FeatureModule[] = [
   { key: "photo-wall", icon: <PictureOutlined /> },
   { key: "theme", icon: <BgColorsOutlined /> },
   { key: "library", icon: <UnorderedListOutlined /> },
+  { key: "quick-dial", icon: <AimOutlined /> },
   { key: "mine", icon: <HeartOutlined /> },
   { key: "settings", icon: <SettingOutlined /> },
   { key: "tv", icon: <DesktopOutlined /> },

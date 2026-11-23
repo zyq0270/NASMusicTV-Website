@@ -90,7 +90,7 @@ export const enScreens = {
     about: {
       name: "About",
       tag: "TV / Phone",
-      desc: "Settings navigation on the left (Cache management / Network check / Netdisk / Data management / About) and the teal “About” title on the right, with an info table of label-value rows: app name NAS Music TV, version v2.39.20, build type release, license GPL v3, supported backends Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛, and real backend API versions and connection status viewable at runtime.",
+      desc: "Settings navigation on the left (Cache management / Network check / Netdisk / Data management / About) and the teal “About” title on the right, with an info table of label-value rows: app name NAS Music TV, version v2.39.27, build type release, license GPL v3, supported backends Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛, and real backend API versions and connection status viewable at runtime.",
     },
     remote: {
       name: "Phone Remote",

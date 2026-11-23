@@ -1,7 +1,251 @@
 # NASMusicTV 应用 CHANGELOG 快照
 
-> 由 `../NASMusicTV/CHANGELOG.md` 截取 v2.39.x 全量段落生成，供 Docker / CI 构建回落使用（已同步至 v2.39.20）。
+> 由 `../NASMusicTV/CHANGELOG.md` 截取 v2.39.x 全量段落生成，供 Docker / CI 构建回落使用（已同步至 v2.39.27）。
 > 应用发版后请重新运行同步脚本刷新本文件。
+
+## \[v2.39.27] - 2026-11-23
+
+> 落实 2026-11-23 增量代码审查的全部 62 条发现。
+>
+> 同版本新增「半圆快速选择器（Quick Dial）」：搜索快填 / 播放队列快切 / 按类别热统计 / 候选只列历史查询 / 设置分类别统计。设计与验收见 `docs/archive/年度歌单快速选择开发方案.md`（已定稿归档）。
+
+### Added
+
+- 半圆快速选择器：曲库各 Tab 搜索框右侧新增快选**图标按钮**（`QueueMusic`，与播放页队列快切同图标），沿中央选择带旋转候选项，选中即填入搜索并触发搜索；候选项按**本类别**快选次数热度倒序，同热度按名称排序。
+- 播放页控制按钮行最左新增队列快切入口，打开队列歌曲拨盘直接切歌，仅按队列顺序、不写热度统计。
+- 快捷选择统计按歌曲 / 专辑 / 艺术家 / 流派 / 年代 / 搜索 / 发现 / 电台分类记录，设置页分区展示概览，并可进入单类别明细页查看与清除。
+- 候选项**只列该类别的历史查询记录**，不列当前页面列表数据（无论是否已搜出结果）；条目沿用播放页队列拨盘的统一配色（中央 `Primary` / 其余 `TextPrimary`），不加「历史」角标或前缀文字。统计新增 `quick_pick_stats` DataStore 键（上限 300），纳入备份导出 / 恢复。
+- 统计写入点补齐：点击流派卡片 / 年代卡片（本质是按流派、年代取歌单的一次查询）与电台 tab 自带搜索框确认时也计入对应类别，避免这些类别的历史桶长期为空、快选拨盘弹不出内容。
+- 冷启动兜底：某类别尚无历史记录时点快选按钮不再无反应，直接打开搜索输入框，搜一次即开始积累该类历史。
+- 曲库各 Tab 搜索统一为**就地展示结果**：流派 / 年代 / 发现 / 电台不再在搜索后强制跳到搜索页；发现页点歌曲播放也计入「发现」类别历史。
+- 搜索结果**沿用各页自己的展示方式**：发现页保留语种/维度筛选条、只换歌曲网格数据源；流派页/年代页保留卡片网格、在其下方以同一套卡片样式追加结果；电台页就地过滤电台列表。不再用搜索页 UI 整页替换。
+- 拨盘视觉定稿：半透明遮罩、无标题、文字沿弧线放射状倾斜、点击条目即确认，去掉底部确认块与提示文字；圆心侧绘制半圆装饰弧。
+- 拨盘交互定稿：绝对位置滚动模型 + 手势跟手（不漂移）；弧面朝向按入口镜像（搜索页圆心在右、播放页圆心在左）；横屏适配。
+
+### Fixed
+
+- 网络音乐搜索、洛雪脚本与百度歌词的正文读取改为循环读满上限，超长正文不再被截断。
+- 洛雪脚本安装不再接受被截断的脚本正文。
+- 网络直链缓存键加入平台维度，避免跨平台同号串链。
+- MV 搜索结果的缓存读取与清理移出主线程。
+- MTV「下一首」在队列无法推进时不再触发退出重播当前曲。
+- 百度 OAuth 的错误字段读取统一只接受 JSON 原始值。
+- 播放队列追加在播放器未装载队列时只更新镜像，避免当前曲被跳到第一首。
+- 队列播到末尾时同步复位播放意图态。
+- 首曲解析回写前校验当前曲，切歌时作废在途解析。
+- 空播放地址对网络歌与非网络歌统一提示并停止发起播放。
+- 睡眠定时状态订阅的异常兜底移入收集回调内部。
+- 随心听续播在无新增曲目时退避。
+- 进度条拖动结束后复位手势标志。
+- 搜索聚合的本地分支不再依赖已按同一开关过滤的来源集合。
+- Navidrome / Subsonic 空专辑页不再被当成请求失败。
+- 飞牛分页失败改用本次调用的本地标记判定；艺术家分页失败必须上报。
+- 本地专辑按专辑名归堆选择主要艺术家，合辑不再被拆成多张同名卡。
+- Jellyfin 与道理鱼的歌手曲目、艺术家列表补齐失败上报与全量分页。
+- 道理鱼的按名查询标记与实现对齐。
+- 网络曲单曲删除按档位记录逐条删除并给出失败提示。
+- 下载终态早返回同步清理内存状态。
+- 崩溃恢复与写入侧共用艺术家目录规则。
+- 内嵌中的文件写入完成标记，崩溃恢复不再认领可能被截断的文件。
+- 跨源去重键统一为同一实现。
+- 设置存储增加损坏自愈与启动读取兜底。
+- 封面缓存重建时关闭旧 ImageLoader；关闭缓存后仍可清除封面缓存目录。
+- 歌词缓存开关只门控写入，读取仍可使用已有缓存。
+- 日志轮转的回退路径改为原子中转，轮转结果再按字节上限裁剪。
+- 网络收藏补齐平台与存储类型，已下载收藏在关闭本地音乐后仍可见。
+- 专辑/歌手详情缓存在来源开关与曲库刷新时失效。
+- 搜索态专辑不再命中旧搜索结果。
+- 电台搜索增加任务取消与代数守卫。
+- 专辑/歌手详情的返回键回到进入前的页面。
+- 专辑详情空态增加重试。
+- K 歌歌词插值改用真实出声状态。
+- 音质弹窗初始选中收敛到当前设备可选档位。
+- MV 搜索页补初始焦点。
+- 库页歌曲标题在搜索时只显示结果数。
+- 电台页在加载期间显示加载中。
+- 补齐 5 个新增文案的英文翻译。
+- 服务端歌单入口不再重复拉取。
+- 播放列表页按真实状态显示加载、错误与重试。
+- 波形擦除改用无数据退化路径。
+- K 歌人声分离与歌词缓存的后台协程补异常处理。
+- 缓存写盘失败不再导致进程崩溃。
+- 后端初始化失败不再重复释放适配器。
+- 洛雪宿主的阻塞等待可被取消。
+- 歌词请求的 hash 与 songId 改为逐参数编码。
+- 艺术家封面字段的 JSON null 处理修正。
+- 歌词来源切换不再吞掉协程取消。
+- 网盘搜索显示加载态。
+- 画质降档回落主题持久化，冷启动校正互不支持的存档。
+- 相册权限被拒后提供系统设置入口。
+- 播放列表 URL 检查按歌曲一一对应。
+- 备份写失败回滚媒体库记录，同秒导出不再覆盖。
+- 连接按钮在连接中禁止重复触发。
+- 自制键盘的长输入框单行显示并保留尾部。
+
+## \[v2.39.26] - 2026-11-20
+
+> 修复「首字母 / 全拼搜索」在四个搜索入口上的链路缺陷。逐条根因见 `docs/technical-overview.md` §10.417。
+
+### Fixed
+
+- **全拼搜索对 NAS / 百度网盘 / 本地三源整体失效**：聚合器采集阶段用 `PinyinUtils.matches`（只有子串 + 首字母）先筛一遍，候选集已空，后续「精细过滤」的全拼逻辑拿到空列表。现三路匹配（子串 + 全拼 + 首字母）合入 `PinyinUtils`，采集与精细过滤共用同一判据。
+- **艺术家 Tab 全拼搜索空白**：聚合结果又被一层 `PinyinUtils.matches` 过滤，`zhoujielun` 能搜到歌却匹配不到「周杰伦」三个字。随匹配口径统一修复，并保留该层过滤（合唱名拆分后需剔除非命中名字）。
+- **英文 / 拼音输入把源静默关掉**：拼音分支在本地缓存为空或零命中时直接返回空（百度尤甚：没建索引就搜不到任何东西）。现改为**本地优先、零命中回退服务端**，`adele` 这类英文词不再被当成拼音判死。
+- **切 Tab 不重搜，搜索结果停在旧维度**：`selectLibraryTab` 只改状态。现按新 Tab 的 `searchType` 重新发起（缓存键本身含维度，同维度切换仍命中缓存，不产生多余请求）。
+- **网盘页搜索不认拼音**：`searchBaidu` 只调服务端 `searchAudio`（字面量匹配）。现拼音/首字母输入先查本地索引、先出结果，服务端返回后按 `fsId` 合并去重；服务端失败时保留本地命中。
+- **电台搜索不认拼音**：radio-browser 的 `name=` 只做字面量匹配。现对拼音形态的输入额外抓一份热门榜在客户端筛，再与直搜结果合并去重。
+- **多词搜索是死代码**：`PinyinMatcher.matchesMultipleWords` 无调用点，实际传进匹配器的是整串。现按空白分词、**每个词都要命中**（可分别落在歌名/歌手/专辑上），覆盖聚合器、百度索引、曲库网格过滤。
+- **首搜卡主线程**：`SearchViewModel` 在实参位置对百度索引（TV 上可达 3.8 万条）做拼音匹配，参数求值发生在聚合器的 `Dispatchers.Default` 之前。现移入 `withContext(Default)`，且只对拼音形态的输入求值。
+- **首字母缓存声明后从未使用**：`PinyinUtils.initialsCache` 接上读写（§10.89.3 只做了 `toPinyin` 一半）。
+
+### Removed
+
+- `util/PinyinMatcher.kt`：全项目零调用点，且与 `PinyinUtils.matches` 能力不等价（正是全拼被裁掉的根因）。能力已合入 `PinyinUtils`。
+
+### Added
+
+- `util/SearchQuery.kt`：`isPinyinLike`（本地拼音过滤 / 服务端搜索的路由判据）与 `tokens`（多词分词）的唯一出处。
+- 单测：`PinyinUtilsTest` 补全拼 / 首字母 / 多词 / 分组首字母；新增 `SearchQueryTest`（形态判定与分词边界）。
+
+### Changed
+
+- 版本号 `versionCode 210 → 211`，`versionName 2.39.25 → 2.39.26`。
+
+### 同版增补（2026-11-21，网络艺人详情）
+
+> 同一效果的多轮修复不升版本号（所有者 2026-11-09 裁定），并入 v2.39.26。
+
+- **网络艺人卡片有歌、详情页 0 首**：卡片数字来自统一搜索的 `findArtist + getArtistSongs` 全量展开，详情页却只调 `search(artistName)`（`nativeFirst=false` 的 Meting 端点泛化搜索）再按歌手名全等过滤，端点结果 artist 常为空/带后缀即整批丢弃，空列表又写进缓存被短路。现新增无状态 `NetworkArtistDetailFetcher`：netease 走 `findArtist→getArtistSongs` 分页拉全量（每页 100，硬上限 5000），未命中/取数失败/零命中一律回退关键词搜索——非 netease 平台（QQ/酷狗/酷我/咪咕）行为与修复前一致，不会退化成 0 首。
+- **详情页网络分支缺可见性门控**：与 `SearchAggregator` 口径分叉，关掉 Meting 仍发请求且会把 fallback 的百度/Jamendo 歌混进网络标签。现补 `NETWORK_MUSIC` 显式门控 + 只认 `networkSource==meting` 归属过滤；关源时同步清 `artistDetailSongsCache` 的网络段。
+- **歌手名全等过滤漏掉带后缀变体**：`ArtistSplitter` 新增 `matchKey`（有界后缀归一化），只剥白名单内以括号/短横线界定的演出/版本标记（Live/现场/伴奏/Remix 等），保持拆分后全等——「周」不会命中「周杰伦」，白名单外的 `(精选)` 仍视为独立名字。`normalizeKey` 身份口径不变，不影响专辑/去重 Map 键。
+- **空态无重试入口**：网络首屏零命中走 `EmptyState` 而非错误态，用户只能反复进出（每次重发五源含 10-15s Meting）。现 EmptyState 挂 `onAction=onRetry`，走原有 `forceReload=true`。
+- 门禁 `ArtistDetailFlowGateTest` 新增 T6（门控/兜底/归属/有界匹配/空态重试，含负自检）；离线预检 `logs_temp/artist_detail_flow_verify.py` 同步；新增纯 JVM 单测 `NetworkArtistDetailFetcherTest`（T1–T8）、`ArtistSplitterTest` 有界后缀三例。
+- **网络艺人卡片与详情头像都无封面**：网络源合成卡片（`search_artist_*`）的 `coverUrl` 恒为 null，又不在 `_mergedArtists` 中 ⇒ 在线兜底解析扫不到它；但名下歌曲（艺人全量展开）自带封面。现卡片与详情头像在自身无封面时就地回退到第一首有封面歌曲的封面，与专辑卡/本地艺术家同口径；不碰 ViewModel 与缓存，无新增网络请求。根因与修复见 `docs/technical-overview.md` §10.419。
+- 门禁 `ArtistsListFlowGateTest` / `ArtistDetailFlowGateTest` 各新增 T7（含负自检）；离线预检 `logs_temp/artist_cover_fallback_2026-11-21/verify.py` 同步。
+
+### 同版增补（2026-11-22，首页流程九项缺陷）
+
+> 同一效果的多轮修复不升版本号（所有者 2026-11-09 裁定），并入 v2.39.26。逐条根因见 `docs/technical-overview.md` §10.420。
+
+- **随心听自动续播整段是死代码**：续播标志在 `playQueue` 之前置位，被 `playQueue` 内部无条件复位，续播循环一次都不进。现把置位挪到 `playQueue` 之后。
+- **智能电台"换一批"失败后永久失效**：重入布尔只在成功回调复位，Manager 的 6 条失败提前返回不回调 ⇒ 标志卡死；且跨线程非 volatile。现改用 Manager 的 `state`（StateFlow 判据），失败会置 `Exhausted` 自动解除。
+- **网络歌点播先跳页后播放**：Home/Mine/Library/Netdisk 四处立即导航，直链解析异步失败时用户困在空播放页。现 `playNetworkSong` 新增成功回调，导航移入回调，失败留在原页面。
+- **`playQueue(emptyList())` 崩溃**：起始下标钳制在空表时抛异常，入口补空列表早退。
+- **天气电台并发结果覆盖**：`fetchWeather` 多次并发旧结果覆盖新结果，加代数闸门。
+- **天气电台适配器快照固化**：首次进首页未连 NAS 则 manager 的 adapter 恒 null，之后连上也不补。现 `updateAdapter` + 每次构建前用实时 registry 刷新。
+- **`loadRecentSongs` 并发无代数保护**：加代数闸门，旧结果不覆盖新结果。
+- **专辑详情重复取数**：`openAlbumDetail` 加缓存命中短路（与 `openArtistDetail` 对齐）。
+- **冗余数据模型**：删除 `HomeDashboardData.recentSongs` 死字段（全仓零读写）。
+- 门禁 `HomeFlowFixGateTest`（T1–T7，含负自检）；离线预检 `logs_temp/home_flow_gate_2026-11-22/precheck.py`（22 条全绿）。
+
+### 同版增补（2026-11-22，播放队列页六项流程缺陷）
+
+> 同一效果的多轮修复不升版本号（所有者 2026-11-09 裁定），并入 v2.39.26。逐条根因见 `docs/technical-overview.md` §10.421。
+
+- **移除最后一首歌后持久化不清**：`playerState` 采集器只在队列非空时写回，删光后 DataStore 残留旧队列，重启 `restoreLastQueue` 会整队复活。现改为「非空→空」转换检测时 `clearLastQueue()`；启动首帧空队列不触发，避免抹掉待恢复队列。
+- **清空队列挡不住在途首曲解析**：`playQueue` 的 needsResolve 分支把整队旧快照留在协程里，仅靠代数守卫；清空不递增代数 ⇒ 解析完成后队列连同播放一起复活。新增 `PlayerViewModel.invalidatePendingResolves()`（代数递增 + 取消 Job），两个 clear 入口都调用。
+- **播放模式语义被空 URL 预判绕过**：`next/previous` 无条件按 `currentIndex±1` 环绕猜目标，SHUFFLE 会播顺序邻曲、顺序边界会绕过「不回卷」的无动作语义。新增纯函数 `PlayModeAdjacent.adjacentIndex` 与 `PlayerManager` 的模式分支逐条对齐，SHUFFLE 与边界不预判。
+- **队列页 BACK 恒回首页**：导航器无返回栈。现 `NavigationViewModel` 在 `navigateTo` 内记录进入 Queue 的来源（覆盖顶栏/底栏/播放页/首页/我的所有入口），AppRoot 的 BACK 优先回来源；handler key 含来源以防状态漂移。
+- **清空按钮无二次确认**：误按 OK 即全队丢失且不可撤销。现复用 `ConfirmDialog` + 真 `Dialog`（destructive 默认聚焦取消，BACK 只关弹窗，不穿透到列表回顶/退页）。
+- **注释口径漂移**：`QueueScreen` key 拼 index 的注释仍称「addToQueue 不查重」，与 `QueueAddition.compute` 的去重口径矛盾；现说明整队播放可绕过入队去重，key 拼 index 仍然必要。
+- 门禁 `QueueFlowFixGateTest`（T1–T6，含负自检）+ 纯 JVM 单测 `PlayModeAdjacentTest`（7 例）；离线预检 `logs_temp/queue_flow_gate_2026-11-22/precheck.py`（43 条全绿）。
+
+## \[v2.39.25] - 2026-11-20
+
+> 修复曲库专辑详情「封面 + 曲目列表」链路的五项缺陷。逐条根因见 `docs/technical-overview.md` §10.416。
+
+### Fixed
+
+- **硬件返回键落回首页**：`AppRoot` 的导航 BACK handler 未列 `Screen.AlbumDetail`，落到 `else → Screen.Home`；屏内返回按钮却回曲库。现专辑详情 BACK（列表已滚时先回顶）统一回曲库。
+- **快速切换专辑串歌**：`loadAlbumSongs` 在协程执行时才读全局选中专辑快照，先发请求可能读到新专辑并把它的歌写进旧专辑的缓存键。改为在协程外捕获 `album` 与 `albumId`，参数化传入取数函数。
+- **详情曲目无加载/错误/空态**：新增按专辑 id 的 `albumDetailLoading` / `albumDetailErrors`，详情页复用现成 `LoadingIndicator` / `ErrorDisplay` / `EmptyState`；已有旧缓存时继续显示旧数据，不用三态覆盖。
+- **搜索态专辑无封面且取不到歌**：合成卡改用 `search_album_` 前缀 id + `sourceIds`，带上搜索结果封面，按「专辑名 + 艺术家」聚合；取歌从当前多源搜索结果按名反查，不再拿网络曲 id 请求 NAS 适配器。
+- **专辑卡「播放」文案点了只进详情**：移除与整卡共用点击区的展示型播放文案，播放入口统一收敛到详情页「播放全部」（TV 卡内不塞第二个焦点靶）。
+
+### Added
+
+- 门禁 `AlbumDetailFlowGateTest`（T1–T5，源码文本断言 + 负自检）。
+
+### Changed
+
+- 版本号 `versionCode 209 → 210`，`versionName 2.39.24 → 2.39.25`。
+
+## \[v2.39.24] - 2026-11-20
+
+> 修复播放窗口「点击播放/暂停」链路的四项缺陷（缓冲期无法暂停、图标与判据错位、MTV 抑制缺失、STOP 语义错误、未就绪静默）。逐条根因见 `docs/technical-overview.md` §10.415。
+
+### Fixed
+
+- **BUFFERING 期间无法暂停**：`PlayerManager.playPause()` 原用 `isPlaying` 作 toggle 判据，而 ExoPlayer 在 BUFFERING 时 `isPlaying=false`，二次点击会再次 `play()` 而非暂停。改用用户意图 `playWhenReady` 判据。
+- **播放按钮图标与行为错位**：图标原读 `isPlaying`（实际出声态），与新的意图判据不一致会导致"缓冲中显示播放键、点击却是暂停"。新增 `wantsToPlay`（由 `onPlayWhenReadyChanged` 驱动）作为按钮图标真相源；`isPlaying` 保留给可视化动画等真实出声消费者。
+- **MTV 模式混音风险**：`playPause()` 未检查 `suppressPlayback`，媒体键/Activity 兜底路径可能在 MTV 模式恢复主播放器。补上护栏，抑制态返回 false 不误弹提示。
+- **MEDIA_STOP 语义错误**：`KEYCODE_MEDIA_STOP` 原映射到 `playPause()`（切换播放态），改为 `stop()`——`pause + seekTo(0)` 停止并回曲首，保持 READY 态可直接重播（不用 `ExoPlayer.stop()` 以免置 IDLE）。
+- **播放器未就绪静默无反馈**：`player == null` 时按钮点击无任何反馈。新增 `isPlayerReady()` 检查与 `player_not_ready` 文案；`playPause`/`stop` 未就绪时给出 Toast。
+
+### Added
+
+- 门禁 `PlayPauseFlowGateTest`（6 组源码文本断言 + 负自检）；`MediaKeyHandlerTest` STOP 用例改断言 `stop()`。
+
+### Changed
+
+- 版本号 `versionCode 208 → 209`，`versionName 2.39.23 → 2.39.24`。
+
+## \[v2.39.23] - 2026-11-20
+
+> 同版收口两批修复：艺术家列表/详情链路 + 曲库专辑 Tab 全量列举链路。逐条根因见 `docs/technical-overview.md` §10.414。
+
+### Fixed
+
+- **艺术家列表/详情链路**：`artists` 的 `UiState.Loading/Error` 与 UI 断连（骨架屏不出现、失败显示「暂无艺术家」）；五个后端 `getArtists` 把异常吞成 `emptyList()`；Jellyfin 按名查询对同一人的多个 ID 重复请求且 `Limit=1000` 不翻页、fields 缺 `Artists/AlbumArtist`；Navidrome/Subsonic 的合辑 track artist 漏歌；详情页多源歌曲顺序不一致；每次进详情都重发五源（含 10-15s Meting）。
+- **专辑列表只取第一页（Daoliyu）**：`getAlbums` 固定 `page=1&limit=500`，超过 500 张静默丢失；改为按页循环 + 100 页安全上限，失败抛给上层。
+- **专辑加载失败被吞成空列表**：五个后端 `getAlbums` 均吞异常，`loadLibrary` 的 `UiState.Error(retry)` 不可达；统一契约「失败必须抛」，分页中任一页失败也不得返回半截结果。
+- **专辑骨架屏提前结束**：`_isLibraryLoading` 派发完异步即置 false，而 `getAlbums` 可能耗时数十秒；ALBUMS Tab 改由 `albums` 自己的 `UiState` 驱动骨架/错误/重试，NAS 关时按源开关防止历史 Loading 卡住骨架。
+- **同名专辑跨歌手被合并**：`mergeAlbums` 原按专辑名单一维度去重，两张不同歌手的同名专辑合成一张卡且播放时串歌；改用「专辑名 + 艺术家」口径，详情/播放按 artist 再过滤，同时把无 artist 的百度条目并入同名下曲目数最多的具名分组，保留 NAS + 百度同名专辑的既有合并行为（B20）。本地/百度派生 id 同步带艺术家，避免详情页缓存键串。
+
+### Added
+
+- 门禁 `ArtistsListFlowGateTest` / `ArtistDetailFlowGateTest` / `AlbumsListFlowGateTest`（源码文本断言 + 负自检），`MusicMergerTest` 新增 4 条专辑合并/派生 id 回归测试。
+
+### Changed
+
+- 版本号 `versionCode 207 → 208`，`versionName 2.39.22 → 2.39.23`。
+
+## \[v2.39.22] - 2026-11-18
+
+> 落实 2026-11-18 增量代码审查全部 14 条发现（4 High / 2 Medium / 8 Low）。逐条根因与证据见 `docs/technical-overview.md` §10.413。
+
+### Fixed
+
+- **日志轮转在 API22–25 静默失效（High）**：`LogStore.rotate` 用的 `java.nio.file.Files.move` 是 API26+ 类，minSdk22 设备上抛 `NoClassDefFoundError` 被静默吞掉，日志无限膨胀、分级配额失效。改用纯 `java.io`（同目录 `renameTo` 原子替换，失败回退 `copyTo(overwrite)`），彻底移除 NIO 依赖；同时修复 CI 的 NewApi 门禁报错。
+- **下载崩溃恢复确定性失效（High）**：`SongDownloadManager.recoverFinalPathOrNull` 新增的 `entity.fileSize > 0L && ...` 过滤使函数对未完成任务（fileSize 恒 0）恒返回 null，rename 成功后的完整文件成孤儿、用户被迫重下。改为 `fileSize<=0 || 长度一致`，无权威长度时凭「正则匹配 + length>0」认领。
+- **HQ 人声分离对长曲目 100% 失败（High）**：`DemucsSeparator` 分段 overlap-add 用只进流每轮多读 3440 帧、不回退，末段越界 EOF 被吞导致 `separate()` 返回 null。改用 `RandomAccessFile` 每轮 seek 到窗口起点（回退 overlap），以 `totalSamples` 为硬上界不越 EOF。
+- **百度网盘索引被半截落盘（High）**：`BaiduPanApi.listAllAudioPaged` 的 `?: break` 静默吞网络/非2xx/非法 JSON 错误，半截列表被当完整索引 `save` + `onComplete`（显示"同步成功"且不再重试）。改为抛 `IOException`，让 `fullScan` 既有 catch 走 `partial + onFailed`。
+- Meting 搜索响应无界 `body.string()` 读入（整页 HTML 错误页可 OOM）→ 改 okio 限长 8MB，超限按本次端点失败回退。
+- K 歌页进度条在叶子外读 `progressMs.value`，1Hz 推送重组整页 → 抽 `KaraokeProgressLine` 把取值下沉到叶子，只重组一条 2dp 细线。
+- 照片墙日期水印：`photoB == null`（首图/单图）时水印全周期缺失 → 改从 A 槽取日期画一次；删除与 `progress>=1` 约束互斥的 A 槽死分支，避免 HOLD 期两张水印重叠。
+- 导出成功路径残留等大 `.part` 副本；Baidu OAuth 的 `scope`/`expires_in`/`access_token` 被 JsonNull 击穿；LX 脚本 https 302 到 http 的 scheme 降级；`DATE_TAKEN` 毫秒当秒误判；带 `±hh:mm` 的 EXIF 日期时区重复补偿；下载质量探测早返回时旧 `Probing` 面板残留——共 8 条 Low 一并修复。
+
+### Changed
+
+- 版本号 `versionCode 206 → 207`，`versionName 2.39.21 → 2.39.22`。
+
+## \[v2.39.21] - 2026-11-17
+
+> 本版以 Gitee 为权威源（GitHub 冻结，不再 push / tag / release）。逐条根因与证据见 `docs/technical-overview.md` §10.408~§10.412。
+
+### Added
+
+- IP 定位新增腾讯位置服务（WebService key 可选，设置页「天气 API Key」卡可填）；失败后走免 key 的 ip.sb，再回退北京坐标。腾讯返回的 GCJ-02 坐标先转 WGS84 再用于天气查询
+- 天气电台心情匹配改用后端 `searchSongs()`，不再受「最多拉 5000 首」的上限，大曲库尾部的歌曲也能命中
+- 下载位置「外部存储」真正生效：新增下载根解析器，落盘 / 扫描 / 空间判定 / 崩溃恢复统一走同一根；双根扫描保证切换后旧下载仍可见，设置页显示实际写入路径与外置不可用提示
+
+### Changed
+
+- 仓库基建改为以 Gitee 为主：镜像脚本默认只读 `Verify`，GitHub → Gitee 覆盖动作加硬护栏，新增 `PublishLocal`；README 下载入口与 Badge 改到 Gitee Releases
+
+### Fixed
+
+- 日志页滚动布局确认测试通过（原待复测项闭合）
 
 ## \[v2.39.20] - 2026-11-16
 

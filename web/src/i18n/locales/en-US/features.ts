@@ -1,7 +1,7 @@
 /**
  * 多语言体系 · English dictionary (en-US) · Feature modules
  *
- * 收录：功能特性页 / 首页 Features 区的 18 个功能模块。
+ * 收录：功能特性页 / 首页 Features 区的 19 个功能模块。
  */
 
 export const enFeatures = {
@@ -177,7 +177,7 @@ export const enFeatures = {
       title: "Library Browsing",
       summary: "Pinyin-initial search, album / artist grids, favorites and playlists",
       items: [
-        "Search: pinyin initial matching (“zjl” finds “周杰伦”) + substring matching + precise filtering; hitting an artist pages through their full discography",
+        "Search: substring / full-pinyin / initial matching (both “zjl” and “zhoujielun” find 周杰伦) + multi-word tokens + precise filtering; pinyin works across NAS / netdisk / local sources with server fallback on zero hits, and switching tabs re-searches in the new dimension; hitting an artist pages through their full discography",
         "Search source switches: light up NAS / online / Baidu / Jamendo / local one by one, or “Light all” at once, with results merged by source priority",
         "Search result actions: hit count, one-tap “Play all” and “Add to queue”, with duration and download / favorite / add to queue / add to playlist icons at the end of each row",
         "Artists / albums / songs: grid card browsing, tap to enter the detail page",
@@ -186,6 +186,17 @@ export const enFeatures = {
         "Favorites and recent plays: play-count stats, with recent plays including online songs",
         "Playlists: create, delete, play and manage songs",
         "Song row actions: favorite / add to queue / add to playlist / delete, arranged inline for touch",
+      ],
+    },
+    "quick-dial": {
+      title: "Semi-Circular Quick Dial",
+      summary: "Quick-fill search, queue switching and a history dial ranked by per-category hotness",
+      items: [
+        "A quick-pick button sits beside the search box in every library tab: candidates rotate along a semi-circular arc, and one tap fills the query and runs the search",
+        "Candidates are ranked by past-query hotness for songs / albums / artists / genres / eras / search / discover / radio, and only that category's history is listed; with no history the input simply opens and starts collecting",
+        "The playback page gains a queue dial on the far left of the control row: switch tracks in queue order without writing hotness stats; the arc mirrors per entry, follows the finger and works in landscape",
+        "Settings shows quick-pick stats per category with detail views and clearing; stats are included in backup export / restore (DataStore key quick_pick_stats, cap 300)",
+        "Search results now display in place for genres / eras / discover / radio instead of force-navigating to the search page, keeping each tab's own filters and card layout",
       ],
     },
     mine: {

@@ -26,9 +26,9 @@ export const enHighlights = {
       title: "Photo Wall Visualizer",
       desc: "Full-screen slideshow from three sources: gallery / external storage / Jellyfin, with 70 random transitions, capture-date watermarks, Ken Burns motion and on-device face detection — all working down to API 22.",
     },
-    "new-effects": {
-      title: "Six brand-new visual worlds",
-      desc: "Pixel Cities (57 cities), Open Road, A Thousand Li of Rivers and Mountains, Lyric Stage (5 sub-modes), Eco Earth and an auto-playing Contra bot in the Arcade Collection — all bundled offline.",
+    "quick-dial": {
+      title: "Semi-Circular Quick Dial",
+      desc: "A quick-pick button beside every library search box: favorites rotate along an arc and one tap fills the query; the playback page gets a queue dial. Hotness is tracked per category and only past queries are listed.",
     },
     mtv: {
       title: "MTV Music Videos",

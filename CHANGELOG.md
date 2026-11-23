@@ -13,6 +13,27 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.4.0] - 2026-11-24
+
+内容同步（minor）：官网跟随 Android 应用 v2.39.20 → **v2.39.27**，补齐 Quick Dial 快选器与七版更新摘要。
+
+### Added
+- 新增「半圆快速选择器 Quick Dial」功能模块与首页亮点卡：搜索快填、播放页队列快切、按类别热度统计的历史查询，只列本类别历史并支持设置页分类查看与清除。
+- 下载页「版本说明」新增 v2.39.27 ~ v2.39.21 共 7 条摘要（Quick Dial、拼音搜索全链路修复、播放 / 队列 / K 歌 / MV 稳定性、外部存储与定位、两轮代码审查整改）。
+- `appChangelog.md` 快照刷新至 v2.39.27，Docker / CI 构建可解析最新应用更新内容。
+
+### Changed
+- `APK_VERSION` → **v2.39.27**（versionCode 212，2026-11-23），`CHANGELOG_RANGE` → `v2.38.15 → v2.39.27`，首页 What's new 六卡、关于页版本描述与中英 FAQ 同步改写。
+- 功能模块数 18 → 19（站点文案由数据自动推导），曲库搜索文案补入全拼 / 多词 / 切 Tab 重搜与就地结果。
+- 网站版本号 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.3.5 → **1.4.0**。
+
+### 说明
+- 截至同步时，Gitee 最新 Release 仍为 v2.39.20；主下载按钮指向 `/releases/latest`，发布 v2.39.27 安装包后官网自动对齐，无需改链接。
+
+### 验证
+- `npm run build`（tsc + vite + dist / build 同步）通过，CHANGELOG 最新版与 `APK_VERSION` 对账无告警。
+- `npm run smoke`（双语 / 六路由 / 零运行时错误）PASS；本机缺少 jsdom，临时以 `NODE_PATH` 指向隔离安装的 jsdom 后执行。
+
 ## [1.3.5] - 2026-11-17
 
 首页 Hero 微调（patch）：移除首屏「看看能做什么」按钮，四个按钮挤在一行被右侧电视主视觉覆盖。
