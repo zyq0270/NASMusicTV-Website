@@ -91,7 +91,7 @@ export const zhScreens = {
     about: {
       name: "关于页",
       tag: "TV / 手机",
-      desc: "左侧设置导航（缓存管理 / 网络检测 / 网盘 / 数据管理 / 关于）与右侧青绿「关于」大标题，信息表逐行左标签右值：应用名称 NAS Music TV、版本 v2.39.27、构建类型 release、开源协议 GPL v3、支持后端 Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛，运行时可查看后端真实 API 版本号与连接状态。",
+      desc: "左侧设置导航（缓存管理 / 网络检测 / 网盘 / 数据管理 / 关于）与右侧青绿「关于」大标题，信息表逐行左标签右值：应用名称 NAS Music TV、版本 v2.39.28、构建类型 release、开源协议 GPL v3、支持后端 Jellyfin / Navidrome / Subsonic / 道理鱼 / 飞牛，运行时可查看后端真实 API 版本号与连接状态。",
     },
     remote: {
       name: "手机遥控页",

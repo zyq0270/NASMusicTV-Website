@@ -13,6 +13,26 @@
 ### 待办 / 已知问题
 - `web/index.html` 的 `og:image` 仍是相对路径，社交爬虫取不到分享封面；Pages 子路径下也需绝对 URL 才生效（正式入口建议自建域名后填绝对地址）。
 
+## [1.4.1] - 2026-11-25
+
+内容同步（patch）：官网跟随 Android 应用 v2.39.27 → **v2.39.28**，补入双轴审查修复与浅色遮罩增补。
+
+### Added
+- 下载页「版本说明」新增 v2.39.28 摘要（14 项全仓库双轴审查修复），v2.39.27 摘要补入浅色主题遮罩整屏一体、可透见下层与重复队列项按真实索引播放。
+- `appChangelog.md` 快照刷新至 v2.39.28，并同步替换 v2.39.27 段落中新增的浅色适配条目。
+
+### Changed
+- `APK_VERSION` → **v2.39.28**（versionCode 213，2026-11-25），`CHANGELOG_RANGE` → `v2.38.15 → v2.39.28`；首页 What's new 六卡、中英 FAQ、版本摘要与关于页版本描述同步改写。
+- Quick Dial 功能说明补入浅色遮罩与重复队列项修复；首页动态导语迭代版本数 28 → 29。
+- 网站版本号 `package.json` / `web/package.json` / 两处 `package-lock.json` 统一 1.4.0 → **1.4.1**。
+
+### 说明
+- Gitee 最新 Release 已由 v2.39.20 补齐到 v2.39.27；v2.39.28 尚未发版，发布安装包后主下载按钮自动对齐，无需改链接。
+
+### 验证
+- `npm run build`（tsc + vite + dist / build 同步）通过，CHANGELOG 最新版与 `APK_VERSION` 对账无告警。
+- `npm run smoke`（双语 / 六路由 / 零运行时错误）PASS；Vite 清理临时目录被沙箱拦截时，手动清理 `.tmp-smoke-dist/` 后重跑即过。
+
 ## [1.4.0] - 2026-11-24
 
 内容同步（minor）：官网跟随 Android 应用 v2.39.20 → **v2.39.27**，补齐 Quick Dial 快选器与七版更新摘要。

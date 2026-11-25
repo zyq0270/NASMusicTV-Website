@@ -22,14 +22,14 @@ export const enPages = {
       "From the aggregated multi-source library to word-by-word karaoke lyrics, real-time vocal elimination, Bilibili MVs and weather radio, NAS Music TV fills in every music experience the TV was missing.",
     viewEffects: "Browse the effects gallery →",
     whatsNewEyebrow: "What's new",
-    whatsNewTitle: "What shipped in v2.39.27",
-    whatsNewVersion: "App {version} · 2026-11-23",
+    whatsNewTitle: "What shipped in v2.39.28",
+    whatsNewVersion: "App {version} · 2026-11-25",
     whatsNewLead:
-      "Twenty-eight releases since October: v2.39.27 adds the semi-circular Quick Dial, repairs the whole pinyin search path and lands 62 review findings, with playback, queue, K-song, MV and network-artist details made more reliable along the way.",
+      "Twenty-nine releases since October: v2.39.28 lands 14 fixes from the full-repository two-axis review, tightening local lyrics, accompaniment caching, idle playback recovery and duplicate queue-item playback; the Quick Dial scrim in light mode is now one seamless overlay with the page visible underneath.",
     whatsNewItems: [
       {
         title: "Semi-circular Quick Dial",
-        desc: "A quick-pick icon beside the library search box rotates candidates along an arc and one tap fills the query; the leftmost playback control opens a queue dial that switches tracks in queue order. Candidates are only past queries, ranked by hotness per category.",
+        desc: "A quick-pick icon beside the library search box rotates candidates along an arc and one tap fills the query; the leftmost playback control opens a queue dial that switches tracks in queue order. Candidates are only past queries, ranked by hotness per category, and the light-theme scrim is a single full-screen overlay.",
       },
       {
         title: "Pinyin search, end to end",
@@ -37,19 +37,19 @@ export const enPages = {
       },
       {
         title: "Safer playback and queue",
-        desc: "Pause works while buffering and STOP returns to the track start; clearing the queue cancels in-flight resolves, shuffle and edge cases no longer guess wrong, Back returns to the entry page and clearing asks for confirmation.",
+        desc: "Pause works while buffering and STOP returns to the track start; clearing the queue cancels in-flight resolves, shuffle and edge cases no longer guess wrong, idle recovery follows the playback mode, Back returns to the entry page and clearing asks for confirmation.",
       },
       {
         title: "K-song, MV and artist details",
         desc: "Karaoke lyrics interpolate from real playback state, pitch and speed reset on exit; MV search and switching, plus zero-track and missing-cover bugs on network artist pages, are fixed.",
       },
       {
-        title: "External storage & geolocation",
-        desc: "The “External storage” download location now really works; weather radio can use Tencent location service (optional key) and mood matching no longer stops at 5,000 tracks, so songs deep in large libraries can be found.",
+        title: "External storage & lyric details",
+        desc: "The “External storage” download location really works: low free space still scans old downloads while new writes fall back to internal storage; local songs support same-directory and embedded lyrics with a 2MiB sidecar cap, and accompaniment cache names use safe hashes.",
       },
       {
-        title: "62 review findings landed",
-        desc: "Long response bodies are no longer truncated, cache keys include the platform, crash recovery and backup writes are safer, corrupted settings self-heal and log rotation uses an atomic hand-off.",
+        title: "14 two-axis review fixes",
+        desc: "The Gitee release script pins commits and tags and verifies the remote branch, the embedded server handles chunked and malformed bodies, QR backup lists include locally imported backups, and particle-budget and private-overlay checks are complete.",
       },
     ],
     whatsNewMore: "Full release summary →",

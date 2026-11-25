@@ -14,8 +14,8 @@ NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍
 
 | 对象 | 版本 | 日期 | 说明 |
 | --- | --- | --- | --- |
-| 官网 | v1.4.0 | 2026-11-24 | 同步 Quick Dial 与 v2.39.21 ~ v2.39.27 更新内容 |
-| Android 应用 | v2.39.27（versionCode 212） | 2026-11-23 | 跨 v2.38.15 → v2.39.27 共 28 个版本 |
+| 官网 | v1.4.1 | 2026-11-25 | 同步 v2.39.28 双轴审查修复与 v2.39.27 浅色遮罩增补 |
+| Android 应用 | v2.39.28（versionCode 213） | 2026-11-25 | 跨 v2.38.15 → v2.39.28 共 29 个版本 |
 | 可视化特效 | 公开版可选 27 套 | — | 图集展示 29 张：27 套公开 + 2 套（像素城市 / 旷野公路）因版权未公开，仅展示快照 |
 | 照片墙转场 | 70 种 | — | 新增 33 种，下线 6 个故障效果 |
 
@@ -36,7 +36,7 @@ NAS Music TV 的**官方网站**（落地页）。纯前端单页站点，介绍
 ## 功能特性（站点本身）
 
 - **6 个路由页**：首页（Hero、统计、What's new、Highlights、功能模块、TV 界面 mockup、CTA）、功能特性、界面预览、特效图集、下载安装、关于项目。
-- **v2.39.27 What's new 区块**：首页六卡网格，集中呈现 Quick Dial 快选器、拼音搜索全链路修复、播放 / 队列稳定性、外部存储与定位增强及代码审查整改。
+- **v2.39.28 What's new 区块**：首页六卡网格，集中呈现 Quick Dial 浅色遮罩增补、拼音搜索与播放队列稳定性，以及 14 项全仓库双轴审查修复。
 - **中英双语 + 界面语言切换**：文案集中在 `web/src/i18n/locales/`（tsc 强制两种语言键齐全），顶栏「中 / EN」即时切换并 `localStorage` 持久化；`?lang=en` / `?lang=zh` 分享直达。
 - **深色沉浸设计系统**：青绿品牌色 `#00D4AA`、等宽大字统计、卡片悬浮焦点态。
 - **纯 CSS 界面 mockup + 内联 SVG 图标**：首屏零图片与零图标字体请求。
@@ -97,16 +97,16 @@ npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 
 | 项 | 值 |
 | --- | --- |
-| 版本 | v2.39.27 |
-| 文件名 | `NASMusicTV-release-v2-39-27.apk` |
+| 版本 | v2.39.28 |
+| 文件名 | `NASMusicTV-release-v2-39-28.apk` |
 | 体积 | 约 43 MB |
 | 主入口 | Gitee **最新 Release 页面**（`/releases/latest`）：浏览器访问自动跳到最新版本的 Release 页，用户在该页点 APK 附件下载（免登录、无需提取码、国内快） |
 | 主链接 | `https://gitee.com/hxzhang2000/NASMusicTV/releases/latest`（常量 `APK_GITEE_LATEST`，发版后无需改官网即指向最新版） |
 | 历史版本 | GitHub Releases、Gitee Releases |
 
-> 同步说明：截至 2026-11-24，Gitee 最新 Release 仍为 v2.39.20；上传 v2.39.27 安装包后，主下载按钮自动对齐，无需改官网链接。
+> 同步说明：截至 2026-11-25，Gitee 最新 Release 已到 v2.39.27；v2.39.28 尚未发版，发布后主下载按钮自动对齐，无需改官网链接。
 
-**为什么主入口用 Gitee 最新 Release 页面**：腾讯云 EdgeOne Makers 有**单文件 25 MiB**上限，v2.39.27 的约 43 MB 安装包必然触发 `File size limit exceeded`，无法随站点发布。Gitee 的 `/releases/latest` 在浏览器访问时（带正常 Accept 头）会 302 到 `/releases/tag/<最新版>`，页面列出 APK 附件供点选；最大好处是**发版后官网链接无需改动即自动指向最新版**，避免忘记同步固定直链。
+**为什么主入口用 Gitee 最新 Release 页面**：腾讯云 EdgeOne Makers 有**单文件 25 MiB**上限，v2.39.28 的约 43 MB 安装包必然触发 `File size limit exceeded`，无法随站点发布。Gitee 的 `/releases/latest` 在浏览器访问时（带正常 Accept 头）会 302 到 `/releases/tag/<最新版>`，页面列出 APK 附件供点选；最大好处是**发版后官网链接无需改动即自动指向最新版**，避免忘记同步固定直链。
 
 > 实测注意：用 curl 不带浏览器 Accept 头访问 `/releases/latest` 会被误导向源码归档（`blazearchive`），带 `Accept: text/html` 才是 Release 页面——浏览器访问正常。Gitee 另**不支持** `releases/latest/download/<文件>` 这种免版本号直链写法（会 404），所以固定直链仍需版本号，但主入口已不再用它。
 
@@ -114,7 +114,7 @@ npm run smoke     # 双语 / 六路由 / 零运行时错误的冒烟护栏
 
 **自建 NAS / Docker 部署**若要恢复站内直链：把 APK 放进仓库根 `download/`，用 `INCLUDE_APK=1 npm run build` 构建（默认不拷贝，避免云端超限），并把 `site.tsx` 的 `APK_DOWNLOAD_URL` 改为指向 `APK_DIRECT_URL`（当前指向 `APK_GITEE_LATEST`）。
 
-下载页「更新内容」来自应用仓库 `CHANGELOG.md` 最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 回落 `web/src/data/appChangelog.md` 快照（已刷新到 v2.39.27）。
+下载页「更新内容」来自应用仓库 `CHANGELOG.md` 最新一节：本地构建优先读 `../NASMusicTV/CHANGELOG.md`，Docker / CI 回落 `web/src/data/appChangelog.md` 快照（已刷新到 v2.39.28）。
 
 ---
 

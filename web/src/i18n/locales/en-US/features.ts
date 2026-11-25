@@ -197,6 +197,7 @@ export const enFeatures = {
         "The playback page gains a queue dial on the far left of the control row: switch tracks in queue order without writing hotness stats; the arc mirrors per entry, follows the finger and works in landscape",
         "Settings shows quick-pick stats per category with detail views and clearing; stats are included in backup export / restore (DataStore key quick_pick_stats, cap 300)",
         "Search results now display in place for genres / eras / discover / radio instead of force-navigating to the search page, keeping each tab's own filters and card layout",
+        "Light-theme polish: the scrim and panel follow the theme — a 70% white scrim with a transparent panel in light mode keeps one seamless full-screen overlay with the page visible underneath; duplicate queue items play by their real index",
       ],
     },
     mine: {

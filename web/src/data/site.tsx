@@ -41,13 +41,13 @@ export const site = {
 
 /**
  * 应用最新版本（下载页 / 首页 / 关于页共用，唯一来源）。
- * 当前对应应用仓库 v2.39.27 / versionCode 212（2026-11-23）。
+ * 当前对应应用仓库 v2.39.28 / versionCode 213（2026-11-25）。
  */
-export const APK_VERSION = "v2.39.27";
+export const APK_VERSION = "v2.39.28";
 
 /**
  * APK 分发方式（网站 1.3.3 起）：
- * v2.39.27 安装包约 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
+ * v2.39.28 安装包约 43 MB，超过腾讯云 EdgeOne Makers 单文件 25 MiB 上限，
  * 因此不随站点产物发布。主入口为「Gitee 最新 Release 页面」（/releases/latest），
  * 浏览器访问会 302 到最新版本的 Release 页，用户在该页点 APK 附件下载；
  * 好处是发版后无需改官网链接即可指向最新版。
@@ -93,6 +93,7 @@ export interface RecentChangelogEntry {
 }
 
 export const recentChangelog: RecentChangelogEntry[] = [
+  { version: "v2.39.28", date: "11-25", highlight: true },
   { version: "v2.39.27", date: "11-23", highlight: true },
   { version: "v2.39.26", date: "11-20", highlight: true },
   { version: "v2.39.25", date: "11-20" },
@@ -113,7 +114,7 @@ export const recentChangelog: RecentChangelogEntry[] = [
 ];
 
 /** 下载页「版本说明」标题范围 */
-export const CHANGELOG_RANGE = "v2.38.15 → v2.39.27";
+export const CHANGELOG_RANGE = "v2.38.15 → v2.39.28";
 
 /** 首页统计项：value 为数字本体，label 文案在词典 stats.<key> 中维护 */
 export interface StatItem {
